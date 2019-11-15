@@ -1,0 +1,251 @@
+\chapter{Fundamentos teóricos}		
+
+	Al igual que cuando se comienza a estudiar cálculo de orden entero, es necesario familiarizarse con la notación de los operadores matemáticos de la derivada y la integral. En la actualidad la notación más utilizada para el cálculo entero es la dada por Leibniz en (1686), donde el operador diferencial de n-ésimo orden esta definido como: $\frac{d^{n}}{dt^{n}}$, $D_{t}^{n}$ o simplemente $D^{n}$ con $n \in \mathbb{N}$. Utilizando el mismo razonamiento, puede definirse su operador inverso (antiderivada) de manera que el operador inverso de la derivada de n-ésimo orden está dado por: $_{a}D^{-n}_{t}$, donde $n \in \mathbb{N}$ y $a \in \mathbb{R}$ representa el límite inferior del dominio de la región donde se aplica dicho operador.
+			
+	Para generalizar el operador diferencial e integral para orden fraccionario se considera que este puede definirse para parámetros de orden real o incluso complejo. Esto implica que los operadores pueden definirse respectivamente como: $D^{\alpha}$ y $_{a}D^{\alpha}_{t}$ con $ \alpha \in \mathbb{R}$. 
+		
+	Es importante resaltar que no una hay una única definición de operadores diferencial fraccional ni integral sino varias expresiones definidas por diferentes autores, entre las mas usadas se encuentran la definición de Grünwald-Letnikov (GL), la de Riemann-Liouville (RL) y la de Caputo (Ca), cada una de estas con sus ventajas y desventajas desde el punto de vista del análisis matemático, complejidad computacional e implementación \cite{Petras2011}.
+			
+	\section{Definición de Grünwald-Letnikov}
+
+	Comenzamos considerando que para el caso de orden entero la n-ésima derivada para una función $f$ con $n \in \mathbb{N}$ y $j>n$ esta dada por:
+	\begin{equation}
+		f^{(n)}(t) = \frac{d^{n}f}{dt^{n}} = \lim_{h \to 0 } \frac{1}{h^{n}} \sum_{j = 0}^{n} (-1)^{j} \binom{n}{j} f(t - jh)
+		\label{ec:derivada_entera}
+	\end{equation}
+	donde $\binom{n}{j}$ representa el coeficiente binomial dado por la expresión:
+			
+	\begin{equation}
+		\binom{n}{j} = \frac{n!}{j! (n-j)! } 
+	\end{equation}
+			
+	Considerando valores negativos de $n$ tenemos:
+	\begin{equation}
+		\binom{-n}{j} = \frac{-n(-n-1)(-n-2) \cdots (-n -j +1 )}{j!}= (-1)^{j} \binomb{n}{j}
+		\label{ec:binomio_n}
+	\end{equation}
+	donde $\binomb{n}{j}$ esta definido como:
+			
+	\begin{equation}
+		\binomb{n}{j} = \frac{2(n+1) \cdots (n+j-1)}{j!}
+	\end{equation}
+	
+		\subsection{Definición de derivada de Grünwald-Letnikov}
+		
+	Generalizando la ecuación (\ref{ec:derivada_entera}) podemos escribir la definición de derivada de orden fraccionario de orden  $\alpha$, ($\alpha \in \mathbb{R}$) como:
+		
+	\begin{equation}
+		D^{\alpha}_{t} f(t) = \lim_{h \to 0} \frac{1}{h^{\alpha}}   \sum_{j = 0}^{\infty} (-1)^{j} \binom{\alpha}{j} f(t - jh)
+		\label{ec:derivada_frac_GL}
+	\end{equation}
+			
+	Para calcular el coeficiente binomial podemos utilizar la relación entre la función Gamma de Euler y el factorial definido como:
+	\begin{equation}
+		\binom{\alpha}{j}  = \frac{\alpha!}{j! (\alpha-j)!} = \frac{\Gamma (\alpha + 1)}{\Gamma(j+1) \Gamma(\alpha - j + 1)}
+	\end{equation}
+	donde la función Gamma de Euler con $r>0$ esta definida como:
+			
+	\begin{equation}
+		\Gamma(r) = \int^{\infty}_{0} t^{r-1} e^{-t}dt
+	\end{equation}
+			
+		\subsection{Definición de integral de Grünwald-Letnikov}
+		
+	Utilizando la ecuación (\ref{ec:derivada_frac_GL}) se puede definir un operador de tipo integral para la función $f$  sobre el dominio temporal $(a,t)$ considerando $n = \frac{t-a}{h}$ donde $a \in \mathbb{R}$ como:
+			
+	\begin{equation}
+		_{a}D_{f}^{\alpha} = \lim_{h \to 0 } \frac{1}{h^{\alpha}} \sum_{j = 0}^{\left[ \frac{t-a}{h}  \right]} (-1)^{j} \binom{n}{j} f(t - jh)
+	\end{equation}
+
+		\subsection{Método numérico para la definición de GL}
+		
+	Utilizando como base la ecuación (\ref{ec:derivada_frac_GL}) esta se puede discretizar para los puntos $kh$, ($k = 1,2,\ldots$) de la siguiente manera:
+			
+	\begin{equation}
+		_{\left( \frac{L_{m}}{h} \right)} D^{\alpha}_{t_{k}} f(t) \approx \frac{1}{h^{\alpha}} \sum_{j=0}^{k}(-1)^{j}  \binom{\alpha}{j} f(t_{k-j})
+	\end{equation}
+	donde $L_{m}$ es el tamaño de memoria (memory length), $t_{k} = kh$, $h$ es el paso de tiempo del cálculo y $(-1)^{j}\binom{\alpha}{j}$ son coeficientes binomiales $C_{j}^{(\alpha)}$ $(j=0,1,\ldots)$. Para su calculo utilizamos la siguiente expresión:
+		
+	\begin{equation}
+		C_{0}^{(\alpha)} = 1, \qquad  C_{j}^{(\alpha)} = \left( 1 - \frac{1 + \alpha}{j} \right) C_{j-1}^{(\alpha)}
+	\end{equation}
+			
+	Entonces, la solución numérica general de la ecuación diferencial fraccional:
+		
+	\begin{equation}
+	 	_{a}D^{\alpha}_{t} y(t) = f(y(t), t)
+	\end{equation}
+	puede expresarse como:
+		
+	\begin{equation}
+		y(t_{k}) = f(y(t_{k-1}), t_{k-1}) h^{\alpha} - \sum_{j=1}^{k} C_{j}^{(\alpha)} y(t_{k-j})
+		\label{ec:GL_numerico}
+	\end{equation}
+
+	Para el termino de la memoria expresada por la sumatoria, el principio de memoria corta puede utilizarse. Entonces el indice superior de la sumatoria en la ecuación (\ref{ec:GL_numerico}) se cambiará por $\nu$ con las siguientes consideraciones: se usa $\nu = k$ para $k < \left( \frac{L_{m}}{h} \right)$ y $\nu = \left( \frac{L_{m}}{h} \right)$ para $k \geq (\frac{L_{m}}{h})$, o sin usar el principio de memoria corta se utiliza $\nu = k$ para toda $k$. 
+	
+	\section{Definición de Riemann-Liouville}
+	
+	Para esta definición consideramos la fórmula de Cauchy para la integral repetida que esta dada por:
+	
+	\begin{equation}
+		f^{(-n)} (t) = \int_{a}^{t} \int_{a}^{\sigma_{1}}  \cdots \int_{a}^{\sigma_{n-1}} f(\sigma_{n}) d\sigma_{n} \cdots d\sigma_{2} d\sigma_{1} = \frac{1}{(n - 1)!} \int^{t}_{a} \frac{f(\tau)}{(t - \tau)^{1 - n}} d \tau
+		\label{ec:cauchy}
+	\end{equation}
+
+		\subsection{Definición de integral de Riemann-Liouville}
+		
+	Utilizando las propiedades de la función Gamma de Euler con el factorial y la ecuación (\ref{ec:cauchy}) se puede escribir la definición de integral fraccionaria como:
+
+	\begin{equation}
+		_{a}D_{t}^{-\alpha} f(t) = \frac{1}{\Gamma( \alpha)} \int_{a}^{t} \frac{f(\tau)}{(t - \tau)^{ 1 - \alpha}} d \tau
+		\label{ec:integral_RL}
+	\end{equation}
+	para $\alpha<0$ y $a \in \mathbb{R}$. No obstante para el caso de $0 < \alpha < 1$ y $f(t)$ siendo una función casual, esto es, $f(t)=0$ para $t<0$, la integral fraccionaria esta definida como:
+	
+	\begin{equation}
+		_{0}D_{t}^{-\alpha} f(t) = \frac{1}{\Gamma( \alpha)} \int_{0}^{t} \frac{f(\tau)}{(t - \tau)^{ 1 - \alpha}} d \tau , \quad \mathrm{para} \quad 0 < \alpha < 1, \quad t > 0
+	\end{equation}
+		
+		\subsection{Definición de derivada de Riemann-Liouville}
+		
+	De la ecuación (\ref{ec:integral_RL}) se puede escribir la definición de derivada fraccionaria de orden $\alpha$ de la siguiente manera:
+	
+	\begin{equation}
+		_{a}D_{t}^{\alpha} f(t) = \frac{1}{\Gamma(n - \alpha)} \frac{d^{n}}{dt^{n}} \int_{a}^{t} \frac{f(\tau)}{(t - \tau)^{\alpha - n + 1}} d \tau
+	\end{equation}
+	donde $(n-1 < \alpha < n)$. Pero igual que con la integral si consideramos $0 < \alpha < 1$ y $f(t)$  una función casual, la derivada de orden fraccionaria se puede reescribir como:
+	
+	\begin{equation}
+		_{0}D_{t}^{\alpha}f(t) = \frac{1}{\Gamma(n-\alpha)} \frac{d^{n}}{dt^{n}} \int_{0}^{t} \frac{f(\tau)}{(t - \tau)^{\alpha - n + 1}} d\tau
+	\end{equation}
+		
+	\section{Transformada de Laplace de integrales y derivadas fraccionarias}
+	
+	La transformada de Laplace de la integral fraccionaria ya sea para Riemman-Liouville o para Grünwald-Letnikov esta definida como:
+	
+	\begin{equation}
+	 	\mathcal{L} \{ _{0}D_{t}^{-p} f(t) \} = s^{-p} F(s)
+	\end{equation} 
+	y dadas condiciones iniciales cero  la transformada de Laplace de la derivada fraccionaria de orden $r$ para Grünwald-Letnikov, Riemann-Liouville y Caputo se reduce a:
+	
+	\begin{equation}
+		\mathcal{L} \{ _{0}D_{t}^{r} f(t) \} = s^{r} F(s)
+	\end{equation}
+	
+	
+	\section{Expansión de fracciones continuas (CFE)}
+	
+	A una expresión de la forma:
+
+	\begin{equation}
+		a_{1} + \cfrac{b_{1}}{a_{2} + \cfrac{b_{2}}{a_{3} + \cfrac{b_{3}}{a_{4} + \genfrac{}{}{0pt}{0}{}{\ddots}}}}
+		\label{ec:fracciones_cont}
+	\end{equation} 
+	se le conoce como una fracción continua. En general $a_{1},a_{2},a_{3}, \cdots, b_{1}, b_{2}, b_{3}$ pueden ser cualquier número real o complejo, y el número de términos pueden ser finito o infinito.
+
+	Una manera más conveniente de escribir la ecuación (\ref{ec:fracciones_cont}) es:
+
+	\begin{equation}
+		a_{1} + \frac{b_{1}}{a_{2} } \genfrac{}{}{0pt}{0}{}{+}   \frac{b_{2}}{a_{3}}  \genfrac{}{}{0pt}{0}{}{+}  \frac{b_{3}}{a_{4}}  \genfrac{}{}{0pt}{0}{}{+}  \genfrac{}{}{0pt}{0}{}{\cdots} 
+		\label{ec:fracciones_cont_sim}
+	\end{equation}
+	y es la que se encontrará normalmente en libros y artículos. Ambas notaciones son  muy similar y se puede pasar de una a otra sin mayor complicación.
+
+	De la ecuación (\ref{ec:fracciones_cont_sim}) se pueden formar las siguientes fracciones:
+
+	\begin{equation}
+		c_{1} = \frac{a_{1}}{1} , \quad c_{2} = a_{1} + \frac{b_{1}}{a_{2}}, \quad c_{3} = a_{1} + \frac{b_{1}}{a_{2}} \genfrac{}{}{0pt}{0}{}{+} \frac{b_{2}}{a_{3}}, \quad \cdots
+	\end{equation}
+	las cuales se obtienen, en sucesión, de cortar el proceso de expansión después del primer, segundo, tercer, $\cdots$ término. Estas fracciones son llamadas primer, segundo, tercer, $\cdots$  convergente, respectivamente, de la fracción continua. El $n$-ésimo convergente es:
+
+	\begin{equation}
+		c_{n} = a_{1} + \frac{b_{1}}{a_{2}} \genfrac{}{}{0pt}{0}{}{+} \frac{b_{2}}{a_{3}} \genfrac{}{}{0pt}{0}{}{+} \genfrac{}{}{0pt}{0}{}{\cdots} \genfrac{}{}{0pt}{0}{}{+} \frac{b_{n-1}}{a_{n}}
+	\end{equation}
+
+	En 1776 Lagrange obtuvo la expansión de fracciones continuas (CFE) para la ecuación $(1 + x)^{\alpha}$ como se muestra a continuación \cite{Olds2009}:
+
+	\begin{equation}
+ 		(1 + x)^{\alpha} = \cfrac{1}{1 - \cfrac{\alpha x}{1 + \cfrac{\cfrac{1(1 + \alpha)}{1\cdot2}\,x}{1 + \cfrac{\cfrac{1(1 - \alpha)}{2\cdot3}\,x}{1 + \cfrac{\cfrac{2(2 + \alpha)}{3\cdot4}\,x}{1 + \cfrac{\cfrac{2(2 - k)}{4\cdot5}\,x}{1 + \cfrac{\cfrac{3(3 + \alpha)}{5\cdot6}\,x}{1 + \genfrac{}{}{0pt}{0}{}{\ddots}}}}}}}}
+		 \label{ec:lagrange}
+	\end{equation}
+	y escrita de una manera más compacta:
+
+	\begin{equation}
+ 		(1 + x)^{\alpha} = \frac{1}{1} \genfrac{}{}{0pt}{0}{}{-} \frac{\alpha x}{1} \genfrac{}{}{0pt}{0}{}{+} \frac{\frac{1(1 + \alpha)}{1\cdot2}\,x}{1} \genfrac{}{}{0pt}{0}{}{+} \frac{\frac{1(1 - \alpha)}{2\cdot3}\,x}{1} \genfrac{}{}{0pt}{0}{}{+} \frac{\frac{2(2 + \alpha)}{3\cdot4}\,x}{1} \genfrac{}{}{0pt}{0}{}{+} \frac{\frac{2(2 - \alpha)}{4\cdot5}\,x}{1} \genfrac{}{}{0pt}{0}{}{+} \genfrac{}{}{0pt}{0}{}{\cdots} 
+		\label{ec:lagrange_conv}
+	\end{equation}
+	la ecuación (\ref{ec:lagrange_conv}) puede reescribirse convenientemente multiplicando un $m$ en el numerador y en el denominador como se muestra a continuación:
+
+	\begin{equation}
+ 		(1 + x)^{\alpha} = \frac{1}{1} \genfrac{}{}{0pt}{0}{}{-} \frac{\alpha x}{1} \genfrac{}{}{0pt}{0}{}{+}  \frac{ {\color{red} 2} \cdot \frac{1(1 + \alpha)}{1\cdot2}\,x}{{\color{red} 2} \cdot 1} \genfrac{}{}{0pt}{0}{}{+} \frac{ {\color{blue} 3} \cdot {\color{red} 2} \cdot \frac{1(1 - \alpha)}{2\cdot3}\,x}{{\color{blue} 3} \cdot 1} \genfrac{}{}{0pt}{0}{}{+} \frac{{\color{blue} 3} \cdot \frac{2(2 + \alpha)}{3\cdot4}\,x}{1}   \genfrac{}{}{0pt}{0}{}{+} \genfrac{}{}{0pt}{0}{}{\cdots} 
+	\end{equation}
+	hay que notar que cada denominador esta compuesto por 2 términos, esto se puede ver claramente en la ecuación (\ref{ec:lagrange}), y que contando el término del numerador, $m$ se tiene que agregar en 3 lugares distintos. Si se eligen $m_{1} = 2$, $m_{2} = 3$, $m_{3} = 2$, $\ldots$ de manera que se simplifique la ecuación obtenemos:
+
+	\begin{equation}
+ 		(1 + x)^{\alpha} = \frac{1}{1}  \genfrac{}{}{0pt}{0}{}{-} \frac{\alpha x}{1} \genfrac{}{}{0pt}{0}{}{+} \frac{(1 + \alpha)x}{2} \genfrac{}{}{0pt}{0}{}{+} \frac{(1 - \alpha)x}{3} \genfrac{}{}{0pt}{0}{}{+} \frac{(2 + \alpha)x}{2} \genfrac{}{}{0pt}{0}{}{+} \frac{(2-\alpha)x}{5} \genfrac{}{}{0pt}{0}{}{+} \genfrac{}{}{0pt}{0}{}{\cdots}
+ 		\label{ec:cfe_inutil}
+	\end{equation}
+
+	La ecuación (\ref{ec:cfe_inutil}) se puede encontrar en distintos artículos \cite{Krishna2008,Krishna2011}, no obstante para programar un algoritmo que obtenga la aproximación de $(1 + x)^{\alpha}$ hasta el $n$-ésimo convergente resulta poco intuitiva. Para este fin la ecuación (\ref{ec:lagrange_conv}) resulta más sencilla y contiene un patrón que puede explotarse.
+
+	El $n$-ésimo término de la expansión de fracciones continuas para la ecuación (\ref{ec:lagrange_conv}) se puede calcular utilizando la siguiente ecuación:
+
+	\begin{equation}
+		\frac{\psi(n) \left[ \psi(n) + (-1)^{n} \alpha \right]}{(n-1)n}
+		\label{ec:calculo_terminos_cfe}
+	\end{equation}
+	donde la función $\psi(x)$ para $x\geq2$, $x\in \mathbb{Z}^{+}$ esta definida como\footnote{$\left\lfloor x\right\rfloor$ es  la función redondeo hacia el entero inferior anterior.}:
+
+	\begin{equation}
+		\psi(x) = \left\lfloor \frac{x}{2}\right\rfloor
+	\end{equation}
+
+	La ecuación (\ref{ec:calculo_terminos_cfe}) se puede utilizar de manera recursiva desde el $n$-ésimo término hasta el segundo sin olvidar que cada uno de estos siempre debe ir acompañado de la suma de un uno. También vale la pena resaltar que el primer término de la expansión es $\cfrac{1}{1} \genfrac{}{}{0pt}{0}{}{-} \cfrac{\alpha x}{1}$ en conjunto. 
+
+	Sustituyendo $x = s - 1$ y limitando el número de términos de la ecuación (\ref{ec:lagrange_conv}) obtenemos la aproximación racional para $s^{\alpha}$ y para obtener la aproximación racional de $\frac{1}{s^{\alpha}}$ la expresión tiene que ser simplemente invertida. En el apéndice \ref{cod:cfetf} se muestra un programa en MATLAB que calcula la aproximación para un integrador fraccionario de orden $\alpha$ eligiendo el número de términos $n$, utilizando el método de CFE descrito previamente.
+
+	En general la aproximación utilizando la CFE para un integrador fraccionario $\frac{1}{s^{\alpha}}$ utilizando los primeros dos términos resulta en una función de transferencia de primer orden como se muestra a continuación:
+
+	\begin{equation}
+		\genfrac{}{}{0pt}{0}{}{_{(c_{2})}} \frac{1}{s^{\alpha}} \approx \frac{(1 - \alpha)s + (1 + \alpha) }{(1 + \alpha)s + (1 - \alpha)} 
+	\end{equation}
+
+	Al utilizar un número impar de términos el grado del numerador de la función de transferencia siempre será mayor en uno al del denominador, además de que el coeficiente de mayor grado del numerador siempre tendrá signo negativo, esto resulta problemático en la implementación y debido a estas observaciones es recomendable solo trabajar con un número par de términos.
+
+	La aproximación de segundo orden tiene la forma:
+
+	\begin{equation}
+		\genfrac{}{}{0pt}{0}{}{_{(c_{4})}} \frac{1}{s^{\alpha}} \approx \frac{(\alpha^{2} - 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} + 3\alpha + 2) }{(\alpha^{2} + 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} - 3\alpha + 2)}
+	\end{equation}
+
+	La ventaja de utilizar la aproximación de CFE es que convertimos el problema de orden fraccionario a uno de orden entero de manera sistemática. Por ejemplo para un integrador de orden fraccionario $\alpha = 0.5$ sus aproximaciones son las mostradas en la Tabla \ref{tab:aprox_cfe_alpha_0.5} y su diagrama de bode es el mostrado en la Figura .
+
+
+	\begin{table}[!hbp]
+		\caption{Aproximación racional de $\frac{1}{s^{0.5}}$}
+		\label{tab:aprox_cfe_alpha_0.5}
+		\centering
+%		\resizebox{\textwidth}{!}{
+		\begin{tabular}{c c c}
+			\hline
+			\textbf{Orden} &  \textbf{No. de términos} & \textbf{Aproximación racional}\\
+			\hline
+			$1$ 		& $2$ 		&  $\cfrac{s + 3}{3s + 1}$\\
+					 		& 		 		& \\
+			$2$			& $4$ 		&  $\cfrac{s^{2} + 10s + 5}{5 s^{2} + 10s + 1}$\\
+							& 		 		& \\
+			$3$ 		& $6$ 		&  $\cfrac{s^{3} + 21s^{2} + 35s + 7}{7 s^3 + 35 s^2 + 21 s + 1}$	\\
+							& 		 		& \\
+			$4$ 		& $8$ 		&  $\cfrac{s^4 + 36 s^3 + 126 s^2 + 84 s + 9}{9 s^4 + 84 s^3 + 126 s^2 + 36 s + 1}$\\
+							& 		 		& \\
+			$5$ 		& $10$ 		&  $\cfrac{s^5 + 55 s^4 + 330 s^3 + 462 s^2 + 165 s + 11}{11 s^5 + 165 s^4 + 462 s^3 + 330 s^2 + 55 s + 1}$\\
+							& 		 		& \\
+			\hline
+		\end{tabular}
+%		}
+	\end{table}
+	
+	Esto es una prueba para ver si funciona bien o no
+
+	

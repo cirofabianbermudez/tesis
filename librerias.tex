@@ -1,0 +1,127 @@
+%-------------------------------------------------------------------------------
+%                                Paquetes extras                               %
+%-------------------------------------------------------------------------------
+\usepackage{lipsum}												% Texto de ejemplo \lipsum[1-30]
+\decimalpoint															% Punto decimal en lugar de coma
+\spanishsignitems													% Viñetas en lugar de cuadros
+\raggedbottom															% Eliminar molestos warnings
+
+\usepackage{pdfpages}											% Incluir portada echa en Inkscape
+\usepackage{setspace}											% Interlineado\\
+\usepackage{makecell}											% Para tablas
+%-------------------------------------------------------------------------------
+%                            Comandos matematicos                              %
+%-------------------------------------------------------------------------------
+\newcommand{\binomb}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}}
+%-------------------------------------------------------------------------------
+%                        Paquetes para hipervinculos                           %
+%-------------------------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}					% Añade los bookmarks y le quita la caja roja, \url{}
+%\urlstyle{same}
+%-------------------------------------------------------------------------------
+%                           Estilos de encabezados                             %
+%-------------------------------------------------------------------------------
+\usepackage{fancyhdr, blindtext}											% Libreria para encabezados
+
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}				% Capitulos y secciones en minusculas
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
+\fancypagestyle{normalstyle}{%
+  \fancyhf{}											% Reinicial estilos de header y footer
+	\fancyhead[LE,RO]{\thepage}
+	\fancyhead[LO]{\nouppercase{\rightmark}}
+	\fancyhead[RE]{\nouppercase{\leftmark}}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0pt}
+	\setlength{\headheight}{14.62pt}
+}
+%-------------------------------------------------------------------------------
+%                            Libreria de codigos                               %
+%-------------------------------------------------------------------------------
+% Paquetes necesarios
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Tipos de letra personalizadas
+\def\lstbasicfont{\fontfamily{pcr}\selectfont\scriptsize}
+\def\vhdlbasicfont{\fontfamily{cmtt}\selectfont\scriptsize}
+
+% Colores personalizados
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codeorange}{RGB}{254, 100, 35}
+
+% Deficion de lenguajes perzonalizados
+
+% Definicion de lenguaje MATLAB
+\lstdefinelanguage{matlabfloz}{%
+  alsoletter={...},%
+  morekeywords={%                             % keywords
+		break,case,catch,classdef,continue,else,
+		elseif,end,for,function,global,if,
+		otherwise,parfor,persistent,
+		return,spmd,switch,try,while,...},        % Use the matlab "iskeyword" command to get those
+  comment=[l]\%,                              % comments
+  morecomment=[l]...,                         % comments
+  morecomment=[s]{\%\{}{\%\}},                % block comments
+  morestring=[m]'                             % strings 
+}[keywords,comments,strings]%
+
+% Estilos MATLAB
+\lstdefinestyle{MATLAB}{
+	frame=single,
+	rulecolor=\color{black},
+	framexleftmargin=4mm,
+	xleftmargin=2mm,
+	language=matlabfloz,
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{blue}, %magenta
+  numberstyle=\tiny\color{black},
+  stringstyle=\color{codepurple},
+  basicstyle=\lstbasicfont\scriptsize,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2    
+}
+
+% Estilos MATLAB en codigo
+\lstdefinestyle{MATLAB_preview}{
+%	frame=single,
+%	rulecolor=\color{black},
+%	framexleftmargin=4mm,
+%	xleftmargin=2mm,
+	language=matlabfloz,
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue}, %magenta
+%    numberstyle=\tiny\color{black},
+    stringstyle=\color{codepurple},
+    basicstyle=\lstbasicfont\small,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+%    numbers=left,                    
+%    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2    
+}
+
+\renewcommand{\lstlistingname}{Código}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{Lista de códigos}% 
+%-------------------------------------------------------------------------------
+%                           Caption en negritas                                %
+%-------------------------------------------------------------------------------
+\usepackage[labelfont=bf]{caption}
+\captionsetup{labelfont=bf}
