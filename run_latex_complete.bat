@@ -1,5 +1,5 @@
 @ECHO OFF
-ECHO 1. Iniciando primera compilacion . . .
+ECHO 1. Iniciando . . .
 @latex main.tex > nul
 ECHO 2. Primera compilacion terminada . . .
 @bibtex main > nul 
