@@ -2,13 +2,16 @@
 %                                Paquetes extras                               %
 %-------------------------------------------------------------------------------
 \usepackage{lipsum}												% Texto de ejemplo \lipsum[1-30]
-\decimalpoint															% Punto decimal en lugar de coma
-\spanishsignitems													% Viñetas en lugar de cuadros
-\raggedbottom															% Eliminar molestos warnings
+\decimalpoint													% Punto decimal en lugar de coma
+\spanishsignitems												% Viñetas en lugar de cuadros
+\raggedbottom													% Eliminar molestos warnings
 
 \usepackage{pdfpages}											% Incluir portada echa en Inkscape
-\usepackage{setspace}											% Interlineado\\
+\usepackage{setspace}											% Interlineado
 \usepackage{makecell}											% Para tablas
+
+\usepackage[figuresright]{rotating}								% Rotar figuras con caption
+\usepackage{subcaption} 
 %-------------------------------------------------------------------------------
 %                            Comandos matematicos                              %
 %-------------------------------------------------------------------------------
@@ -16,18 +19,18 @@
 %-------------------------------------------------------------------------------
 %                        Paquetes para hipervinculos                           %
 %-------------------------------------------------------------------------------
-\usepackage[hidelinks]{hyperref}					% Añade los bookmarks y le quita la caja roja, \url{}
+\usepackage[hidelinks]{hyperref}								% Añade los bookmarks y le quita la caja roja, \url{}
 %\urlstyle{same}
 %-------------------------------------------------------------------------------
 %                           Estilos de encabezados                             %
 %-------------------------------------------------------------------------------
-\usepackage{fancyhdr, blindtext}											% Libreria para encabezados
+\usepackage{fancyhdr, blindtext}								% Libreria para encabezados
 
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}				% Capitulos y secciones en minusculas
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}					% Capitulos y secciones en minusculas
 \renewcommand{\sectionmark}[1]{\markright{#1}}
 
 \fancypagestyle{normalstyle}{%
-  \fancyhf{}											% Reinicial estilos de header y footer
+  \fancyhf{}													% Reinicial estilos de header y footer
 	\fancyhead[LE,RO]{\thepage}
 	\fancyhead[LO]{\nouppercase{\rightmark}}
 	\fancyhead[RE]{\nouppercase{\leftmark}}

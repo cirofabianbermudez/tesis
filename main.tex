@@ -1,14 +1,13 @@
 \documentclass[12pt,a4paper]{book}
 \usepackage[utf8]{inputenc}									% Codificación
-\usepackage[spanish,es-tabla]{babel}				% Lenguaje español, Tabla n: 
+\usepackage[spanish,es-tabla]{babel}						% Lenguaje español, Tabla n: 
 \usepackage[T1]{fontenc}										% Agregar fuentes con acentos
-\usepackage{amsmath}												% Paquetes necesarios  para matemáticas
+\usepackage{amsmath}											% Paquetes necesarios  para matemáticas
 \usepackage{amsfonts}
 \usepackage{amssymb}
-\usepackage{makeidx}												% Paquete para indices
-\usepackage{graphicx}												% Para manejar imagenes
+\usepackage{makeidx}											% Paquete para indices
+\usepackage{graphicx}											% Para manejar imagenes
 \graphicspath{{imagenes/}}									% Ruta de las imagenes, solo escribir nombre de la imagen
-%\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage[top=1in, left=0.9in, right=1.25in, bottom=1in]{geometry}		% Margenes
 \author{Ciro Fabian Bermudez Marquez}
 \title{Tesis}
@@ -27,7 +26,8 @@
 	ch2,
 	ch3,
 	Ap_A,
-	Ap_B
+	Ap_B,
+	Ap_C
 }
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
@@ -36,16 +36,16 @@
 	\thispagestyle{empty}												% Limpiar estilos de pagina
 
 \frontmatter
-\onehalfspacing																% Desde este punto interlineado de 1.5
+\onehalfspacing															% Desde este punto interlineado de 1.5
 % 	\spacing{1.213}
 	\include{agradecimientos}
 
 \pagestyle{normalstyle}												% Estilos de pagina personalizados
-\tableofcontents            									% Genera el índice
+\tableofcontents            											% Genera el índice
 \addcontentsline{toc}{chapter}{\contentsname}
 
-\listoffigures              									% Indice de figuras
-\listoftables               									% Indice de tablas
+\listoffigures              											% Indice de figuras
+\listoftables               											% Indice de tablas
 \lstlistoflistings
 
 \mainmatter
@@ -56,6 +56,7 @@
 \appendix
 	\include{Ap_A}
 	\include{Ap_B}
+	\include{Ap_C}
 	
 	Cita 1 \cite{Petras2011}
 	Cita 2 \cite{Petras2019}
@@ -63,11 +64,9 @@
 	Cita 4 \cite{Li2018}
 	Cita 5 \cite{Krishna2008}
 	Cita 6 \cite{Krishna2011}
-	
 
 \backmatter
 
 \bibliographystyle{ieeetr}
 \bibliography{bibliografia}
-
 \end{document}

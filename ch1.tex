@@ -218,12 +218,11 @@
 	\begin{equation}
 		\genfrac{}{}{0pt}{0}{}{_{(c_{4})}} \frac{1}{s^{\alpha}} \approx \frac{(\alpha^{2} - 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} + 3\alpha + 2) }{(\alpha^{2} + 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} - 3\alpha + 2)}
 	\end{equation}
-
-	La ventaja de utilizar la aproximación de CFE es que convertimos el problema de orden fraccionario a uno de orden entero de manera sistemática. Por ejemplo para un integrador de orden fraccionario $\alpha = 0.5$ sus aproximaciones son las mostradas en la Tabla \ref{tab:aprox_cfe_alpha_0.5} y su diagrama de bode es el mostrado en la Figura .
+la ventaja de utilizar la aproximación de CFE es que convertimos el problema de orden fraccionario a uno de orden entero de manera sistemática. Por ejemplo para un integrador de orden fraccionario con $\alpha = 0.5$ sus aproximaciones son las mostradas en la Tabla \ref{tab:aprox_cfe_alpha_0.5} y sus correspondientes diagramas de bode se muestran en la Figura \ref{fig:F1_bode_integrador_alpha05}.
 
 
 	\begin{table}[!hbp]
-		\caption{Aproximación racional de $\frac{1}{s^{0.5}}$}
+		\caption{Aproximaciones racionales de $\frac{1}{s^{0.5}}$}
 		\label{tab:aprox_cfe_alpha_0.5}
 		\centering
 %		\resizebox{\textwidth}{!}{
@@ -246,6 +245,15 @@
 %		}
 	\end{table}
 	
-	Esto es una prueba para ver si funciona bien o no
-
+	Analizando Figura \ref{fig:F1_bode_integrador_alpha05} se puede resaltar que en general la aproximación aumenta su ancho de banda conforme el orden aumenta y que el ancho de bando útil es de $10^{-1}$ rad/s hasta $10^{1}$ rad/s, es decir aproximadamente dos décadas, no obstante un análisis más profundo es necesario para para notar otras peculiaridades que ocurren utilizando esta aproximación
 	
+	\begin{figure}[hbtp]
+	\caption{Diagramas de bode comparativos de integrador fraccionario, funciones de transferencia de primer hasta quito orden.} 
+	\label{fig:F1_bode_integrador_alpha05}
+	\centering
+	\includegraphics[width=12cm]{F1_bode_integrador_alpha05.eps}
+	\end{figure}
+	
+	
+	
+
