@@ -245,7 +245,7 @@ la ventaja de utilizar la aproximación de CFE es que convertimos el problema de
 %		}
 	\end{table}
 	
-	Analizando Figura \ref{fig:F1_bode_integrador_alpha05} se puede resaltar que en general la aproximación aumenta su ancho de banda conforme el orden aumenta y que el ancho de bando útil es de $10^{-1}$ rad/s hasta $10^{1}$ rad/s, es decir aproximadamente dos décadas, no obstante un análisis más profundo es necesario para para notar otras peculiaridades que ocurren utilizando esta aproximación
+	Analizando Figura \ref{fig:F1_bode_integrador_alpha05} se puede resaltar que en general la aproximación aumenta su ancho de banda conforme el orden de la función de transferencia aumenta y que el ancho de banda útil es de $10^{-1}$ rad/s hasta $10^{1}$ rad/s, es decir aproximadamente dos décadas, no obstante un análisis más profundo es necesario para notar otras peculiaridades que ocurren en este tipo de aproximaciones.
 	
 	\begin{figure}[hbtp]
 	\caption{Diagramas de bode comparativos de integrador fraccionario, funciones de transferencia de primer hasta quito orden.} 
@@ -254,6 +254,16 @@ la ventaja de utilizar la aproximación de CFE es que convertimos el problema de
 	\includegraphics[width=12cm]{F1_bode_integrador_alpha05.eps}
 	\end{figure}
 	
+	Si variamos el orden $\alpha$ del integrador y el orden la función de transferencia aproximada podemos notar que entre más pequeño sea $\alpha$ más porcentaje de error (error normalizado) va haber en la aproximación con respecto a un integrador ideal, esto considerando el ancho de banda útil. Existen dos errores de interés, el error en dB sin normalizar y el error normalizado.
 	
+	El error en dB sin normalizar se puede calcular utilizando siguiente la ecuación:
+	\begin{equation}
+	\mathrm{error}_{\mathrm{dB}} =  20\log_{10} \left| \frac{H(j\omega)}{G(j\omega)} \right| 
+	\end{equation}
 	
+	donde $H(j\omega)$ es el integrador ideal $\frac{1}{s^{\alpha}}$ y $G(j\omega)$ es la función de transferencia aproximada del integrador utilizando CFE $ \genfrac{}{}{0pt}{0}{}{_{(c_{n})}} \cfrac{1}{s^{\alpha}}$.
+	
+	El error normalizado 
 
+	
+	
