@@ -34,11 +34,13 @@ for i = 1:max(size(alfa))
 end
 %%
 
-%% Calculo de errores y promedio de errores
+%% Calculo de errores, promedio de errores
 errormag = zeros(max(size(w)),n,max(size(alfa)));
 errorfase = zeros(max(size(w)),n,max(size(alfa)));
 promerrormag = zeros(1,n,max(size(alfa)));
 promerrorfase = zeros(1,n,max(size(alfa)));
+errormagmax = zeros(1,n,max(size(alfa)));
+errorfasemax = zeros(1,n,max(size(alfa)));
 for i = 1:max(size(alfa))
     for j = 1:n
         errormag(:,j,i) = magnitud(:,1,i) - magnitud(:,j+1,i);
@@ -46,6 +48,8 @@ for i = 1:max(size(alfa))
     end 
     promerrormag(1,:,i) = sum(abs(errormag(:,:,i)))./max(size(errormag));
     promerrorfase(1,:,i) = sum(abs(errorfase(:,:,i)))./max(size(errorfase));
+    errormagmax(1,:,i) = max(abs(errormag(:,:,i)));
+    errorfasemax(1,:,i) = max(abs(errorfase(:,:,i)));
 end
 %%
 
@@ -157,22 +161,34 @@ for k = 1:max(size(alfa))
 end
 %%
 
-%%
-% hold off;
-% for i = 1:n+1
-%     semilogx(w,magnitud(:,i,9));
-%     hold on;
-% end
-% grid on;
+%% Generar tablas de error maximo
+datamag = zeros(max(size(alfa)),n);
+datafase = zeros(max(size(alfa)),n);
+for i = 1:max(size(alfa))
+    datamag(i,:) = errormagmax(1,:,i);
+    datafase(i,:) = errorfasemax(1,:,i);
+end
+TabMag.dataFormat =  {'%1.1f',1,'%1.4f',n};
+TabFase.dataFormat =  {'%1.1f',1,'%1.4f',n};
+TabMag.data = [alfa' datamag*100];
+TabFase.data = [alfa' datafase*100];
+% latex = latexTable(TabMag);
+latex = latexTable(TabFase);
 %%
 
-%%
-% hold off;
-% for i = 1:n+1
-%     semilogx(w,fase(:,i,9));
-%     hold on;
-% end
-% grid on;
+%% Generar tablas de error promedio
+datamag = zeros(max(size(alfa)),n);
+datafase = zeros(max(size(alfa)),n);
+for i = 1:max(size(alfa))
+    datamag(i,:) =  promerrormag(1,:,i);
+    datafase(i,:) = promerrorfase(1,:,i);
+end
+TabMag.dataFormat =  {'%1.1f',1,'%1.4f',n};
+TabFase.dataFormat =  {'%1.1f',1,'%1.4f',n};
+TabMag.data = [alfa' datamag*100];
+TabFase.data = [alfa' datafase*100];
+% latex = latexTable(TabMag);
+latex = latexTable(TabFase);
 %%
 
 %% Guardar resultados en excel dB

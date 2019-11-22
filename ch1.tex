@@ -245,7 +245,7 @@ la ventaja de utilizar la aproximación de CFE es que convertimos el problema de
 %		}
 	\end{table}
 	
-	Analizando Figura \ref{fig:F1_bode_integrador_alpha05} se puede resaltar que en general la aproximación aumenta su ancho de banda conforme el orden de la función de transferencia aumenta y que el ancho de banda útil es de $10^{-1}$ rad/s hasta $10^{1}$ rad/s, es decir aproximadamente dos décadas, no obstante un análisis más profundo es necesario para notar otras peculiaridades que ocurren en este tipo de aproximaciones.
+	Analizando la Figura \ref{fig:F1_bode_integrador_alpha05} se puede resaltar que en general la aproximación aumenta su ancho de banda conforme el orden de la función de transferencia aumenta y que de mismo modo el error con respecto al integrador ideal disminuye, lo cual era de esperarse, el ancho de banda útil es de $10^{-1}$ rad/s hasta $10^{1}$ rad/s, es decir aproximadamente dos décadas, no obstante un análisis más profundo es necesario para notar otras peculiaridades que ocurren en este tipo de aproximaciones.
 	
 	\begin{figure}[hbtp]
 	\caption{Diagramas de bode comparativos de integrador fraccionario, funciones de transferencia de primer hasta quito orden.} 
@@ -254,16 +254,240 @@ la ventaja de utilizar la aproximación de CFE es que convertimos el problema de
 	\includegraphics[width=12cm]{F1_bode_integrador_alpha05.eps}
 	\end{figure}
 	
-	Si variamos el orden $\alpha$ del integrador y el orden la función de transferencia aproximada podemos notar que entre más pequeño sea $\alpha$ más porcentaje de error (error normalizado) va haber en la aproximación con respecto a un integrador ideal, esto considerando el ancho de banda útil. Existen dos errores de interés, el error en dB sin normalizar y el error normalizado.
+	\subsection{Análisis de error de la CFE}
+	Si variamos el orden $\alpha$ del integrador y el orden la función de transferencia aproximada podemos notar que entre más pequeño sea $\alpha$ más se alejada la aproximación con respecto a un integrador ideal, esto considerando el ancho de banda útil (ver Figuras \ref{fig:analisis_mag}, \ref{fig:analisis_fase}). Para cuantificar lo anterior existen dos tipos de errores de interés, el error sin normalizar y el error normalizado.
 	
-	El error en dB sin normalizar se puede calcular utilizando siguiente la ecuación:
+	El error en dB de la magnitud sin normalizar se puede calcular utilizando siguiente la ecuación:
 	\begin{equation}
-	\mathrm{error}_{\mathrm{dB}} =  20\log_{10} \left| \frac{H(j\omega)}{G(j\omega)} \right| 
+	\mathrm{error}_{\mathrm{dB}} = 20\log_{10} \left| \frac{H(j\omega)}{G(j\omega)} \right|
+	\label{ec:error_sin_norm}
+	\end{equation}
+	donde $H(j\omega)$ es el integrador ideal $\frac{1}{s^{\alpha}}$ y $G(j\omega)$ es la función de transferencia aproximada del integrador utilizando CFE $ _{(c_{n})} \frac{1}{s^{\alpha}}$. 
+	
+	El error en grados de la fase sin normalizar se obtiene utilizando la siguiente ecuación:
+	
+	\begin{equation}
+	\mathrm{error}_{\mathrm{deg}} = \phase{H(j\omega)} - \phase{G(j\omega)}
 	\end{equation}
 	
-	donde $H(j\omega)$ es el integrador ideal $\frac{1}{s^{\alpha}}$ y $G(j\omega)$ es la función de transferencia aproximada del integrador utilizando CFE $ \genfrac{}{}{0pt}{0}{}{_{(c_{n})}} \cfrac{1}{s^{\alpha}}$.
+	Debido a que un integrador fraccionario ideal es en esencia un polo en el origen elevado a una potencia, este tiene un comportamiento de $-20 \alpha$ dB/década en magnitud y de $-90\alpha$ grados en fase \cite{CharlesAlexander2016}, para normalizar el error este hecho resulta importante ya que la magnitud del integrador ideal en $0.1$ rad/seg para cualquier $\alpha$ siempre será $20 \alpha$ dB y para $10$ rad/seg de $-20 \alpha$ dB, de manera simular la fase permanece constante en $-90\alpha$ grados para cualquier $\alpha$.
 	
-	El error normalizado 
+	Entonces la ecuación para el error normalizado de magnitud es:
+	
+	\begin{equation}
+	\mathrm{error}_{\mathrm{norm\,\,de\,\,mag}} = \cfrac{ 20\log_{10} \left| \frac{H(j\omega)}{G(j\omega)} \right| }{20 \alpha} = \cfrac{ \log_{10} \left| \frac{H(j\omega)}{G(j\omega)} \right| }{ \alpha}
+	\end{equation}
+	y la ecuación para el error normalizado de fase es:
+	
+	\begin{equation}
+	\mathrm{error}_{\mathrm{norm\,\,de\,\,fase}} = \cfrac{\phase{H(j\omega)} - \phase{G(j\omega)}}{90\alpha}
+	\end{equation}
+	
+	Para poder comparar los errores de manera precisa se debe calcular el valor absoluto de los errores para tener una medida de cuanto se aleja del integrador fraccionario ideal. En las Tablas \ref{tab:max_error_mag} y \ref{tab:max_error_fase} se muestran los errores absolutos máximos sin normalizar para la magnitud y la fase dependiente de $\alpha$ y el orden de la función de transferencia, estos datos se puede corroborar dirigiéndose a las gráficas de las Figuras \ref{fig:analisis_error_mag} y \ref{fig:analisis_error_fase}.
+	
+\begin{table}[!hbp]                                 
+\centering            
+\caption{Máximo error absoluto de magnitud en dB variando $\alpha$ y orden de función de transferencia.}                           
+\label{tab:max_error_mag}                               
+\begin{tabular}{cccccc}
+\hline                                             
+$\,\,\,\,\bm{\alpha}$\textbf{/Orden} & \textbf{1$^{\mathrm{er}}$} & \textbf{2$^{\mathrm{do}}$} & \textbf{3$^{\mathrm{er}}$} & \textbf{4$^{\mathrm{to}}$} & \textbf{5$^{\mathrm{to}}$} \\                     
+\hline                                             
+0.1 & 0.4587 & 0.3333 & 0.2427 & 0.0620 & 0.0220 \\
+                                           
+0.2 & 0.8931 & 0.6524 & 0.4665 & 0.1172 & 0.0423 \\
+                                            
+0.3 & 1.2792 & 0.9426 & 0.6527 & 0.1596 & 0.0591 \\
+                                            
+0.4 & 1.5942 & 1.1889 & 0.7838 & 0.1848 & 0.0710 \\
+                                            
+0.5 & 1.8155 & 1.3748 & 0.8449 & 0.1904 & 0.0767 \\
+                                           
+0.6 & 1.9193 & 1.4807 & 0.8259 & 0.1767 & 0.0755 \\
+                                            
+0.7 & 1.8769 & 1.4676 & 0.7232 & 0.1458 & 0.0669 \\
+                                            
+0.8 & 1.6464 & 1.2410 & 0.5415 & 0.1021 & 0.0510 \\
+                                           
+0.9 & 1.1460 & 0.7507 & 0.2939 & 0.0513 & 0.0284 \\
+\hline                                             
+\end{tabular}                                                             
+\end{table}
 
+
+\begin{table}[!hbp]                                 
+\centering            
+\caption{Máximo error absoluto de fase en grados variando $\alpha$ y orden de función de transferencia.}                           
+\label{tab:max_error_fase}                               
+\begin{tabular}{cccccc}
+\hline                                             
+$\,\,\,\,\bm{\alpha}$\textbf{/Orden} & \textbf{1$^{\mathrm{er}}$} & \textbf{2$^{\mathrm{do}}$} & \textbf{3$^{\mathrm{er}}$} & \textbf{4$^{\mathrm{to}}$} & \textbf{5$^{\mathrm{to}}$} \\                     
+\hline                                             
+0.1 & 6.7092 & 2.8727 & 0.6548 & 0.5632 & 0.2796 \\ 
+                                             
+0.2 & 13.2833 & 5.5250 & 1.2598 & 1.0838 & 0.5338 \\
+                                            
+0.3 & 19.5614 & 7.7297 & 1.7677 & 1.5208 & 0.7390 \\
+                                              
+0.4 & 25.3200 & 9.2514 & 2.1362 & 1.8358 & 0.8760 \\
+                                            
+0.5 & 30.2099 & 9.8632 & 2.3294 & 1.9960 & 0.9311 \\
+                                             
+0.6 & 33.6307 & 9.3936 & 2.3198 & 1.9760 & 0.8975 \\
+                                             
+0.7 & 34.4722 & 7.8155 & 2.0880 & 1.7611 & 0.7756 \\
+                                             
+0.8 & 30.6494 & 5.3543 & 1.6237 & 1.3492 & 0.5739 \\
+                                             
+0.9 & 19.0601 & 2.5243 & 0.9255 & 0.7528 & 0.3080 \\
+\hline                                             
+\end{tabular}                                                             
+\end{table}
+
+	A simple vista se podría creer que el error máximo aumenta conforme aumenta $\alpha$, no obstante esto es falso debido a que no se esta teniendo en cuenta la escala de la gráfica y por lo tanto las Tablas \ref{tab:max_error_mag} y \ref{tab:max_error_fase} únicamente nos dan información del total de error y no del porcentaje. Para tomar en cuenta la escala es necesario normalizar el error y de mismo modo calcular el valor absoluto de este. Las gráficas de la respuesta de magnitud y fase normalizadas se pueden encontrar en las Figuras \ref{fig:analisis_mag_norm} y \ref{fig:analisis_fase_norm}, y las gráficas de los errores normalizados en las Figuras \ref{fig:analisis_error_mag_norm} y \ref{fig:analisis_error_fase_norm}.
+	
+	En las Tablas \ref{tab:max_error_mag_norm} y \ref{tab:max_error_fase_norm} se muestran los porcentajes del máximo error absoluto normalizados para la magnitud y la fase, haciendo un análisis de estas se puede llegar a la conclusión de que en efecto \textbf{el porcentaje de error es mayor cuanto más pequeño sea $\bm{\alpha}$} y esto es de gran interés para poder generar reglas de diseño para la implementación de circuitos integradores fraccionarios.
+
+\begin{table}[!hbp]                                 
+\centering            
+\caption{Máximo error absoluto de magnitud normalizado en \% variando $\alpha$ y orden de función de transferencia.}                           
+\label{tab:max_error_mag_norm}                               
+\begin{tabular}{cccccc}
+\hline                                             
+$\,\,\,\,\bm{\alpha}$\textbf{/Orden} & \textbf{1$^{\mathrm{er}}$} & \textbf{2$^{\mathrm{do}}$} & \textbf{3$^{\mathrm{er}}$} & \textbf{4$^{\mathrm{to}}$} & \textbf{5$^{\mathrm{to}}$} \\                     
+\hline                                             
+0.1 & 22.9364 & 16.6661 & 12.1365 & 3.1006 & 1.1022 \\
+                                               
+0.2 & 22.3267 & 16.3092 & 11.6624 & 2.9299 & 1.0576 \\
+                                                
+0.3 & 21.3204 & 15.7107 & 10.8780 & 2.6595 & 0.9850 \\
+                                               
+0.4 & 19.9281 & 14.8618 & 9.7974 & 2.3094 & 0.8869 \\ 
+                                               
+0.5 & 18.1555 & 13.7481 & 8.4493 & 1.9044 & 0.7669 \\ 
+                                                
+0.6 & 15.9941 & 12.3390 & 6.8823 & 1.4724 & 0.6290 \\ 
+                                              
+0.7 & 13.4063 & 10.4826 & 5.1656 & 1.0415 & 0.4779 \\ 
+                                              
+0.8 & 10.2900 & 7.7565 & 3.3847 & 0.6380 & 0.3190 \\  
+                                             
+0.9 & 6.3665 & 4.1706 & 1.6328 & 0.2848 & 0.1578 \\  
+\hline                                             
+\end{tabular}                                                             
+\end{table}
+
+
+\begin{table}[!hbp]                                 
+\centering            
+\caption{Máximo error absoluto de fase normalizado en \% variando $\alpha$ y orden de función de transferencia.}                           
+\label{tab:max_error_fase_norm}                               
+\begin{tabular}{cccccc}
+\hline                                             
+$\,\,\,\,\bm{\alpha}$\textbf{/Orden} & \textbf{1$^{\mathrm{er}}$} & \textbf{2$^{\mathrm{do}}$} & \textbf{3$^{\mathrm{er}}$} & \textbf{4$^{\mathrm{to}}$} & \textbf{5$^{\mathrm{to}}$} \\                     
+\hline                                             
+0.1 & 74.5462 & 31.9184 & 7.2756 & 6.2574 & 3.1070 \\
+                                             
+0.2 & 73.7962 & 30.6945 & 6.9988 & 6.0212 & 2.9653 \\
+                                             
+0.3 & 72.4496 & 28.6284 & 6.5472 & 5.6324 & 2.7370 \\
+                                             
+0.4 & 70.3334 & 25.6983 & 5.9338 & 5.0995 & 2.4334 \\
+                                             
+0.5 & 67.1331 & 21.9182 & 5.1765 & 4.4355 & 2.0692 \\
+                                              
+0.6 & 62.2790 & 17.3955 & 4.2958 & 3.6593 & 1.6620 \\
+                                              
+0.7 & 54.7178 & 12.4056 & 3.3143 & 2.7954 & 1.2312 \\
+                                               
+0.8 & 42.5686 & 7.4365 & 2.2552 & 1.8739 & 0.7971 \\ 
+                                              
+0.9 & 23.5310 & 3.1165 & 1.1426 & 0.9293 & 0.3802 \\ 
+\hline                                             
+\end{tabular}                                                             
+\end{table}
+
+Dado que el máximo error ocurre en un rango de frecuencias muy corto es recomendable conocer de igual manera el error promedio, en las Tablas \ref{tab:prom_error_mag_norm} y \ref{tab:prom_error_mag_norm} se muestra el error promedio normalizado, este presenta el mismo efecto de porcentaje de error con respecto a $\alpha$ que el máximo error normalizado. Analizando los datos de las tablas podemos resaltar que en cuanto a magnitud, utilizar una aproximación de segundo orden en lugar de una de primer orden disminuye el error un 43.63 \% para $\alpha = 0.1$ y un 70.26 \% para $\alpha = 0.9$, en fase el cambio es aún mas notorio, el error disminuye un 76.47 \% para $\alpha = 0.1$ y un 75.66 \% para $\alpha = 0.9$.
+
+\begin{table}[!ht]                                 
+\centering            
+\caption{Promedio de error absoluto de magnitud normalizado en \% variando $\alpha$ y orden de función de transferencia.}                           
+\label{tab:prom_error_mag_norm}                               
+\begin{tabular}{cccccc}
+\hline                                             
+$\,\,\,\,\bm{\alpha}$\textbf{/Orden} & \textbf{1$^{\mathrm{er}}$} & \textbf{2$^{\mathrm{do}}$} & \textbf{3$^{\mathrm{er}}$} & \textbf{4$^{\mathrm{to}}$} & \textbf{5$^{\mathrm{to}}$} \\                     
+\hline                                             
+0.1 & 13.4397 & 7.5755 & 2.4058 & 0.5407 & 0.2754 \\
+                                         
+0.2 & 13.1089 & 7.3398 & 2.2960 & 0.5155 & 0.2639 \\
+                                              
+0.3 & 12.5614 & 6.9432 & 2.1189 & 0.4751 & 0.2454 \\
+                                            
+0.4 & 11.8034 & 6.3812 & 1.8827 & 0.4217 & 0.2203 \\
+                                            
+0.5 & 10.8454 & 5.6502 & 1.5991 & 0.3580 & 0.1897 \\
+                                           
+0.6 & 9.7075 & 4.7507 & 1.2822 & 0.2875 & 0.1548 \\ 
+                                         
+0.7 & 8.4275 & 3.6945 & 0.9478 & 0.2133 & 0.1168 \\ 
+                                              
+0.8 & 6.8606 & 2.5119 & 0.6123 & 0.1387 & 0.0772 \\ 
+                                             
+0.9 & 4.2249 & 1.2563 & 0.2916 & 0.0667 & 0.0377 \\ 
+\hline                                             
+\end{tabular}                                                             
+\end{table}
+
+
+\begin{table}[!ht]                                 
+\centering            
+\caption{Promedio error absoluto de fase normalizado en \% variando $\alpha$ y orden de función de transferencia.}                           
+\label{tab:prom_error_fase_norm}                               
+\begin{tabular}{cccccc}
+\hline                                             
+$\,\,\,\,\bm{\alpha}$\textbf{/Orden} & \textbf{1$^{\mathrm{er}}$} & \textbf{2$^{\mathrm{do}}$} & \textbf{3$^{\mathrm{er}}$} & \textbf{4$^{\mathrm{to}}$} & \textbf{5$^{\mathrm{to}}$} \\                     
+\hline                                             
+0.1 & 34.9335 & 8.2174 & 2.6873 & 1.3313 & 0.3667 \\
+                                              
+0.2 & 34.0430 & 7.8450 & 2.5975 & 1.2737 & 0.3498 \\
+                                           
+0.3 & 32.5319 & 7.2389 & 2.4512 & 1.1805 & 0.3226 \\
+                                              
+0.4 & 30.3547 & 6.4219 & 2.2473 & 1.0556 & 0.2864 \\
+                                            
+0.5 & 27.4424 & 5.4308 & 1.9840 & 0.9042 & 0.2431 \\
+                                          
+0.6 & 23.6947 & 4.3175 & 1.6640 & 0.7329 & 0.1948 \\
+                                             
+0.7 & 18.9857 & 3.1492 & 1.2933 & 0.5488 & 0.1439 \\
+                                           
+0.8 & 13.2152 & 2.0009 & 0.8821 & 0.3598 & 0.0929 \\
+                                              
+0.9 & 6.5510 & 0.9388 & 0.4450 & 0.1742 & 0.0441 \\ 
+\hline                                             
+\end{tabular}                                                             
+\end{table}
+
+
+	De ser necesario para convertir el error de magnitud normalizado de \% a dB se utiliza la siguiente ecuación:
+	
+	\begin{equation}
+	\mathrm{error}_{\mathrm{dB}} =  20 \alpha \cdot \left( \frac{\%_{\mathrm{error\,\,mag}}}{100} \right)
+	\end{equation}
+	y para el error de fase normalizado de \% a grados:
+	
+	\begin{equation}
+	\mathrm{error}_{\mathrm{deg}} = 90 \alpha \cdot \left( \frac{\%_{\mathrm{error\,\,fase}}}{100} \right) 
+	\end{equation}
+	
+
+
+	                                                                                                
+	\section{Escalamiento en frecuencia}
 	
 	
+	
+	
+	
+
+
