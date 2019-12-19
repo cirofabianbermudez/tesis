@@ -257,7 +257,7 @@ la ventaja de utilizar la aproximación de CFE es que convertimos el problema de
 	\subsection{Análisis de error de la CFE}
 	Si variamos el orden $\alpha$ del integrador y el orden de la función de transferencia aproximada podemos notar que entre más pequeño sea $\alpha$ más se alejada la aproximación con respecto a un integrador fraccionario ideal, esto considerando el ancho de banda útil (ver Figuras \ref{fig:analisis_mag}, \ref{fig:analisis_fase}). Para cuantificar lo anterior existen dos tipos de errores de interés, el error sin normalizar y el error normalizado.
 	
-	El error en dB de la magnitud sin normalizar se puede calcular utilizando siguiente la ecuación:
+	El error en dB de la magnitud sin normalizar se puede calcular utilizando la siguiente ecuación:
 	\begin{equation}
 	\mathrm{error}_{\mathrm{dB}} = 20\log_{10} \left| \frac{H(j\omega)}{G(j\omega)} \right|
 	\label{ec:error_sin_norm}
@@ -527,4 +527,42 @@ $\,\,\,\,\bm{\alpha}$\textbf{/Orden} & \textbf{1$^{\mathrm{er}}$} & \textbf{2$^{
 	\includegraphics[width=12cm]{F10_bode_escalamiento.eps}
 	\end{figure}
 	
+	\section{Teoría de filtros}
+	
+	\subsection{Filtros de primer orden}
+	
+	La función de transferencia general de primer orden esta dada por la siguiente ecuación:
+	
+	\begin{equation}
+	T(s) = \frac{a_{1} s + a_{0} }{s + \omega_{0}}
+	\end{equation}
+	esta \textbf{función de transferencia bilineal} se caracteriza por tener un polo en $s = - \omega_{0}$, un polo en $s = -\frac{a_{0}}{a_{1}}$ y una ganancia de alta frecuencia que tiende a $a_{1}$. Los coeficientes del numerador, $a_{0}$ y $a_{1}$, determinan el tipo de filtro, ya sea pasabajas (LP), pasaaltas (HP), pasatodas (AP) o general. La realización activa provee considerablemente más versatilidad que su contra parte pasiva, en muchos casos la ganancia puede ser ajustada a un valor deseado, y algunos parámetros de las funciones de transferencia también sin afectar otros. La impedancia de salida de los circuitos activos es muy baja, haciendo que la colocación en cascada sea muy fácil. Sin embargo, los amplificadores operacionales limitan la operación a altas frecuencias de los circuitos activos \cite{Sedra2015}.
+	
+	Pasabajas (LP)
+	\begin{equation}
+	T(s) = \frac{a_{0}}{s + \omega_{0}}
+	\end{equation}
+	
+	Pasaaltas (HP)
+	\begin{equation}
+	T(s) = \frac{a_{1}s}{s + \omega_{0}}
+	\end{equation}
+	
+	Pasatodas (AP)
+	\begin{equation}
+	-a_{1} \frac{s - \omega_{0}}{s + \omega_{0}}
+	\end{equation}
+	
+	\subsection{Filtros de segundo orden}
+	
+	La función de transferencia general de un filtro de segundo orden (o \textbf{bicuadrátrica}) se expresa en lo general en la forma estándar:
+	
+	\begin{equation}
+	T(s) = \frac{a_{2} s^{2} + a_{1}s + a_{0}}{s^{2} + \left( \cfrac{ \omega_{0} }{Q} \right)s + \omega_{0}^{2}}
+	\end{equation}
+	donde $\omega^{0}$ y $Q$ determinan los polos de acuerdo a la siguiente ecuación:
+	
+	\begin{equation}
+	p_{1,2} = - \frac{\omega_{0}}{2 Q} \pm j \omega_{0} \sqrt{1 - }
+	\end{equation}
 	

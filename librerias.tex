@@ -9,6 +9,12 @@
 \usepackage{pdfpages}											% Incluir portada echa en Inkscape
 \usepackage{setspace}											% Interlineado
 \usepackage{makecell}											% Para tablas
+\usepackage{xcolor}												% Colores en tablas
+\usepackage{colortbl}
+\usepackage{array}												% Necesario para algunas tablas
+\usepackage{enumitem}											% Personalizar itemize
+
+\definecolor{Red}{RGB}{255,191,191}								% Colores definidos por el usuario
 
 \usepackage[nottoc]{tocbibind}									% Bibliografica en table of contents
 
@@ -37,6 +43,16 @@
 	\fancyhead[LE,RO]{\thepage}
 	\fancyhead[LO]{\nouppercase{\rightmark}}
 	\fancyhead[RE]{\nouppercase{\leftmark}}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0pt}
+	\setlength{\headheight}{14.62pt}
+}
+
+\fancypagestyle{Resumen}{%
+  \fancyhf{}													% Reinicial estilos de header y footer
+	\fancyhead[LE,RO]{\thepage}
+	\fancyhead[LO]{\nouppercase{Resumen}}
+	\fancyhead[RE]{\nouppercase{Resumen}}
 	\renewcommand{\headrulewidth}{0.4pt}
 	\renewcommand{\footrulewidth}{0pt}
 	\setlength{\headheight}{14.62pt}
