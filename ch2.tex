@@ -270,7 +270,7 @@ la ventaja de utilizar la aproximación de CFE es que convertimos el problema de
 	\mathrm{error}_{\mathrm{deg}} = \phase{H(j\omega)} - \phase{G(j\omega)}
 	\end{equation}
 	
-	Debido a que un integrador fraccionario ideal es en esencia un polo en el origen elevado a una potencia, este tiene un comportamiento de $-20 \alpha$ dB/década en magnitud y de $-90\alpha$ grados en fase \cite{CharlesAlexander2016}, para normalizar el error este hecho resulta importante ya que la magnitud del integrador ideal en $0.1$ rad/seg para cualquier $\alpha$ siempre será $20 \alpha$ dB y para $10$ rad/seg de $-20 \alpha$ dB, de manera simular la fase permanece constante en $-90\alpha$ grados para cualquier $\alpha$.
+	Debido a que un integrador fraccionario ideal es en esencia un polo en el origen elevado a una potencia, este tiene un comportamiento de $-20 \alpha$ dB/década en magnitud y de $-90\alpha$ grados en fase \cite{CharlesAlexander2016}, para normalizar el error este hecho resulta importante ya que la magnitud del integrador ideal en $0.1$ rad/seg para cualquier $\alpha$ siempre será $20 \alpha$ dB y para $10$ rad/seg de $-20 \alpha$ dB, de manera similar la fase permanece constante en $-90\alpha$ grados para cualquier $\alpha$.
 	
 	Entonces la ecuación para el error normalizado de magnitud es:
 	
@@ -535,8 +535,11 @@ $\,\,\,\,\bm{\alpha}$\textbf{/Orden} & \textbf{1$^{\mathrm{er}}$} & \textbf{2$^{
 	
 	\begin{equation}
 	T(s) = \frac{a_{1} s + a_{0} }{s + \omega_{0}}
+	\label{ec:bilineal_general}
 	\end{equation}
-	esta \textbf{función de transferencia bilineal} se caracteriza por tener un polo en $s = - \omega_{0}$, un polo en $s = -\frac{a_{0}}{a_{1}}$ y una ganancia de alta frecuencia que tiende a $a_{1}$. Los coeficientes del numerador, $a_{0}$ y $a_{1}$, determinan el tipo de filtro, ya sea pasabajas (LP), pasaaltas (HP), pasatodas (AP) o general. La realización activa provee considerablemente más versatilidad que su contra parte pasiva, en muchos casos la ganancia puede ser ajustada a un valor deseado, y algunos parámetros de las funciones de transferencia también sin afectar otros. La impedancia de salida de los circuitos activos es muy baja, haciendo que la colocación en cascada sea muy fácil. Sin embargo, los amplificadores operacionales limitan la operación a altas frecuencias de los circuitos activos \cite{Sedra2015}.
+	esta \textbf{función de transferencia bilineal} se caracteriza por tener un polo en $s = - \omega_{0}$, un cero en $s = -\frac{a_{0}}{a_{1}}$ y una ganancia de alta frecuencia que tiende a $a_{1}$. Los coeficientes del numerador, $a_{0}$ y $a_{1}$, determinan el tipo de filtro, ya sea pasabajas (LP), pasaaltas (HP), pasatodas (AP) o general. La realización activa provee considerablemente más versatilidad que su contra parte pasiva, en muchos casos la ganancia puede ser ajustada a un valor deseado, y algunos parámetros de las funciones de transferencia también sin afectar otros. La impedancia de salida de los circuitos activos es muy baja, haciendo que la colocación en cascada sea muy fácil. Sin embargo, los amplificadores operacionales limitan la operación a altas frecuencias de los circuitos activos \cite{Sedra2015}.
+	
+	Diferentes tipos de filtros nacen de ubicar el cero de la función de transferencia bilineal general (\ref{ec:bilineal_general}) en distintos lugares, un cero en el infinito genera un filtro pasabajas de primer orden, y un cero en el origen un filtro pasaaltas. Las ecuaciones básicas de los filtros de primer orden son las siguientes:
 	
 	Pasabajas (LP)
 	\begin{equation}
@@ -550,7 +553,7 @@ $\,\,\,\,\bm{\alpha}$\textbf{/Orden} & \textbf{1$^{\mathrm{er}}$} & \textbf{2$^{
 	
 	Pasatodas (AP)
 	\begin{equation}
-	-a_{1} \frac{s - \omega_{0}}{s + \omega_{0}}
+	T(s) = -a_{1} \frac{s - \omega_{0}}{s + \omega_{0}}
 	\end{equation}
 	
 	\subsection{Filtros de segundo orden}
@@ -560,9 +563,50 @@ $\,\,\,\,\bm{\alpha}$\textbf{/Orden} & \textbf{1$^{\mathrm{er}}$} & \textbf{2$^{
 	\begin{equation}
 	T(s) = \frac{a_{2} s^{2} + a_{1}s + a_{0}}{s^{2} + \left( \cfrac{ \omega_{0} }{Q} \right)s + \omega_{0}^{2}}
 	\end{equation}
-	donde $\omega^{0}$ y $Q$ determinan los polos de acuerdo a la siguiente ecuación:
+	donde $\omega_{0}$ y $Q$ determinan los polos de acuerdo a la siguiente ecuación:
 	
 	\begin{equation}
-	p_{1,2} = - \frac{\omega_{0}}{2 Q} \pm j \omega_{0} \sqrt{1 - }
+	p_{1,2} = - \frac{\omega_{0}}{2 Q} \pm j \omega_{0} \sqrt{1 - \left(   \frac{1}{4 Q^{2}}  \right) \,\,}
+	\end{equation}
+	al parámetro $\omega_{0}$ se le conoce como la \textbf{frecuencia de polo}, y representa la distancia radial entre el origen y el polo en el plano complejo $s$, a $Q$ se le conoce como el \textbf{factor de calidad de polo} y determina la distancia de los polos desde el eje $j\omega$, una representación gráfica de estos parametros se muestra en la Figura \ref{fig:F11_parametros_Q_w}, entre más grande sea el valor de $Q$, más cerca estarán los polos el eje $j\omega$, y la respuesta del filtro se vuelve más selectiva. Un valor infinito para $Q$ localiza a los polos sobre el eje $j\omega$ y puede producir oscilaciones sostenidas en la realización del circuito. Un valor negativo de $Q$ implica que los polos se encuentran en la mitad derecha del plano s, lo cual ciertamente produce oscilaciones.
+	Los ceros del filtro de segundo orden están determinados por los coeficientes del numerador, $a_{0}$, $a_{1}$ y $a_{2}$. Los coeficientes del numerador determinan el tipo de filtro de segundo orden \cite{Sedra2015}.
+	
+	Para un filtro pasabajas (LP) de segundo orden, los dos ceros están en $s = \infty$ y su respuesta de magnitud muestra un pico para $Q > \frac{1}{\sqrt{2}}$. La respuesta obtenida con $Q = \frac{1}{\sqrt{2}}$ es la respuesta Butterworth o máxima plana. Para un pasaaltas (HP) los ceros están en $s = 0$ y su respuesta de magnitud muestra un pico para $Q > \frac{1}{\sqrt{2}}$. Para un pasabanda (BP) un cero esta en $s = \infty$ y el otro en $s = 0$, la respuesta de magnitud tiene un pico en $\omega = \omega_{0}$, por lo tanto, la \textbf{frecuencia central} del filtro pasabandas es igual a la frecuencia de polo $\omega_{0}$. La selectividad de del filtro pasabanda de segundo orden es usualmente medida por su ancho de banda de 3 dB. Este es la diferencia entre las dos frecuencias $\omega_{1}$ y $\omega_{2}$ en las cuales la respuesta de magnitud es 3 dB por debajo de su valor máximo el cual ocurre en $\omega_{0}$. Las ecuación que describe a las frecuencias $\omega_{1},\omega_{2}$ es la siguiente:
+	
+	\begin{equation}
+		\omega_{1},\omega_{2} = \omega_{0} \sqrt{1 + \left( \frac{1}{4 Q^{2}} \right)}  \pm \frac{\omega_{0}}{2 Q}
+	\end{equation}
+	Entonces el ancho de banda $BW$ se define como:
+	
+	\begin{equation}
+	BW = \omega_{2} - \omega_{1} = \frac{\omega_{0}}{Q}
+	\end{equation}
+	\begin{figure}[hbtp]
+	\caption{Definición de los parámetros $\omega_{0}$ y $Q$ de un par de polos conjugados.} 
+	\label{fig:F11_parametros_Q_w}
+	\centering
+	\includegraphics[width=5cm]{F11_parametros_Q_w.eps}
+	\end{figure}
+	
+	Las ecuaciones básicas de filtros de segundo orden son las siguientes:
+	
+	Pasabajas (LP)
+	\begin{equation}
+	T(s) = \frac{a_{0}}{s^{2} + \cfrac{\omega_{0}}{Q} s + \omega_{0}^{2}}
+	\end{equation}
+	
+	Pasaaltas (HP)
+	\begin{equation}
+	T(s) = \frac{a_{2} s^{2}}{s^{2} + \cfrac{\omega_{0}}{Q} s + \omega_{0}^{2}}
+	\end{equation}
+	
+	Pasabandas (BP)
+	\begin{equation}
+	T(s) = \frac{a_{1} s}{s^{2} + \cfrac{\omega_{0}}{Q} s + \omega_{0}^{2}}
+	\end{equation}
+	
+	Pasatodas (AP)
+	\begin{equation}
+	T(s) = a_{2} \frac{s^{2} - \cfrac{\omega_{o}}{Q}s + \omega_{0}^{2} }{s^{2} + \cfrac{\omega_{0}}{Q} s + \omega_{0}^{2}}
 	\end{equation}
 	
