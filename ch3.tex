@@ -33,7 +33,14 @@ El driver en este punto ya esta instalado. La instalación del driver y la asign
 
 	\subsection{DIP Switches}
 	
-	El usuario puede hacer sus propias conexiones en la placa con cables, pero hay un conjunto de DIP switches que permiten una fácil conexión de ciertas rutas entre los FPAA vecinos y entre los FPAA y los \textbf{input/output buffers}. Estos interruptores están abiertos por defecto, lo que significa que todos están hacia la izquierda. El usuario puede cerrar los interruptores empujándolos hacia la derecha. En la Tabla \ref{tab:switches} se muestra un resumen de los switches. Los DIP switches son pequeños y del tipo deslizantes, por lo que se recomienda una herramienta afilada como un destornillador delgado para abrir ycerrar los switches.
+	El usuario puede hacer sus propias conexiones en la placa con cables, pero hay un conjunto de DIP switches que permiten una fácil conexión de ciertas rutas entre los FPAA vecinos y entre los FPAA y los \textbf{input/output buffers}. Estos interruptores están abiertos por defecto, lo que significa que todos están hacia la izquierda. El usuario puede cerrar los interruptores empujándolos hacia la derecha. En la Tabla \ref{tab:switches} se muestra un resumen de los switches. Los DIP switches son pequeños y del tipo deslizantes, por lo que se recomienda una herramienta afilada como un destornillador delgado para abrir y cerrar los switches.
+	
+	\begin{enumerate}
+		\item Para conectar Rauch filter input a I1 de la FPPA\#{}1, cierre los 4 interruptores en S10.
+		\item Para conectar O4 del FPAA\#{} a I1 del FPAA\#{}2, cierre los 2 interruptores superiores de S2.
+		\item Para conectar O1 del FPAA\#{}2 a I4 del FPAA\#{}1, cierre los interruptores inferiores de S2.
+		\item Para conectar O3 del FPAA\#{}1 al \textbf{buffer} de salida, cierre ambos switches de S13.
+	\end{enumerate}
 
 	\begin{table}[!ht]
 		\centering
