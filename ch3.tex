@@ -18,7 +18,6 @@ Para instalar AD2 basta con acceder al siguiente link y seguir los pasos que mue
 	\begin{center}
 		\url{https://www.anadigm.com/sup_downloadcenter.asp?tab=ad2}
 	\end{center}
-
 es recomendable guardar los datos de registro en un lugar seguro, al iniciar el programa por primera vez es necesario ingresar el \textbf{License ID} y la \textbf{License key} estos estarán en el correo que le proporcionó a Anadigm. 
 
 El driver \textbf{CP210x\_{}Drivers.exe} está incluido en el AD2 CD o se puede encontrar en la página de Silicon Labs. Siga los siguientes pasos si es la primera vez que instala este driver, de lo contrario desinstale las versiones anteriores antes de continuar:
@@ -30,6 +29,7 @@ El driver \textbf{CP210x\_{}Drivers.exe} está incluido en el AD2 CD o se puede 
 \end{enumerate}
 
 El driver en este punto ya esta instalado. La instalación del driver y la asignación del puerto es necesaria solo una vez. Si se conecta subsecuentemente a otro puerto de USB de la PC puede ser necesario repetir el paso 3.
+
 	
 	\subsection{Jumpers por defecto}
 	
@@ -37,7 +37,7 @@ El driver en este punto ya esta instalado. La instalación del driver y la asign
 	
 \begin{table}[!ht]
 		\centering
-		\caption{Resumen de jumper de la placa}
+		\caption{Resumen de jumper de la placa.}
 		\label{tab:jumpers}
 		\resizebox{15cm}{!} {
 		\begin{tabular}{|p{1.7cm}|p{9.5cm}|p{4.5cm}|p{5.5cm}|}
@@ -65,7 +65,6 @@ El driver en este punto ya esta instalado. La instalación del driver y la asign
 		\end{tabular}
 		}
 \end{table}
-
 
 	\subsection{Tamaño variable de cadena de FPAAs}
 
@@ -123,12 +122,12 @@ La placa es capaz de autoconfigurar los FPAAs con un circuito de prueba para una
 
 	\section{AnadigmDesigner2}
 	
-	AD2 trabaja con módulos llamados CAMs (Configurable Analog Modules), estos aportan flexibilidad y sencillez en el proceso diseño debido a que son bloques que hacen desde funciones sencillas como inversores o comparadores hasta diseños completos como filtros y multiplicadores, los CAMs se pueden interconectarse fácilmente unos con otros y únicamente necesitan pequeñas configuraciones para su correcto funcionamiento. Los CAMs más utilizados en el diseño de osciladores caóticos son los mostrados en la Tabla \ref{tab:CAMs_AD2}.
+	AD2 trabaja con módulos llamados CAMs (Configurable Analog Modules), estos aportan flexibilidad y sencillez en el proceso diseño debido a que son bloques que hacen desde funciones sencillas como inversores o comparadores hasta diseños completos como filtros y multiplicadores. Los CAMs pueden interconectarse fácilmente unos con otros y únicamente necesitan pequeñas configuraciones para su correcto funcionamiento. Los CAMs más utilizados son los mostrados en la Tabla \ref{tab:CAMs_AD2}. En secciones posteriores se abordará con más detalle como configurarlos y cuales son las ecuaciones necesarias para calcular los parámetros de cada uno.  
 	
 
 \begin{table}[!ht]
   \centering
-  \caption{CAMs básicos de AD2}
+  \caption{CAMs básicos de AD2.}
   \label{tab:CAMs_AD2}
   \begin{tabular}{>{\centering\arraybackslash}m{3cm} >{\centering\arraybackslash}m{5cm} >{\centering\arraybackslash}m{5cm}}
     \hline
@@ -245,21 +244,64 @@ La placa es capaz de autoconfigurar los FPAAs con un circuito de prueba para una
     \hline
   \end{tabular}
 \end{table}
+	
+	\subsection{Comunicación con AD2}
 
-	Las configuraciones de los CAMs dependen de las frecuencias de reloj que se seleccionen para cada FPAA. Cada FPAA tiene dos fuentes de frecuencias de reloj principales \textbf{Sys1} y \textbf{Sys2}, y cinco frecuencias de reloj de chip, desde \textbf{Clock 0} hasta \textbf{Clock 5} que son subdivisiones de cualquiera de las fuentes de reloj principales. Seleccionar y configurar correctamente los relojes es importante ya que el rango de operación de los CAMs depende de esto. 
+Ahora la placa puede ser programada lo que en este caso significa configurar los FPAA. Esto puede realizarse desde una PC o una laptop usando un cable estándar USB tipo A-B. La placa usa una emulación de comunicación serial de tal manera que  desde la computadora la placa aparecerá como un puerto COM.
 
+Para programar la placa conecte el cable USB entre la placa y la computadora y encienda la placa. Abra AD2 y haga clic en \textbf{Settings/Preferences}, después haga clic en la pestaña \textbf{Port}. En el menú desplegable \textbf{Select Port} debe estar el puerto COM correspondiente a la placa Anadigm. Este es en realidad un puerto COM virtual porque la placa tiene un \textbf{USB/UART bridge} llamado CP2102 el cual emula un puerto serial. 
+
+Seleccione el puerto COM correspondiente. Haga clic en \textbf{Apply}, después en \textbf{OK}. Para comprobar que AD2 ahora puede comunicarse con la placa, haga clic en \textbf{Target/Display Board Information}. El LED verde D4 se apagará.
+
+\begin{figure}[hbtp]
+\caption{Información de la placa desplegada por AD2.}
+\label{fig:G1_AD2_board_info.png}
+\centering
+\includegraphics[width = 5cm]{G1_AD2_board_info.png}
+\end{figure}
+	
+	La Figura \ref{fig:G1_AD2_board_info.png} muestra la información que despliega AD2 acerca de la placa donde todas las 4 FPAA están configuradas en cadena. Si menos FPAA están configuradas entonces la información de la placa mostrará cuantas FPAA están disponibles.
+
+Ahora debería ser posible descargar un circuito desde AD2. Para hacer esto simplemente se da clic sobre el icono de descarga (a la izquierda del signo de interrogación, debajo de Dynamic Config). Como alternativa presiona \textbf{Ctrl + W}. Un LED amarillo comenzará a parpadear mientras cada FPAA es configurada y finamente un LED verde se encenderá indicando que todas las FPAA han sido configuradas correctamente. Un LED rojo indicará que la configuración falló. Es importante que el número de FPPA en AD2 coincida con el número de FPAA habilitadas en la placa. Por ejemplo, si la tarjeta fue configurada con una cadena de 3 FPAA, entonces estará esperando 3 configuraciones de FPAA para ser descargadas desde AD2.
+	
+	
+	\subsection{Configuración de relojes}
+	
+	Las configuraciones de los CAMs dependen de las frecuencias de reloj que se seleccionen para cada FPAA. Cada FPAA tiene dos fuentes de frecuencias de reloj de sistema \textbf{Sys1} y \textbf{Sys2}, y seis frecuencias de reloj de chip, desde \textbf{Clock 0} hasta \textbf{Clock 5} que son subdivisiones de cualquiera de las fuentes de reloj sistema. Seleccionar y configurar correctamente los relojes es importante ya que el rango de operación de los CAMs depende de esto. 
+	
+\begin{figure}[!hbp] 
+\caption{Ventana de configuración de frecuencias de reloj AD2.}
+\label{fig:G3_Frecuencias_AD2.png}
+\centering
+\includegraphics[width = 12cm]{G3_Frecuencias_AD2.png}
+\end{figure}
+
+La tarjeta tiene una fuente de frecuencia de reloj principal llamada \textbf{ACLK} o $f_{c}$ cuya frecuencia es igual a $16$ MHz y no puede ser cambiada. Sys1 y Sys2 dependen de esta frecuencia y pueden ser modificadas utilizando las siguientes ecuaciones:
+
+\begin{equation}
+\mathrm{Sys1} = \frac{f_{c}}{m} \qquad \mathrm{Sys2} = \frac{f_{c}}{m}
+\label{ec:sys_clock}
+\end{equation}
+donde $m\in [1,510]$ y es par. Usualmente Sys1 y Sys2 no se modifican pero es necesario entender que estas dos fuentes de frecuencias de reloj a su vez controlan a las fuentes de reloj de chip desde \textbf{Clock 0} hasta \textbf{Clock 5} dada la siguiente ecuación:
+
+\begin{equation}
+	\mathrm{Clock\,} h = \frac{\mathrm{Sys1}}{n}	\qquad   \mathrm{Clock\,} h = \frac{\mathrm{Sys2}}{n}
+	\label{ec:clock_h}
+\end{equation}
+donde $n\in[1,510]$ y es par y $h\in[0,5]$. Configurar las fuentes de reloj de chip cobrará importancia en secciones posteriores y las ecuaciones anteriores no deben olvidarse.
 	\section{Implementación con aproximación de primer orden}
 	
 	Para realizar la implementación física de la aproximación de primer orden del integrador fraccionario se utilizó el CAM \textbf{FilterBilinear} en su modo \textbf{Pole and Zero}, esto debido a su flexibilidad y semejanza con la función de transferencia de la aproximación de la CFE de primer orden. La función de transferencia del CAM en este modo es la siguiente:
 	
 	\begin{equation}
 		\frac{V_{\mathrm{out}} (s)}{V_{\mathrm{in}}(s)} = -\frac{G_{H} (s + 2 \pi f_{z})}{s + 2 \pi f_{p}}
+		\label{ec:CAM_bilineal}
 	\end{equation}
 	donde $G_{L}$ esta definida como:
 	\begin{equation}
 		G_{L} = \frac{f_{z}}{f_{p}} G_{H}
 	\end{equation}
-	y donde $G_{L}$ es la ganancia en DC, $G_{H}$ es la ganancia de alta frecuencia, $f_{p}$ es la frecuencia del polo y $f_{z}$ es la frecuencia del cero.
+	y donde $G_{L}$ es la ganancia en DC, $G_{H}$ es la ganancia de alta frecuencia, $f_{p}$ es la frecuencia del polo y $f_{z}$ es la frecuencia del cero. Si se utiliza un CAM de ganancia inversora (\textbf{GainInv}) se puede prescindir del signo negativo de la ecuación (\ref{ec:CAM_bilineal}).
 	
 	La función de transferencia de la aproximación con la CFE de primer orden, como se mencionó anteriormente es la siguiente:
 	\begin{equation}
@@ -277,11 +319,163 @@ La placa es capaz de autoconfigurar los FPAAs con un circuito de prueba para una
 		\genfrac{}{}{0pt}{0}{}{_{(c_{2})}} \frac{1}{s^{\alpha}} \approx \frac{A s + 1}{s + A}
 		\label{ec:cfe_primer_orden_simp}
 	\end{equation}
-	aplicando el escalamiento en frecuencia a la ecuación (\ref{ec:cfe_primer_orden_simp}) se convierte en:
+	no obstante el ancho de bando de la ecuación (\ref{ec:cfe_primer_orden_simp}) es de $10^{-1}$ rad/s hasta $10^{1}$ rad/s, ver Figura \ref{fig:F10_bode_escalamiento}, lo cual es un rango de frecuencias muy bajo y presenta dificultades en su implementación. Por  esta razón se opta por aplicar un escalamiento en frecuencia a la ecuación (\ref{ec:cfe_primer_orden_simp}) utilizando los siguiente pasos: 
 	
-	\begin{equation}
-		\frac{A s + k_{f}}{s + A k_{f}}
-		\label{ec:cfe_primer_orden_simp_esc}
-	\end{equation}
+	\begin{enumerate}
+		\item Cambiamos la variable compleja por $p$ la cual representa la frecuencia actual:
+			\begin{equation}
+				N(p) =  \frac{A p + 1}{p + A}
+			\end{equation}
+		\item Utilizamos la sustitución $p = \cfrac{s}{k_{f}}$:
+			\begin{equation}
+				N(s) =  \frac{A s k_{f}^{-1} + 1}{s k_{f}^{-1} + A}
+			\end{equation}
+		\item Reescribimos de una manera más conveniente:
+			\begin{equation}
+				\genfrac{}{}{0pt}{0}{}{_{(c_{2})}} \frac{1}{s^{\alpha}} \approx \frac{A s + k_{f}}{s + A k_{f}}
+				\label{ec:cfe_primer_orden_simp_esc}
+			\end{equation}
+	\end{enumerate}		
+	El factor de escalamiento $k_{f}$ se puede elegir a conveniencia dependiendo del ancho de banda necesario, no obstante la frecuencia de entrada de la mayoría de los CAM esta limitada aproximadamente a valores menores de 2 MHz, esto debido a que el tipo de procesamiento de señal del CAM se basa en arquitecturas de datos muestreados. Por esta razón se opta por un escalamiento con un factor $k_{f} = 2\pi 1000$. En la Figura \ref{fig:F12_bode_1er_orden_escalado.eps} se muestra el resultado de aplicar el escalamiento. El nuevo ancho de banda abarca desde $100$ Hz hasta $10$ kHz el cual se encuentra dentro del rango de operación de los CAMs.
 	
-	Esto es una prueba 
+\begin{figure}[hbtp]
+\caption{Diagrama de bode de ecuación (\ref{ec:cfe_primer_orden_simp_esc}) para un integrador fraccionario con $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
+\label{fig:F12_bode_1er_orden_escalado.eps}
+\centering
+\includegraphics[width=12cm]{F12_bode_1er_orden_escalado.eps}
+\end{figure}
+	
+	 Para poder configurar el CAM FilterBilinear es necesario encontrar los valores correctos para los parámetros $G_{H}$, $G_{L}$, $f_{z}$ y $f_{p}$ dado un orden $\alpha$, y esto se logra igualando las ecuaciones (\ref{ec:cfe_primer_orden_simp_esc}) y (\ref{ec:CAM_bilineal}) con el fin de encontrar expresiones para calcularlos.
+	 
+	 \begin{equation}
+	 \frac{G_{H}(s + 2 \pi f_{z})}{s + 2 \pi f_{p}} = \frac{As + k_{f}}{s + A k_{f}}
+	 \label{ec:igualar_bilineal}
+	 \end{equation}
+	 de la ecuación (\ref{ec:igualar_bilineal}) se deducen las siguientes ecuaciones:
+	 
+	 \begin{equation}
+		 G_{H} = A
+		 \label{ec:bilineal_gh}
+	 \end{equation}
+	 
+	 \begin{equation}
+	 	f_{p} = \frac{A k_{f}}{2 \pi}
+	 	\label{ec:bilineal_fp}
+	 \end{equation}
+	 
+	 \begin{equation}
+		f_{z} = \frac{k_{f}}{ 2A \pi}
+		\label{ec:bilineal_fz}
+	 \end{equation}
+	 
+	 \begin{equation}
+	 G_{L} = \frac{1}{A}
+	 \label{ec:bilineal_gl}
+	 \end{equation}
+	utilizando las ecuaciones anteriores y considerando $k_{f} = 2 \pi 1000$ obtenemos los datos de la Tabla \ref{tab:calculos_bilineal}, esta tabla se puede generar utilizando el código del apéndice \ref{cod:A10_calculo_valores_FilterBilienar}, sin embargo debido a que el CAM FilterBilinear depende directamente de la frecuencia de reloj que se seleccione en el parámetro \textbf{ClockA} no todos los valores de la tabla pueden ser ingresados, en la ventana de configuración aparecerán marcados en color rojo, por lo tanto  es necesario hacer un análisis de frecuencias para este parámetro. En la ventana de configuración del CAM, ver Figura \ref{fig:G2_FilterBilinear_config.png}, se pueden ingresar 3 de los 4 parámetros requeridos, el parámetro restante es calculado automáticamente. Por simplicidad se eligió que el parámetro que se calcule automáticamente sea \textbf{DC Gain}. 
+	   
+\begin{figure}[!ht] 
+\caption{Ventana de configuración de parámetros FilterBilinear.}
+\label{fig:G2_FilterBilinear_config.png}
+\centering
+\includegraphics[width = 12cm]{G2_FilterBilinear_config.png}
+\end{figure}
+
+Los límites absolutos de los valores que se pueden ingresar para las frecuencias $f_{z}$ y $f_{p}$ son $[\frac{F_{c}}{1000}, \frac{F_{c}}{10}]$ donde $F_{c}$ es la frecuencia de reloj que se selecciona para el parámetro \textbf{ClockA} y los límites de ganancia están interrelacionados con los otros parámetros que pueden restringir el rango a menos que el límite absoluto el cual es $[0.01 \frac{\mathrm{V}}{\mathrm{V}}, 100.0\frac{\mathrm{V}}{\mathrm{V}}]$.  
+
+\begin{table}[!hbp]                                      
+\centering   
+\caption{Valores para configurar un filtro bilineal como integrador de orden fraccionario en el rango de ordenes de 0.1 a 0.95.}                            
+\label{tab:calculos_bilineal}                                        
+\begin{tabular}{ccccc}                        
+\hline                                              
+$\bm{\alpha}$ & $\bm{f_{p}}\,\,$ [kHz] & $\bm{f_{z}}\,\,$ [kHz] & $\bm{G_{L}}$ & $\bm{G_{H}}$ \\            
+\hline                                              
+0.10 & 0.818182 & 1.222222 & 1.222222 & 0.818182 \\  
+                                              
+0.15 & 0.739130 & 1.352941 & 1.352941 & 0.739130 \\  
+                                            
+0.20 & 0.666667 & 1.500000 & 1.500000 & 0.666667 \\  
+                                              
+0.25 & 0.600000 & 1.666667 & 1.666667 & 0.600000 \\  
+                                              
+0.30 & 0.538462 & 1.857143 & 1.857143 & 0.538462 \\  
+                                              
+0.35 & 0.481481 & 2.076923 & 2.076923 & 0.481481 \\  
+                                              
+0.40 & 0.428571 & 2.333333 & 2.333333 & 0.428571 \\  
+                                            
+0.45 & 0.379310 & 2.636364 & 2.636364 & 0.379310 \\  
+                                             
+0.50 & 0.333333 & 3.000000 & 3.000000 & 0.333333 \\  
+                                             
+0.55 & 0.290323 & 3.444444 & 3.444444 & 0.290323 \\  
+                                             
+0.60 & 0.250000 & 4.000000 & 4.000000 & 0.250000 \\  
+                                              
+0.65 & 0.212121 & 4.714286 & 4.714286 & 0.212121 \\  
+                                             
+0.70 & 0.176471 & 5.666667 & 5.666667 & 0.176471 \\  
+                                              
+0.75 & 0.142857 & 7.000000 & 7.000000 & 0.142857 \\  
+                                              
+0.80 & 0.111111 & 9.000000 & 9.000000 & 0.111111 \\  
+                                             
+0.85 & 0.081081 & 12.333333 & 12.333333 & 0.081081 \\
+                                              
+0.90 & 0.052632 & 19.000000 & 19.000000 & 0.052632 \\
+                                              
+0.95 & 0.025641 & 39.000000 & 39.000000 & 0.025641 \\
+\hline                                              
+\end{tabular}                                                                
+\end{table} 
+  
+
+Hay que tener presente que $F_{c}$ puede ser cualquier Clock, desde el 0 hasta el 5, en otras palabras, $F_{c}$ es igual a la ecuación (\ref{ec:clock_h}). Un análisis de todas las posibles frecuencias para $F_{c}$ dependiente de las subdivisiones dadas por $n$ se muestran en la Tabla \ref{tab:frecuencias_absolutas}, si se desea ver la tabla completa se puede usar el código del apéndice \ref{cod:A11_rango_de_frecuencias_absolutas_FilterBilinear}. 
+
+\begin{table}[!hbp]                                      
+\centering   
+\caption{Rango de frecuencias absolutas dependiente de $F_{c}$ y el valor de $n$.}                            
+\label{tab:frecuencias_absolutas}                                        
+\begin{tabular}{cccc}                        
+\hline                                              
+$\bm{F_{c}}\,\,$ [kHz] & $\bm{n}$ & \textbf{min}$\bm{=F_{c} / 1000}\,\,$ [kHz] & \textbf{max}$\bm{=F_{c} /10}\,\,$ [kHz] \\                    
+\hline                                              
+16000.0000 & 1.0000 & 16.0000 & 1600.0000 \\
+                                     
+8000.0000 & 2.0000 & 8.0000 & 800.0000 \\   
+                                     
+4000.0000 & 4.0000 & 4.0000 & 400.0000 \\   
+
+$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\  
+ 
+31.6206 & 506.0000 & 0.0316 & 3.1621 \\     
+                                    
+31.4961 & 508.0000 & 0.0315 & 3.1496 \\     
+                                    
+31.3725 & 510.0000 & 0.0314 & 3.1373 \\      
+\hline                                           
+\end{tabular}                                                                
+\end{table} 
+
+Para demostrar que no todos los valores de la Tabla \ref{tab:calculos_bilineal} pueden ser implementados debido al rango de frecuencias absolutas mostradas en la Tabla \ref{tab:frecuencias_absolutas} consideremos los siguientes ejemplos:
+
+Imaginemos que queremos implemetar un integrador de orden fraccionario con la aproximación de primer orden, un $\alpha = 0.9$ y escalado en frecuencia para que su ancho de banda se encuentre entre $100$ Hz y $10$ kHz. Dados los requerimientos anteriores $k_{f} = 2 \pi 1000$ y utilizando la Tabla \ref{tab:calculos_bilineal} sabemos que $f_{p} = 0.052632$, $f_{z} = 19.0$, $G_{L} = 19.0$ y $G_{H} = 0.052632$. Como se mencionó anteriormente la fuente de frecuencia de reloj principal $f_{c} = 16$ MHz no puede modificarse y de mismo modo se recomienda que Sys1 y Sys2 tampoco se modifiquen, es decir $m = 1$. Se opta por utilizar el Clock 0 para configurar el CAM FilterBilinear y que este dependa de Sys1 $=16$ MHz. Para que los datos que se ingresen en la ventana de configuración del CAM sean validos estos deben encontrase dentro del rango de frecuencias absolutas de la Tabla \ref{tab:frecuencias_absolutas}, por lo tanto se tiene que elegir un $n$ adecuado de tal manera que $F_{c}$ = Clock 0 = $\frac{\mathrm{Sys1}}{n}$ cumpla con los limites absolutos de frecuencia, en otras palabras que los parámetros $f_{z}$ y $f_{p}$ se encuentren dentro del rango $[\frac{F_{c}}{1000}, \frac{F_{c}}{10}]$. El rango de frecuencias en el que nos tenemos que encontrar para poder implemetentar el integrador es $[f_{p},f_{z}] = [0.052632, 19.0]$, no obstante el proceso de encontrar $n$ es muy laborioso debido a que podría haber más de un valor que haga posible que se encuentren dentro del rango, de mismo modo podría ocurrir el caso contrario y ninguna $n$ cumplir. Por esta razón en el Apéndice \ref{cod:A12_grafica_analisis_de_frecuencias_FilterBilinear} se muestra un código para resolver este problema, este genera una gráfica, ver Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear.eps}, la cual muestra la relación entre $n$ y el orden $\alpha$, en otras palabra hasta que orden fraccionario podemos implementar dependiendo del valor de $n$.
+
+\begin{figure}[hbtp]
+\caption{Análisis de orden fraccionario dependiente de $n$.} 
+\label{fig:T11_Analisis_de_frecuencias_FilterBilinear.eps}
+\centering
+\includegraphics[width=12cm]{T11_Analisis_de_frecuencias_FilterBilinear.eps}
+\end{figure}
+
+Analizando la Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear.eps} podemos notar que $n = 160$ es el valor con el cual podemos implementar la mayor cantidad de integradores fraccionarios. Haciendo los cálculos Clock 0 = $\frac{16 \mathrm{MHz}}{160} = 100 \mathrm{kHz}$. No obstante únicamente podemos implementar integradores fracciones de orden $\alpha$ dentro del rango $[0.01, 0.81]$. En la Figura \ref{fig:G4_AD2_BilinearFilter_implementation.png} se muestra el diagrama de implementación en AnadigmDesigner2.
+
+\begin{figure}[!ht] 
+\caption{Implementación de integrador de orden fraccionario utilizando la aproximación de primer orden.}
+\label{fig:G4_AD2_BilinearFilter_implementation.png}
+\centering
+\includegraphics[width = 8cm]{G4_AD2_BilinearFilter_implementation.png}
+\end{figure}
+
+	\section{Implementación con aproximación de segundo}

@@ -1,6 +1,7 @@
 function R = cfetf(alfa,n)
 % Calcula la aproximacion utilizando CFE de un integrador fraccional
 % 1/s^(alfa)
+%       R = cfetf(alfa,n)
 %       alfa: es el orden del integrador
 %       n   : es el numero de terminos de la aproximacion
     syms s x;
