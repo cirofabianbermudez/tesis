@@ -1,0 +1,35 @@
+\decimalpoint
+\usepackage{xcolor}
+\usepackage{ragged2e}
+\usepackage{etoolbox}
+
+\apptocmd{\frame}{}{\justifying}{} % Allow optional arguments after frame.
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.5ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Ciro Fabián Bermúdez Márquez
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.5ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}Benemérita Universidad Autónoma de Puebla
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.5ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}Facultad de Ciencias de la Electrónica\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+
+%\usefonttheme{serif}
+\usefonttheme[onlymath]{serif}
+
+
+
+\setbeamertemplate{caption}[numbered]
+\theoremstyle{definition}
+	\newtheorem{defn}{Definición}
+	\newtheorem{exmp}{Ejemplo}
+	\newtheorem{law}{Ley}

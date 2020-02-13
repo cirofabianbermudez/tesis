@@ -63,7 +63,7 @@ for k = 1:max(size(alfa))
             if i == 1
                 legendtext = 'Ideal';
             else
-                legendtext = strcat(num2str(i-1,'%d'),' orden');
+                legendtext = strcat(num2str(i-1,'%d'),' order');
             end
             semilogx(w,magnitud(:,i,k),'DisplayName',legendtext);
             legend('interpreter','latex','FontSize',7);
@@ -76,7 +76,7 @@ for k = 1:max(size(alfa))
         end
     end
     title(titletext,'interpreter','latex');
-    ylabel('Magnitud (dB)','interpreter','latex');
+    ylabel('Magnitude (dB)','interpreter','latex');
     xlabel('Frequency (rad/s)','interpreter','latex');
     grid on;
 end
@@ -92,7 +92,7 @@ for k = 1:max(size(alfa))
             if i == 1
                 legendtext = 'Ideal';
             else
-                legendtext = strcat(num2str(i-1,'%d'),' orden');
+                legendtext = strcat(num2str(i-1,'%d'),' order');
             end
             semilogx(w,fase(:,i,k),'DisplayName',legendtext);
             legend('interpreter','latex','FontSize',7);
@@ -118,7 +118,7 @@ for k = 1:max(size(alfa))
     titletext = strcat('$\alpha=',num2str(alfa(k),'%1.2f'),'$');
     for i = 1:n
         if k == 1
-            legendtext = strcat(num2str(i,'%d'),' orden');
+            legendtext = strcat(num2str(i,'%d'),' order');
             semilogx(w,errormag(:,i,k),'DisplayName',legendtext);
             legend('interpreter','latex','FontSize',7);
             set(gca,'TickLabelInterpreter','latex');
@@ -130,7 +130,7 @@ for k = 1:max(size(alfa))
         end
     end
     title(titletext,'interpreter','latex');
-    ylabel('Magnitud (dB)','interpreter','latex');
+    ylabel('Magnitude (dB)','interpreter','latex');
     xlabel('Frequency (rad/s)','interpreter','latex');
     grid on;
 end
