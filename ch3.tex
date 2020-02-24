@@ -6,32 +6,31 @@
 	
 	\section{Características de la tarjeta y requerimientos}
 	
-	\subsection{Alimentación de la tarjeta}
-	Para el correcto funcionamiento de la placa esta debe ser alimentada con una fuente de voltaje regulada a 5V de al menos 500mA conectada a la clema de dos terminales. Hay un LED de color verde que indica que la placa se ha encendido correctamente, la placa esta protegida contra la conexión de una fuente de voltaje con la polarización incorrecta.
+		\subsection{Alimentación de la tarjeta}
+	Para el correcto funcionamiento de la tarjeta, esta debe ser alimentada con una fuente de voltaje regulada a 5V de al menos 500mA conectada a la clema de dos terminales. La placa esta protegida contra la conexión de una fuente de voltaje con la polarización incorrecta. La tarjeta cuenta con un LED de color verde que indica que la placa se ha encendido correctamente. 
 	
-	\subsection{Instalación de drivers}
+		\subsection{Instalación de drivers}
 
-No conecte la placa QuadApex v2.0 a la PC vía cable USB,  ni tampoco inicie AD2 ahora, el driver debe instalarse primero. Se asume que AD2 ya ha sido instalado y registrado en su computadora, de lo contrario entre al link que aparece a continuación.
+	No conecte la placa QuadApex v2.0 a la PC vía cable USB,  ni tampoco inicie AD2 ahora, el driver debe instalarse primero. Se asume que AD2 ya ha sido instalado y registrado en la computadora, de lo contrario entrar al link que aparece a continuación.
 
-Para instalar AD2 basta con acceder al siguiente link y seguir los pasos que muestra la pagina:
+	Para instalar AD2 basta con acceder al siguiente link y seguir los pasos que muestra la pagina:
 
 	\begin{center}
 		\url{https://www.anadigm.com/sup_downloadcenter.asp?tab=ad2}
 	\end{center}
-es recomendable guardar los datos de registro en un lugar seguro, al iniciar el programa por primera vez es necesario ingresar el \textbf{License ID} y la \textbf{License key} estos estarán en el correo que le proporcionó a Anadigm. 
+	es recomendable guardar los datos de registro en un lugar seguro, al iniciar el programa por primera vez es necesario ingresar el \textbf{License ID} y la \textbf{License key}, estos estarán en el correo que le proporcionó a Anadigm. 
 
-El driver \textbf{CP210x\_{}Drivers.exe} está incluido en el AD2 CD o se puede encontrar en la página de Silicon Labs. Siga los siguientes pasos si es la primera vez que instala este driver, de lo contrario desinstale las versiones anteriores antes de continuar:
+	El driver \textbf{CP210x\_{}Drivers.exe} está incluido en el AD2 CD o se puede encontrar en la página de Silicon Labs. Siga los siguientes pasos si es la primera vez que instala este driver, de lo contrario desinstale las versiones anteriores antes de continuar:
 
-\begin{enumerate}
-	\item Ejecute como administrador el ejecutable  CP210x\_{}Drivers.exe. El destino por defecto del ejecutable es ‘‘C:\textbackslash{}Silabs\textbackslash{}Mcu\textbackslash{}CP210x’’.
-	\item Para completar la instalación conecte la QuadApex v2.0 y enciéndala.
-	\item Acceda al administrador de dispositivos y en \textbf{Puertos (COM y LPT)} asegúrese que el driver este bien configurado, si no aparece un signo de admiración y se le asigno un puerto COM  la instalación fue exitosa, de lo contrario dar clic derecho sobre el dispositivo y seleccionar \textbf{Actualizar controlador}, después buscar el  driver en la ruta del paso 1.
-\end{enumerate}
-
-El driver en este punto ya esta instalado. La instalación del driver y la asignación del puerto es necesaria solo una vez. Si se conecta subsecuentemente a otro puerto de USB de la PC puede ser necesario repetir el paso 3.
+	\begin{enumerate}
+		\item Ejecute como administrador el ejecutable  CP210x\_{}Drivers.exe. El destino por defecto del ejecutable es ‘‘C:\textbackslash{}Silabs\textbackslash{}Mcu\textbackslash{}CP210x’’.
+		\item Para completar la instalación conecte la QuadApex v2.0 y enciéndala.
+		\item Acceda al administrador de dispositivos y en \textbf{Puertos (COM y LPT)} asegúrese que el driver este bien configurado, si no aparece un signo de admiración y se le asigno un puerto COM  la instalación fue exitosa, de lo contrario dar clic derecho sobre el dispositivo y seleccionar \textbf{Actualizar controlador}, después buscar el  driver en la ruta del paso 1.
+	\end{enumerate}
+	el driver en este punto ya esta instalado. La instalación del driver y la asignación del puerto es necesaria solo una vez. Si se conecta subsecuentemente a otro puerto de USB de la PC puede ser necesario repetir el paso 3.
 
 	
-	\subsection{Jumpers por defecto}
+		\subsection{Jumpers por defecto}
 	
 	En la Tabla \ref{tab:jumpers} se muestra una lista con los jumpers que contiene la placa, una descripción de su funcionamiento y su posición por defecto. Es importante colocar la FPAA con todos sus jumper en el estado por defecto para entender secciones posteriores y evitar errores. La placa no contiene una cantidad muy grande de jumpers y usualmente solo se modificarán los jumpers J8,9,10, los cuales son los que controlan la cantidad de FPPAs activas.
 	
@@ -66,24 +65,24 @@ El driver en este punto ya esta instalado. La instalación del driver y la asign
 		}
 \end{table}
 
-	\subsection{Tamaño variable de cadena de FPAAs}
+		\subsection{Tamaño variable de cadena de FPAAs}
 
 	La placa contiene 4 FPAAs en cadena. Esta cadena puede ser cortada a 3, 2 o 1, pero debe ser cortada deshabilitando FPAAs desde el final de la cadena (del lado derecho).
 
-\begin{itemize}
-	\item Pare reducir la cadena a 3 FPAAs, remueva los jumpers de \textbf{J10} y también el jumper marcado \textbf{ACT4} de \textbf{J1}. Esto deshabilitará FPPAA \#4 (la más cercana a la fuente de alimentación.)
-	\item Para reducir la cadena a 2 FPAAs, remueva los jumpers de \textbf{J9} y \textbf{J10} y también los jumpers marcados \textbf{ACT3} y \textbf{ACT4} de \textbf{J1}. Esto deshablitará los FPAAs \#3 y \#4.
-	\item Para reducir la cadena a 1 FPAA, remueva los jumpers de \textbf{J8, J9} y \textbf{J10} y  también los jumpers marcados \textbf{ACT2, ACT3} y \textbf{ACT4} de \textbf{J1}. Esto deshabilitará los FPAA \#2, \#3 y \#4.
-\end{itemize}
-\textbf{Nota:} si se configura una cadena de FPAA y luego se desconectan 1 o más FPAA de la cadena, los FPAA desconectados aún mantendrán su configuración hasta que se reinicie la placa o se vuelva a configurar la cadena (reducida).
+	\begin{itemize}
+		\item Pare reducir la cadena a 3 FPAAs, remueva los jumpers de \textbf{J10} y también el jumper marcado \textbf{ACT4} de \textbf{J1}. Esto deshabilitará FPPAA \#4 (la más cercana a la fuente de alimentación.)
+		\item Para reducir la cadena a 2 FPAAs, remueva los jumpers de \textbf{J9} y \textbf{J10} y también los jumpers marcados \textbf{ACT3} y \textbf{ACT4} de \textbf{J1}. Esto deshablitará los FPAAs \#3 y \#4.
+		\item Para reducir la cadena a 1 FPAA, remueva los jumpers de \textbf{J8, J9} y \textbf{J10} y  también los jumpers marcados \textbf{ACT2, ACT3} y \textbf{ACT4} de \textbf{J1}. Esto deshabilitará los FPAA \#2, \#3 y \#4.
+	\end{itemize}
+	\textbf{Nota:} si se configura una cadena de FPAA y luego se desconectan 1 o más FPAA de la cadena, los FPAA desconectados aún mantendrán su configuración hasta que se reinicie la placa o se vuelva a configurar la cadena (reducida).
 
 	\subsection{DIP Switches}
 	
-	El usuario puede hacer sus propias conexiones en la placa con cables, pero hay un conjunto de DIP switches que permiten una fácil conexión de ciertas rutas entre los FPAA vecinos y entre los FPAA y los \textbf{input/output buffers}. Estos interruptores están abiertos por defecto, lo que significa que todos están hacia la izquierda. El usuario puede cerrar los interruptores empujándolos hacia la derecha. En la Tabla \ref{tab:switches} se muestra un resumen de los switches. Los DIP switches son pequeños y del tipo deslizantes, por lo que se recomienda una herramienta afilada como un destornillador delgado para abrir y cerrar los switches. Algunos ejemplos se muestran a continuación:
+	El usuario puede hacer sus propias conexiones en la placa con cables, pero hay un conjunto de DIP switches que permiten una fácil conexión de ciertas rutas entre los FPAA vecinos y entre los FPAA y los input/output buffers. Estos interruptores están abiertos por defecto, lo que significa que todos están hacia la izquierda. El usuario puede cerrar los interruptores empujándolos hacia la derecha. En la Tabla \ref{tab:switches} se muestra un resumen de los switches. Los DIP switches son pequeños y del tipo deslizantes, por lo que se recomienda una herramienta afilada como un destornillador delgado para abrir y cerrar los switches. Algunos ejemplos se muestran a continuación:
 	
 	\begin{enumerate}
-		\item Para conectar el filtro Rauch\_\#1\_I01 a I1 de la FPPA\#{}1, cierre los 4 interruptores en S10.
-		\item Para conectar O4 del FPAA\#{} a I1 del FPAA\#{}2, cierre los 2 interruptores superiores de S2.
+		\item Para conectar el filtro Rauch\_\#1\_IO1 a I1 de la FPPA\#{}1, cierre los 4 interruptores en S10.
+		\item Para conectar O4 del FPAA\#{}1 a I1 del FPAA\#{}2, cierre los 2 interruptores superiores de S2.
 		\item Para conectar O3 del FPAA\#{}1 al buffer de salida BUF\_\#1\_03, cierre ambos switches de S13.
 	\end{enumerate}
 
@@ -95,28 +94,88 @@ El driver en este punto ya esta instalado. La instalación del driver y la asign
 			\hline
 			Conectar filtros Rauch a entradas de FPAA 					& 4way 		& S8,9,10,11,15,16,17,18		\\
 			\hline
-			Conectar entre FPAAs 						& 4way 	& S2,3,4,5,6,7	\\
+			Conectar entre FPAAs 										& 4way 		& S2,3,4,5,6,7					\\
 			\hline
-			Conectar FPAA a buffers de salida 						& 2way 		& S12,13,14,19		\\
+			Conectar FPAA a buffers de salida 							& 2way 		& S12,13,14,19					\\
 			\hline
 		\end{tabular}
 		\caption{DIP Switches}
 		\label{tab:switches}
 	\end{table}
 
-	\subsection{Filtros Rauch y buffers de salida}
+		\subsection{Filtros Rauch y buffers de salida}
 	
 	La tarjeta cuenta con 2 buffers de entrada llamados filtros Rauch listos para usar, \textbf{Rauch\_\#1\_I01} y \textbf{Rauch\_\#2\_I01}, estos son filtros multipropósito cuya su principal función es convertir una señal single-ended a una diferencial en la FPAA, internamente la FPAA trabaja únicamente con señales diferenciales y debido a esto el uso de estos filtros es imprescindibles para introducir señales externas, por ejemplo de generadores de funciones u otros circuitos. Si se usa una señal single-ended, es necesario conectar IN- a GND y conectar la señal en IN+.
-	Para activar el filtro es necesario hacerlo desde el software AD2 haciendo doble clic en la IO cell apropiada (IOCell1-4), seleccionar Input y después Amplifier, esto es debido a que el filtro funciona en combinación con un amplificador integrado en la FPAA y los componentes pasivos de montaje superficial que vienen soldados de fabrica.
+	Para activar el filtro es necesario hacerlo desde el software AD2 haciendo doble clic en la IO cell apropiada (IOCell1-4), seleccionar Input y después Amplifier (Filter), esto es debido a que el filtro funciona en combinación con un amplificador integrado en la FPAA y los componentes pasivos de montaje superficial que vienen soldados de fabrica.
 	
-	Rauch\_\#1\_I01 está conectado a I/O1 de la FPAA \#1 y esta configurado con una frecuencia de corte muy alta y ganancia unitaria ($F_{o} = 490$KHz). Rauch\_\#21\_I01 está conectado a I/O1 de la FPAA \#2 y esta configurado con una ganancia unitaria y una frecuencia de corte de poco más de 20kHz, que es típica de una aplicación de audio. 
+	Rauch\_\#1\_I01 está conectado a I/O1 de la FPAA \#1 y esta configurado con una frecuencia de corte muy alta ($F_{o} = 490$ kHz), una $Q = 0.707$ y ganancia unitaria. Los componentes pasivos que tiene son: $R_{1} = R_{2} = 22$k$\Omega$, $R_{3} = 10$k$\Omega$, $C_{1} = 22$pF y $C_{2} = 10$pF.  Rauch\_\#21\_I01 está conectado a I/O1 de la FPAA \#2 y esta configurado con una ganancia unitaria, una $Q = 0.707$ y una frecuencia de corte de poco más de 20 kHz, que es típica de una aplicación de audio. Los componentes pasivos respectivos son: $R_{1} = R_{2} = 470$k$\Omega$, $R_{3} = 220$k$\Omega$, $C_{1} = 22$pF y $C_{2} = 10$pF. 	En la Figura \ref{fig:filtro_rauch} se muestra la representación esquemática del filtro y como se ve en AD2.
+	
+	\begin{figure}[!ht]
+	\centering   
+	\caption{Diferentes representaciones de filtro Rauch.}
+	\label{fig:filtro_rauch}
+		\begin{subfigure}{0.3\textwidth}
+			\centering   
+			\includegraphics[width = 4cm]{V5_amplifier.eps}
+			\caption{Vista en AD2.}
+			\label{fig:V5_amplifier}
+		\end{subfigure}
+		\begin{subfigure}{0.65\textwidth}
+			\centering   
+			\includegraphics[width = 9.5cm]{V6_amplifier_esquematico.eps}
+			\caption{Esquemático.}
+			\label{fig:V6_amplifier_esquematico}
+		\end{subfigure}
+	\end{figure}
 
+	Las siguientes ecuaciones sirven para calcular la ganancia, frecuencia de corte y factor de calidad $Q$ para cualquier filtro Rauch sobre la tarjeta:
+	
+	\begin{equation}
+		G = \frac{R_{2}}{R_{1}}
+	\end{equation}
+	
+	\begin{equation}
+		F_{o} = \frac{1}{2 \pi R_{2}} \sqrt{ \frac{R_{1}+ R_{2} }{2 C_{1} C_{2} R_{1}}}
+	\end{equation}
+	
+	\begin{equation}
+		Q = \sqrt{\frac{C_{1} R_{1}}{2 C_{2} (R_{1} + R_{2})}}
+	\end{equation}
+	no obstante si se desea hacer el proceso inverso y determinar los valores de los componentes requeridos para una ganancia, frecuencia de corte y $Q$ especificadas, se pueden utilizar las siguientes ecuaciones: 
+	
+	\begin{equation}
+		R_{2} = R_{1} G
+	\end{equation}
+	
+	\begin{equation}
+		R_{3} = \frac{R_{1} G}{G + 1}
+	\end{equation}
+	
+	\begin{equation}
+		C_{1} = \frac{Q (G + 1)}{2 \pi G F_{o} R_{1}}
+	\end{equation}
+	
+	\begin{equation}
+		C_{2} = \frac{1}{4 \pi G F_{o} Q R_{1}}
+	\end{equation}
+	consideremos el siguiente ejemplo representativo. Construya un filtro Rauch con las siguientes características: ganancia de 1.5, una frecuencia de corte $F_{o} = 20$ kHz y $Q = 0.707$. Utilizando las ecuaciones anteriores obtenemos:
+	
+	\begin{align*}
+		R_{1}	&=	10\mathrm{k}\Omega\\
+		R_{2}	&=	15\mathrm{k}\Omega\\
+		R_{3}	&=	6\mathrm{k}\Omega\\
+		C_{1}	&=	0.938\mathrm{nF}\\
+		C_{2}	&=	0.375\mathrm{nF}\\
+	\end{align*}
+	
+\cite{Muniz-Montero2017}
+	
 	La tarjeta también cuenta con 2 buffers de salida listos para usar, \textbf{Buf\_\#1\_O3} y  \textbf{Buf\_\#2\_O3}, cuyo principal propósito es convertir la salida diferencial de la FPAA a una single-end. 
 	Buf\_\#1\_O3 está conectado a O3 de la FPAA \#1 y está configurado con una frecuencia de corte muy alta y una ganancia unitaria. Si se requiere una frecuencia de corte inferior, es muy fácil modificar este filtro sin quitar los componentes de montaje superficial debajo, simplemente agregando capacitores TH. Buf\_\#2\_O3 está conectado a O3 de FPAA \#2 y esta configurado con una ganancia unitaria y una frecuencia de corte de poco más de 20 kHz, que es típica de una aplicación de audio. 
 	
 	Cabe resaltar que para utilizar tanto los filtros Rauch como los buffers de salida sin cables adicionales es necesario cerrar los DIP switches correspondientes, no obstante se pueden cablear externamente a cualquiera de las entradas o salidas de las FPAA.
 	
-	\subsection{Circuito de prueba}
+		\subsection{Circuito de prueba}
 
 La placa es capaz de autoconfigurar los FPAAs con un circuito de prueba para una verificación rápida de la placa. Para hacer esto, coloque un jumper en \textbf{J3} y reinicie la placa. Todos los FPAA en la cadena ahora se configurarán con el circuito de prueba (el LED verde indica que la configuración fue exitosa). Este circuito de prueba genera una onda sinusoidal en todas las 7 salidas del FPAA (14 salidas diferenciales). La frecuencia de esta onda sinusoidal es de 1kHz en FPAA \#{}1, 2kHz en FPAA \#{}2, 4kHz en FPAA \#{}3 y 8kHz en FPAA \#{}4. Si se habilitan menos de 4 FPAA en la cadena, solo se configurarán aquellos FPAA que estén habilitados. Si se coloca un jumper en \textbf{J3} y \textbf{J4}, se cargará un circuito diferente en los FPAAs. Este es un circuito de prueba especial utilizado por Anadigm durante la producción. Se aconseja al usuario que no coloque jumpers en J3 y J4 al mismo tiempo.
 
@@ -188,6 +247,22 @@ La placa es capaz de autoconfigurar los FPAAs con un circuito de prueba para una
 		\item[] $V_{y}$ es la entrada de voltaje inferior cuantificado de 8 bits.
 		\vspace{-0.15cm}
 		\item[] $M$ factor de multiplicación.
+      \end{scriptsize}
+      \end{itemize}
+   \\ %-------------------------------------------------------
+    {\scriptsize \textbf{SumInv}} \linebreak
+    \includegraphics[width=2.5cm]{T0_Sumador_Inv.eps}
+    &
+      \begin{footnotesize}
+      	$V_{\mathrm{out}} = - G_{1} V_{\mathrm{in1}} - G_{2} V_{\mathrm{in2}} - G_{3} V_{\mathrm{in3}}$
+      \end{footnotesize}
+    & 
+      \begin{itemize}[leftmargin=0cm,noitemsep]
+      \begin{scriptsize}
+		\item[] Configurable desde 2 hasta 3 entradas.
+		\item[]	Cada entrada tiene una ganancia programable.
+		\vspace{-0.15cm}
+		\item[] Configurable desde 2 hasta 4 entradas. 
       \end{scriptsize}
       \end{itemize}
     \\ %-------------------------------------------------------
@@ -290,9 +365,54 @@ donde $m\in [1,510]$ y es par. Usualmente Sys1 y Sys2 no se modifican pero es ne
 \end{equation}
 donde $n\in[1,510]$ y es par y $h\in[0,5]$. Configurar las fuentes de reloj de chip cobrará importancia en secciones posteriores y las ecuaciones anteriores no deben olvidarse.
 
-\section{ELVIS II+}
+\section{NI ELVIS II+}
 
-La 
+El NI Engineering Laboratory Virtual Instrumentation Suite (NI ELVIS) es un dispositivo modular de laboratorio educativo de ingeniería que incluye un osciloscopio, multímetro digital, generador de funciones, fuente de alimentación variable, \textbf{analizador de Bode} y otros instrumentos comunes de laboratorio. Es necesario utilizar una PC en conjunto con la NI ELVIS para acceder a todas sus prestaciones y la comunicación entre las dos se hace vía USB.
+
+\subsection{Instalación}
+
+La NI ELVIS II+ requiere del software NI ELVISmx para su correcto funcionamiento, actualmente se encuentra en la versión 19.0 sin embargo la versión 16.0 posee mayor compatibilidad con la NI ELVIS II+ y es la que se recomienda instalar. El software se puede encontrar dirigiéndose al siguiente link:  
+
+	\begin{center}
+		\url{https://www.ni.com/es-mx/support/downloads/drivers/download.ni-elvismx.html}
+	\end{center}
+la instalación es directa y basta con leer cuidadosamente las ventanas emergentes para no cometer errores.
+
+\begin{figure}[!hbp] 
+\caption{NI ELVIS II+ vista general conectores y switches de alimentación.}
+\label{fig:T13_ELVIS.eps}
+\centering
+\includegraphics[width = 10cm]{T13_ELVIS.eps}
+\end{figure}
+La Figura \ref{fig:T13_ELVIS.eps} muestra la NI ELVIS II+ donde los números representan lo siguiente:  
+\begin{enumerate*}
+   	\item Switch de alimentación de placa de prototipado,
+	\item Switch de alimentación principal,
+	\item Conector de alimentación AC/DC,
+	\item Conector USB.
+\end{enumerate*}
+para comprobar 
+\begin{figure}[!hbp] 
+\caption{NI ELVIS II+ vista general conectores y switches de alimentación.}
+\label{fig:T15_ELVIS_3.eps}
+\centering
+\includegraphics[width = 10cm]{T15_ELVIS_3.eps}
+\end{figure}
+
+\begin{enumerate*}
+  	\item Laptop,
+	\item Cable USB,
+	\item Fuente de alimentación AC/DC,
+	\item Al tomacorriente.
+\end{enumerate*}
+
+\begin{figure}[!hbp] 
+\caption{NI ELVIS II+ vista general conectores y switches de alimentación.}
+\label{fig:T14_ELVIS_2.eps}
+\centering
+\includegraphics[width = 8
+cm]{T14_ELVIS_2.eps}
+\end{figure}
 
 \section{Implementación con aproximación de primer orden}
 	
@@ -485,9 +605,9 @@ Analizando la Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear.eps} po
 \includegraphics[width = 8cm]{G4_AD2_BilinearFilter_implementation.png}
 \end{figure}
 
-	\subsection{Filtro bilineal configuración pasabajas y pasaaltas sumadas}
+	\subsection{Filtro bilineal configuración pasabajas y pasaaltas}
 
-	Otra alternativa para implementar el integrador es utilizando la combinación de un filtro pasaltas y pasabajas sumandose. Esto se puede lograr utilizando dos CAM \textbf{FilterBilinear} en su modo \textbf{Low Pass} y \textbf{High Pass} y un CAM \textbf{SumDiff} para realizar la suma. La función de transferencia del CAM en el modo pasabajas es la siguiente:
+	Otra alternativa para implementar el integrador es utilizando la combinación de un filtro pasaltas y pasabajas sumandose. Esto se puede lograr utilizando dos CAM \textbf{FilterBilinear} en su modo \textbf{Low Pass} y \textbf{High Pass} y un CAM \textbf{SumInv} para realizar la suma. La función de transferencia del CAM en el modo pasabajas es la siguiente:
 	
 	\begin{equation}
 		\frac{V_{\mathrm{out}} (s)}{V_{\mathrm{in}}(s)} =  \pm \frac{2 \pi f_{0} G_{1}}{s + 2 \pi f_{0}}
@@ -498,7 +618,7 @@ Analizando la Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear.eps} po
 		\frac{V_{\mathrm{out}} (s)}{V_{\mathrm{in}}(s)} =  - \frac{ G_{2} s}{s + 2 \pi f_{0}}
 		\label{ec:CAM_bilinear_pasaaltas}
 	\end{equation}
-	donde $G_{1}$ y $G_{2}$ es la ganancia pasabanda para el respectivo filtro y $f_{0}$ es la frecuencia de corte en la cual la ganancia es $-3 + 20 \mathrm{log}_{10}G$. El CAM \textbf{SumDiff} debe configurare para dos entradas, la primera como no inversora y la segunda como inversora. En la entrada no inversora debe conectarse el CAM configurado como pasabajas y en la inversora el pasaaltas. La función de transferencia resultante es:
+	donde $G_{1}$ y $G_{2}$ es la ganancia pasabanda para cada uno de los respectivos filtros y $f_{0}$ es la frecuencia de corte en la cual la ganancia es $-3 + 20 \mathrm{log}_{10}G$. El CAM \textbf{SumInv} debe configurare para dos entradas, ambas como inversoras. La función de transferencia resultante es:
 	
 	\begin{equation}
 		\frac{V_{\mathrm{out}} (s)}{V_{\mathrm{in}}(s)} = \frac{2 \pi f_{0} G_{1}}{s + 2 \pi f_{0}} + \frac{ G_{2} s}{s + 2 \pi f_{0}} = \frac{G_{2}s + G_{1}2 \pi f_{0}}{s + 2 \pi f_{0}}
@@ -582,5 +702,96 @@ $\bm{\alpha}$ & $\bm{G_{1}}\,\,$ [LP] & $\bm{G_{2}}\,\,$ [HP] & $\bm{f_{0}}\,\,$
 \end{figure}
 	
 	\section{Implementación con aproximación de segundo}
-
-	\section{Implementación con aproximación de segundo}
+	
+	\textbf{FilterBiquad}
+	
+	\begin{equation}
+		\frac{V_{\mathrm{out}} (s)}{V_{\mathrm{in}}(s)} = - \frac{G_{H} \left(  s^{2} + \cfrac{2 \pi f_{z}}{Q_{z}} s + 4 \pi^{2} f_{z}^{2} \right)}{s^{2} + \cfrac{2 \pi f_{p}}{Q_{p}}s + 4\pi^{2} f_{p}^{2} }
+	\end{equation}
+	donde $G_{L}$  esta definida como:
+	
+	\begin{equation}
+		G_{L} = G_{H} \left( \frac{f_{z}}{f_{p}} \right)^{2}
+	\end{equation}
+	y donde $G_{L}$ es la ganancia en DC
+	
+		\begin{equation}
+		\genfrac{}{}{0pt}{0}{}{_{(c_{4})}} \frac{1}{s^{\alpha}} \approx \frac{(\alpha^{2} - 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} + 3\alpha + 2) }{(\alpha^{2} + 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} - 3\alpha + 2)}
+		\end{equation}
+		
+		\begin{equation}
+			D = \frac{\alpha^{2} - 3 \alpha + 2}{\alpha^{2} + 3\alpha + 2}
+		\end{equation}
+		
+		\begin{equation}
+			C = \frac{8 - 2 \alpha^{2}}{\alpha^{2} +  3 \alpha + 2}
+		\end{equation}
+		
+		\begin{equation}
+			\genfrac{}{}{0pt}{0}{}{_{(c_{4})}} \frac{1}{s^{\alpha}} \approx = \frac{D s^{2} + Cs + 1}{s^{2} + Cs + D}
+		\end{equation}
+		
+		\begin{equation}
+			N(p) = \frac{D p^{2} + Cp + 1}{p^{2} + Cp + D}
+		\end{equation}
+		
+		\begin{equation}
+			N(s) = \frac{D (sk_{f}^{-1})^{2} + Csk_{f}^{-1} + 1}{(sk_{f}^{-1})^{2} + Csk_{f}^{-1} + D}
+		\end{equation}
+		
+		\begin{equation}
+			N(s) = \frac{D s^{2} + C k_{f}s + k_{f}^{2}}{s^{2} + C k_{f}s + Dk_{f}^{2}}
+		\end{equation}
+		
+		\begin{equation}
+			\frac{G_{H} \left(  s^{2} + \cfrac{2 \pi f_{z}}{Q_{z}} s + 4 \pi^{2} f_{z}^{2} \right)}{s^{2} + \cfrac{2 \pi f_{p}}{Q_{p}}s + 4\pi^{2} f_{p}^{2} } = \frac{D s^{2} + C k_{f}s + k_{f}^{2}}{s^{2} + C k_{f}s + Dk_{f}^{2}}
+		\end{equation}
+		
+		
+		Hay que notar que hay que cumplir con:
+		
+		\begin{equation}
+			G_{H} \frac{2 \pi f_{z}}{Q_{z}} = \frac{2 \pi f_{p}}{Q_{p}} \quad \Rightarrow \quad  G_{H} \frac{f_{z}}{Q_{z}} = \frac{f_{p}}{Q_{p}}
+		\end{equation}
+		
+		Ecuaciones resultantes metodología 1, todo se calcula utilizando los valores $D$ y $C$, por lo tanto $Q_{z} = Q_{p}$
+		
+		\begin{equation}
+			G_{H} = D
+		\end{equation}
+		
+		\begin{equation}
+			f_{z} = \frac{k_{f}}{2 \pi D^{\frac{1}{2}}}
+		\end{equation}
+		
+		\begin{equation}
+			f_{p} = \frac{D^{\frac{1}{2}} k_{f}}{2 \pi}
+		\end{equation}
+		
+		\begin{equation}
+			Q_{z} = \frac{D^{\frac{1}{2}}}{C}
+		\end{equation}
+		
+		\begin{equation}
+			Q_{p} = \frac{D^{\frac{1}{2}}}{C}	
+		\end{equation}
+		
+		\begin{equation}
+			G_{L} = \frac{1}{D}
+		\end{equation}
+		
+		Ecuaciones resultantes metodología 2, los factores de calidad $Q_{z}$ y $Q_{p}$ se eligen arbitrariamente  
+		
+		\begin{equation}
+			G_{H} = D
+		\end{equation}
+		
+		\begin{equation}
+			f_{z} = \frac{C k_{f} Q_{z}}{D 2 \pi}	
+		\end{equation}
+		
+		\begin{equation}
+			f_{p} = \frac{C k_{f} Q_{p}}{ 2 \pi}	
+		\end{equation}
+		
+	Los limites absolutos para los valores que pueden ser ingresados para las frecuencias $f_{z}$ y $f_{p}$ son $[\frac{F_{c}}{500}, \frac{F_{c}}{10}]$. Sin embargo los límites de frecuencia también están interrelacionados con los otros valores de los parámetros, lo que puede restringir el rango a menos de sus límites absolutos. 
