@@ -5,7 +5,7 @@ clc;
 %% 
 paso = 0.05;
 alpha = (0.1:paso:0.95)';           % Orden del integrador
-kf = 1250;                     % Factor de escalamiento
+kf = 2*pi*1000;                     % Factor de escalamiento
 A = (1 - alpha)./(1 + alpha);
 Gh = A;                             % Ganancia de alta frecuencia
 Gl = 1./A;                          % Ganancia de baja frecuencia

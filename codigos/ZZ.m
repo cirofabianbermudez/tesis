@@ -13,8 +13,8 @@ den = [1 wo];
 sys = tf(num,den);
 
                                    % Define LTI System
-t = linspace(0, 5*1e-4, 1000);                         % Time Vector
-u = 1*sin(2*pi*19.9e3*t);                                     % Forcing Function
+t = linspace(0, 2*1e-4, 1000);                         % Time Vector
+u = 2*sin(2*pi*19.9e3*t);                                     % Forcing Function
 y = lsim(sys, u, t);                                % Calculate System Response
 figure(1)
 plot(t, y)

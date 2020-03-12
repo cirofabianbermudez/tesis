@@ -1,0 +1,12 @@
+* Simulacion de filtro pasabajas activo
+V1 V+ 0 15
+V2 V- 0 -15
+V3 Vin 0 AC 1
+XU1 0 Vn V+ V- Vout TL081
+R1 Vn Vin 8.2k
+C1 Vout Vn 1n
+R2 Vout Vn 8.2k
+.inc TL081.301
+.ac dec 1000 1000 10MEG
+.backanno
+.end

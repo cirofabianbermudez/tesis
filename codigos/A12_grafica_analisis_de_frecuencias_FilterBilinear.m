@@ -6,13 +6,13 @@ format short;
 %% Calcular fp y fz
 paso = 0.01;
 alpha = (paso:paso:0.99)';          % Orden fraccionario
-kf = 1250;                     % Factor de escalamiento
+kf = 2*pi*1000;                     % Factor de escalamiento
 A = (1 - alpha)./(1 + alpha);
 fp = (A*kf)./(2*pi*1000);           % Frecuencia de polo en kHz 
 fz = (kf)./(A*2*pi*1000);           % Frecuencia de cero en kHz
 
 %% Rango de frecuencias absolutasAinz
-sys1 = 16e6/6;                        % 16 MHz
+sys1 = 16e6;                        % 16 MHz
 n = [1,( 2:2:510)];             	% n
 freqs = ((sys1./n)/1000)';          % in kHz 
 freq_min = freqs/1000;
