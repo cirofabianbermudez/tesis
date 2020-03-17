@@ -9,7 +9,7 @@ clc;
 % T = table(x',y');
 % disp(T);
 
-x = 122:2:148;
+x = 146:2:176;
 y = x./16;
 T = table(x',y');
 disp(T);

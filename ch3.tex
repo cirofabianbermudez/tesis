@@ -1,4 +1,4 @@
-\chapter{Implementación}
+\chapter{Implementación de intregradores fracionarios}
 
 	\section{¿Qué es una FPAA?}
 	Una FPAA  por sus siglas en inglés (Field Programmable Analog Arrays) es un dispositivo analógico equivalente a las FPGA (Field Programmable Garte Arrays). A diferencia de las FPGA que contienen una gran cantidad de módulos y conexiones que permiten configuraciones arbitrarias de lógica combinacional y secuencial, los FPAA generalmente contienen una pequeña cantidad de CABs (Configurable Analog Blocks). Los FPAA dirigidos al diseño analógico estándar generalmente presentan un CAB que contiene un amplificador operacional, un arreglo de capacitores programables, y ya sea un arreglo de resistencias programables para circuitos en tiempo continuo o switches configurables para circuitos de capacitores conmutados.
@@ -102,7 +102,16 @@
 		\caption{DIP Switches}
 		\label{tab:switches}
 	\end{table}
-
+	
+	En la Figura \ref{fig:esquematico_fpaa} encontrada en el apéndice se puede encontrar el diagrama esquemático completo de la tarjeta QuadApex v2.0 en el que se puede analizar las todas las conexiones de los switches, sin embargo por simplicidad en la Figura \ref{fig:X1_esquematico_simple} se muestra un diagrama simplificado con los DIP switches de uso más común.
+	
+	\begin{figure}[!ht] 
+		\caption{Esquemático Simplificado de DIP Switches.}
+		\label{fig:X1_esquematico_simple}
+		\centering
+		\includegraphics[width = 15cm]{X1_esquematico_simple.eps}
+	\end{figure}
+	
 		\subsection{Filtros Rauch y buffers de salida}
 	
 	La tarjeta cuenta con 2 buffers de entrada llamados filtros Rauch listos para usar, Rauch\_\#1\_I01 y Rauch\_\#2\_I01, estos son filtros multipropósito cuya su principal función es convertir una señal single-ended a una diferencial en la FPAA, internamente la FPAA trabaja únicamente con señales diferenciales y debido a esto el uso de estos filtros es imprescindibles para introducir señales externas, por ejemplo de generadores de funciones u otros circuitos. Si se usa una señal single-ended, es necesario conectar IN- a GND y conectar la señal en IN+.
@@ -332,7 +341,7 @@
 	  \end{tabular}
 	\end{table}
 	
-		\subsection{Comunicación con AD2}
+		\subsection{Comunicación con AD2}\label{sec:comunicacion_con_AD2}
 
 	Para este punto la tarjeta ya puede ser programada lo que en este caso significa configurar los FPAA. Esto puede realizarse desde una PC o una laptop usando un cable estándar USB tipo A-B. La tarjeta usa una emulación de comunicación serial de tal manera que desde la computadora la tarjeta aparecerá como un puerto COM.
 
@@ -351,16 +360,84 @@
 
 	Ahora debería ser posible descargar un circuito desde AD2. Para hacer esto simplemente es necesario dar clic sobre el icono de descarga (a la izquierda del signo de interrogación amarillo, debajo de Dynamic Config). Como alternativa presionar Ctrl + W. Un LED amarillo comenzará a parpadear y un sonido de campanilla se escuchará mientras cada FPAA es configurada, finamente un LED verde se encenderá indicando que todas las FPAA han sido configuradas correctamente. Un LED rojo indicará que la configuración falló. Es importante que el número de FPPA en AD2 coincida con el número de FPAA habilitadas en la placa. Por ejemplo, si la tarjeta fue configurada con una cadena de 3 FPAA, entonces estará esperando 3 configuraciones de FPAA para ser descargadas desde AD2 de lo contrario podrían ocurrir errores.
 	
+		\subsection{Equivalencia de conexiones en tarjeta y en software}
+		
+	En la Tabla \ref{tab:IOresumen} y en la Figura \ref{fig:X5_equivalencias_AD2} se muestran las equivalencias de los pines físicos sobre la tarjeta y los puertos en AD2. Estas equivalencias son de vital importancia para no cometer errores al momento de realizar mediciones y de mismo modo abre paso para conocer las conexiones que se necesitan realizar al momento de activar los DIP switches.
+		
+	\begin{table}[!ht]                                      
+		\centering   
+		\caption{Equivalencias de IOCell en AD2 a físicos pines en tarjeta en FPAA.}                            
+		\label{tab:IOresumen}                                        
+			\begin{tabular}{ll cc ll cc ll cc ll cc ll}                        
+			\hline                                              
+			\multicolumn{2}{c}{IOCell 1} &&& \multicolumn{2}{c}{IOCell 2} &&& \multicolumn{2}{c}{IOCell 3}	&&& \multicolumn{2}{c}{IOCell 4}\\            
+			\hline                                              
+			01	& I1P	&&&	09	& I2P	&&&	11	& I3P	&&&	24	& I4P	\\  
+			02	& I1N	&&&	08	& I2N	&&&	12	& I3N	&&&	23	& I4N	\\
+			04	& O1P	&&&	06	& 02P	&&&	14	& 03P	&&&	21	& 04P	\\
+			03	& O1N	&&&	07	& 02N	&&&	13	& 03N	&&&	22	& 04N	\\
+			\hline
+				&&&&&&&&&&&&& 	\\                                 
+			\end{tabular}
+		
+			\begin{tabular}{ll cc ll cc ll cc ll cc ll}                        
+			\hline                                              
+			\multicolumn{2}{c}{IOCell 5} &&& \multicolumn{2}{c}{IOCell 6} &&& \multicolumn{2}{c}{IOCell 7}	\\            
+			\hline                                              
+			15	& IO5P	&&&	17	& IO6P	&&&	19	& IO7P	\\  
+			16	& IO5N	&&&	18	& IO6N	&&&	20	& IO7N	\\
+			\hline                                 
+			\end{tabular}                                                             
+	\end{table}
 	
+	Al activar los DIP switches también es necesario especificar en AD2 estas conexiones, en la Figura \ref{fig:X6_conexiones_AD2} se muestran las conexiones necesarias de los 8 DIP switches que interconectan las 4 FPAA, estos son S2, S3, S4, S5, S6, y S7.
+	
+	
+	\begin{figure}[!h]
+		\caption{Equivalencias de pines físicos en AD2.}
+		\label{fig:X5_equivalencias_AD2}
+		\centering
+		\includegraphics[width = 6cm]{X5_equivalencias_AD2.eps}
+	\end{figure}
+	
+	\begin{figure}[!h]
+		\caption{Conexiones necesarias al activar DIP switches.}
+		\label{fig:X6_conexiones_AD2}
+		\centering
+		\includegraphics[width = 9cm]{X6_conexiones_AD2.eps}
+	\end{figure}
+	
+	\begin{table}[!ht]                                      
+		\centering   
+		\caption{Conexiones de DIP switches.}                            
+		\label{tab:DIP_switches_code}                                       
+			\begin{tabular}{c c c c}                        
+			\hline                                              
+			Cerrar DIP switch & FPAA $n$ & & FPAA $n+1$\\            
+			\hline       
+			{\color{red} S$2n$ $\quad2\uparrow$}  &{\color{red} O4P} & ${\color{red} \rightarrow}$& {\color{red} I1P}\\  
+											&{\color{red} O4N} & ${\color{red} \rightarrow}$& {\color{red} I1N}\\ 
+			{\color{green} S$2n$ $\quad2\downarrow$}&{\color{green} I4P} & ${\color{green} \leftarrow}$& {\color{green} O1P}\\  
+											&{\color{green} I4N} & ${\color{green} \leftarrow}$& {\color{green} O1N}\\  
+			                                
+			{\color{blue} S$2n$+1 $\quad2\uparrow$} &{\color{blue} I3P} & ${\color{blue} \leftarrow}$& {\color{blue} O2P}\\  
+			 								&{\color{blue} I3N} & ${\color{blue} \leftarrow}$& {\color{blue} O2N}\\
+			{\color{magenta} S$2n$+1 $\quad2\downarrow$}&{\color{magenta} O3P} & ${\color{magenta} \rightarrow}$& {\color{magenta} I2P}\\  
+											&{\color{magenta} O3N} & ${\color{magenta} \rightarrow}$& {\color{magenta} I2N}\\ 
+			\hline                                 
+			\end{tabular}                                                             
+	\end{table}
+	
+	En Tabla \ref{tab:DIP_switches_code} se muestra una generalización para hacer estas conexiones, como ejemplo consideremos $n = 1$, entonces si se quiere conectar la salida 4 del FPPA1 a la entrada 1 del FPAA2 cierre los 2 switches superiores del DIP switch S2.
 		\subsection{Configuración de relojes}
 	
 	Las configuraciones de los CAMs dependen de las frecuencias de reloj que se seleccionen para cada FPAA. Cada FPAA tiene dos fuentes de frecuencias de reloj de sistema \textbf{Sys1} y \textbf{Sys2}, y seis frecuencias de reloj de chip, desde \textbf{Clock 0} hasta \textbf{Clock 5} que son subdivisiones de cualquiera de las fuentes de reloj sistema. Seleccionar y configurar correctamente los relojes es importante ya que el rango de operación de los CAMs depende de esto.  En la Figura \ref{fig:G3_Frecuencias_AD2} se muestra la ventana de configuración de frecuencias de reloj.
 	
-	\begin{figure}[!hbp] 
+	\begin{figure}[!ht] 
 		\caption{Ventana de configuración de frecuencias de reloj en AD2.}
 		\label{fig:G3_Frecuencias_AD2}
 		\centering
-		\includegraphics[width = 12cm]{G3_Frecuencias_AD2.png}
+		\includegraphics[width = 9cm]{G3_Frecuencias_AD2.png}
 	\end{figure}
 
 	La tarjeta tiene una fuente de frecuencia de reloj principal llamada \textbf{ACLK} o $f_{c}$ cuya frecuencia es igual a $16$ MHz y a pesar de que es posible modificarla se recomienda no hacerlo. Sys1 y Sys2 dependen de esta frecuencia y pueden ser modificadas utilizando las siguientes ecuaciones:
@@ -377,6 +454,89 @@
 	\end{equation}
 	donde $n\in[1,510]$ y es par y $h\in[0,5]$. Configurar las fuentes de reloj de chip cobrará importancia en secciones posteriores y las ecuaciones deben tenerse presentes.
 
+	\section{Lookup Table}
+	
+	En ocasiones deseamos poder utilizar funciones poco tradiciones en nuestros diseños analógicos, una función tangente o una función saturación por mencionar algunas. Para lograr esto utilizamos lo que se conocen como \textbf{Lookup Tables}.
+		
+		Una Lookup Table es una tabla de $2^{n}$ elementos donde $n$ es el número de bits (en el caso de la QuadApex v2.0 $n = 8$), en la cual a cada rango de voltaje se le asigna un voltaje de salida. Otra manera de entender a las Lookup Tables es como una función definida de la siguiente manera:
+	
+	\begin{equation}
+		V_{\textrm{out}} = f \left( V_{\textrm{in}} \right)
+	\end{equation}
+	como la tarjeta trabaja con voltajes de entre 3V y -3V, el dominio y el rango de la función también esta limitado por estos voltajes.
+	
+	La resolución de la lookup table es igual a la siguiente ecuación:
+		\begin{equation}
+			R = \frac{V_{\textrm{max}}}{2^{n} }
+		\end{equation}
+	donde $V_{\textrm{max}}$ es la diferencia de potencial que puede tomar la entrada, en la QuadApex v2.0 $V_{\textrm{max}} = 6$V debido sus voltajes de trabajo entonces:
+	
+	\begin{equation}
+		R = \frac{6\textrm{V}}{2^{8}} = 0.0234 \approx 23 \textrm{mV}
+	\end{equation}
+	esto quiere decir que entre $\pm$3V existen 256 rangos de voltaje cada uno separado por 23 mV donde a cada uno le corresponde un único valor definido por una función arbitraria elegida por el usuario.
+
+	Consideremos el siguiente ejemplo que ejemplificar el funcionamiento de una lookup table en AD2:
+		
+	\begin{enumerate}
+		\item Configure la cadena de FPPAs a solo una, conecte la placa vía USB,  enciéndala y compruebe la conexión como se menciona en la sección \ref{sec:comunicacion_con_AD2}.
+		
+		\item Habilite el buffer BUF\_{}\#{}1\_{}O3 moviendo a la derecha el DIP switch S13.
+		
+		\item Habilite el filtro RAUCH\_{}\#{}1\_{}IO1 moviendo a la derecha el DIP switch S10 y conecte IN- a GND y conecte la señal a IN+.
+		
+		\item En AD2 habilite el filtro Rauch haciendo doble clic en la IO cell con los números 01, 02, 03, 04, seleccione el radio button marcado Input, después seleccione el radio button marcado Amplifier.
+		
+		\item En AD2 inserte 2 CAM GainInv. Configure el primero con una ganancia Gain: 1 y el segundo con una ganancia  de Gain: 2, ambos con un ClockA = 250kHz. 
+		
+		\item En AD2 inserte el CAM de TransferFunction, configure ClockA = 250kHz y ClockB = 4000kHz. Habilite Output Hold: On y desmarque Opamp Chopping.
+		
+		\item En AD2 habilite la salida donde se encuentra el buffer de salida haciendo doble clic en la IO cell con los números 11, 12, 14, 13, después seleccione el radio button marcado Output y después seleccione el radio button marcado Bypass.
+		
+		\item En AD2 conecte todos los componentes como se muestra en la figura \ref{fig:X2_AD2_lookup}.
+		
+		\item Genere la lookup table de la siguiente función:
+		 
+		\begin{equation}
+			V_{\textrm{out}} = 2 \, \textrm{sinc} (x) =  2 \frac{ \sin x }{ x}
+		\end{equation}
+		donde $x = 10 V_{\textrm{in}} $ utilizando el código del apéndice \ref{cod:D1_Look_up_table}, este generará un archivo de Excel con nombre \textbf{Lookup\_{}Table.csv}.
+		
+		\item En AD2 configure el CAM TransferFunction, abra las configuraciones y seleccione Lookup Table, copie y pegue el archivo Lookup\_{}Table.csv donde se encuentre el proyecto de AD2, de clic en Load y seleccione la lookup table, finalmente de clic en Apply y después en OK.
+		\item Conecte un generador de funciones con una función rampa con pendiente positiva de 3V pico a pico y una frecuencia de 100Hz a los pines IN+ y GND del filtro RAUCH\_{}\#{}1\_{}IO1, recuerde que la señal en este caso es single-ended.
+		
+		\item Presione Ctrl + W para descargar el programa a la tarjeta. Si realiza la medición de los pines Out y Gnd del buffer BUF\_{}\#{}1\_{}O3 verá lo mostrado en le figura \ref{fig:X3_AD2_lookup_osc}.
+	\end{enumerate}
+	
+	\begin{figure}[!ht]
+		\caption{Circuito en AD2 utilizando lookup table.}
+		\label{fig:X2_AD2_lookup}
+		\centering
+		\includegraphics[width = 7cm]{X2_AD2_lookup.png}
+	\end{figure}	
+	
+	\begin{figure}[!ht]
+		\caption{Medición en osciloscopio de lookup table.}
+		\label{fig:X3_AD2_lookup_osc}
+		\centering
+		\includegraphics[width = 8.5cm]{X3_AD2_lookup_osc.png}
+	\end{figure}
+
+	Como la señal de entrada es de 3V pico a pico se necesita amplificar en un factor de 2 para que tenga el dominio completo de la función, los dos amplificadores en cadena tienen la función de amplificar evitando la inversión. Si la señal de entrada desde un principio es de 6V pico a pico se puede prescindir de ambos amplificadores inversores y conectar directamente al CAM TransferFunction.
+
+	\begin{figure}[!ht]
+		\caption{Gráfica generada con código \ref{cod:D1_Look_up_table}.} 
+		\label{fig:X4_matlab_sim}
+		\centering
+		\includegraphics[width=9cm]{X4_matlab_sim.eps}
+	\end{figure}
+
+	En la Figura \ref{fig:X4_matlab_sim} se muestra la gráfica generada por el código del apéndice \ref{cod:D1_Look_up_table}. Comparando las figuras \ref{fig:X4_matlab_sim} y \ref{fig:X3_AD2_lookup_osc} podemos observar que la señal se reconstruyó con una buena calidad no obstante entre mayor sea la frecuencia de entrada de la rampa comenzará a aparecer distorsión, a una frecuencia de 1kHz empieza a ser notorio, de mismo modo si la función que el usuario proponga tiene una frecuencia muy alta la resolución no será suficiente y en la implementación ocurrirán errores.
+	
+	
+	
+	
+	\vspace{5cm}
 	\section{NI ELVIS II+}
 
 		\subsection{¿Qué es la NI ELVIS II+?}
@@ -742,7 +902,7 @@
 	Imaginemos que queremos implemetar un integrador de orden fraccionario con la aproximación de primer orden, un $\alpha = 0.9$ y escalado en frecuencia para que su ancho de banda se encuentre entre $100$ Hz y $10$ kHz. Dados los requerimientos anteriores $k_{f} = 2 \pi 1000$ y utilizando la Tabla \ref{tab:calculos_bilineal} sabemos que $f_{p} = 0.052632$, $f_{z} = 19.0$, $G_{L} = 19.0$ y $G_{H} = 0.052632$. Como se mencionó anteriormente la fuente de frecuencia de reloj principal $f_{c} = 16$ MHz no debe modificarse y de mismo modo se recomienda que Sys1 y Sys2 tampoco se modifiquen dramáticamente, es decir $m = 1$. Se opta por utilizar el Clock 0 para configurar el CAM FilterBilinear y que este dependa de Sys1 $=16$ MHz. Para que los datos que se ingresen en la ventana de configuración del CAM sean validos estos deben encontrase dentro del rango de frecuencias absolutas de la Tabla \ref{tab:frecuencias_absolutas}, por lo tanto se tiene que elegir un $n$ adecuado de tal manera que $F_{c}$ = Clock 0 = $\frac{\mathrm{Sys1}}{n}$ cumpla con los limites absolutos de frecuencia, en otras palabras que los parámetros $f_{z}$ y $f_{p}$ se encuentren dentro del rango $[\frac{F_{c}}{1000}, \frac{F_{c}}{10}]$. El rango de frecuencias en el que nos tenemos que encontrar para poder implemetentar el integrador es $[f_{p},f_{z}] = [0.052632, 19.0]$, no obstante el proceso de encontrar $n$ es muy laborioso debido a que podría haber más de un valor que haga posible que se encuentren dentro del rango, de mismo modo podría ocurrir el caso contrario y ninguna $n$ cumplir. Por esta razón en el apéndice \ref{cod:A12_grafica_analisis_de_frecuencias_FilterBilinear} se muestra un código para resolver este problema, este genera una gráfica, ver Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear}, la cual muestra la relación entre $n$ y el orden $\alpha$, en otras palabra hasta que orden fraccionario podemos implementar dependiendo del valor de $n$.
 
 	\begin{figure}[hbtp]
-		\caption{Gráfica de mérito, análisis de orden fraccionario dependiente de $n$ para implementación con CAM BilinearFilter.} 
+		\caption{Gráfica de mérito, análisis de orden fraccionario dependiente de $n$ para implementación con CAM FilterBilinear.} 
 		\label{fig:T11_Analisis_de_frecuencias_FilterBilinear}
 		\centering
 		\includegraphics[width=13cm]{T11_Analisis_de_frecuencias_FilterBilinear.eps}
@@ -942,99 +1102,297 @@
 		\centering
 		\includegraphics[width=12cm]{V15_bodes_comparativos_suma.eps}
 	\end{figure}	
-
-\newpage
+	
 	\section{Implementación con aproximación de segundo}
 	
-	\textbf{FilterBiquad}
+		\subsection{Filtro bicuadrático configuración polo cero}
 	
+	Para realizar la implementación física de la aproximación de segundo orden se utilizó el CAM \textbf{FilterBiquad} en su modo \textbf{Polo and Zero}, esto debido a su semejanza con la función de transferencia de la aproximación de la CFE de segundo orden. La función de transferencia del CAM en este modo es la siguiente:
 	\begin{equation}
 		\frac{V_{\mathrm{out}} (s)}{V_{\mathrm{in}}(s)} = - \frac{G_{H} \left(  s^{2} + \cfrac{2 \pi f_{z}}{Q_{z}} s + 4 \pi^{2} f_{z}^{2} \right)}{s^{2} + \cfrac{2 \pi f_{p}}{Q_{p}}s + 4\pi^{2} f_{p}^{2} }
+		\label{ec:CAM_biquad}
 	\end{equation}
 	donde $G_{L}$  esta definida como:
 	
 	\begin{equation}
 		G_{L} = G_{H} \left( \frac{f_{z}}{f_{p}} \right)^{2}
 	\end{equation}
-	y donde $G_{L}$ es la ganancia en DC
+	y donde $G_{L}$ es la ganancia en DC, $G_{H}$ es la ganancia de alta frecuencia, $f_{p}$ es la frecuencia del polo, $f_{z}$ es la frecuencia del cero, $Q_{p}$ es el factor de calidad del polo y $Q_{z}$ es el factor de calidad del cero. Para cancelar el signo negativo de la ecuación (\ref{ec:CAM_biquad}) se utiliza un CAM con ganancia unitaria inversora (\textbf{GainInv}).
 	
-		\begin{equation}
+	La función de transferencia de la aproximación de la CFE de segundo orden, como se mencionó en la sección \ref{sec:CFE} es la siguiente:
+	
+	\begin{equation}
 		\genfrac{}{}{0pt}{0}{}{_{(c_{4})}} \frac{1}{s^{\alpha}} \approx \frac{(\alpha^{2} - 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} + 3\alpha + 2) }{(\alpha^{2} + 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} - 3\alpha + 2)}
-		\end{equation}
-		
-		\begin{equation}
-			D = \frac{\alpha^{2} - 3 \alpha + 2}{\alpha^{2} + 3\alpha + 2}
-		\end{equation}
-		
-		\begin{equation}
-			C = \frac{8 - 2 \alpha^{2}}{\alpha^{2} +  3 \alpha + 2}
-		\end{equation}
-		
-		\begin{equation}
-			\genfrac{}{}{0pt}{0}{}{_{(c_{4})}} \frac{1}{s^{\alpha}} \approx = \frac{D s^{2} + Cs + 1}{s^{2} + Cs + D}
-		\end{equation}
-		
+		\label{ec:CFE_segundo_orden}
+	\end{equation}
+	si consideramos las siguientes sustituciones:
+	\begin{equation}
+		D = \frac{\alpha^{2} - 3 \alpha + 2}{\alpha^{2} + 3\alpha + 2}
+	\end{equation}
+	
+	\begin{equation}
+		C = \frac{8 - 2 \alpha^{2}}{\alpha^{2} +  3 \alpha + 2}
+	\end{equation}
+	podemos reescribir la ecuación (\ref{ec:CFE_segundo_orden}) de la siguiente manera:
+	\begin{equation}
+		\genfrac{}{}{0pt}{0}{}{_{(c_{4})}} \frac{1}{s^{\alpha}} \approx  \frac{D s^{2} + Cs + 1}{s^{2} + Cs + D}
+		\label{ec:CFE_segundo_orden_2}
+	\end{equation}
+	para aplicar un escalamiento en frecuencia a la ecuación (\ref{ec:CFE_segundo_orden_2}) se utilizan los siguientes pasos:
+	
+	\begin{enumerate}
+		\item Cambio de variable compleja por $p$:
 		\begin{equation}
 			N(p) = \frac{D p^{2} + Cp + 1}{p^{2} + Cp + D}
 		\end{equation}
+		
+		\item Utilizamos sustitución $p = \frac{s}{k_{f}}$:
 		
 		\begin{equation}
 			N(s) = \frac{D (sk_{f}^{-1})^{2} + Csk_{f}^{-1} + 1}{(sk_{f}^{-1})^{2} + Csk_{f}^{-1} + D}
 		\end{equation}
 		
+		\item Reescribimos de una manera más conveniente:
 		\begin{equation}
 			N(s) = \frac{D s^{2} + C k_{f}s + k_{f}^{2}}{s^{2} + C k_{f}s + Dk_{f}^{2}}
+			\label{ec:CFE_segundo_final}
 		\end{equation}
+	\end{enumerate}
+	Si seleccionamos un factor de escalamiento $k_{f} = 2 \pi 1000$ se obtiene la respuesta en frecuencia mostraba en la Figura \ref{fig:V19_segundo_orden_esc}. El ancho de banda de la función escalada abarca desde 100 Hz hasta 10 kHz, dos décadas exactas.
+	
+	\begin{figure}[hbtp]
+		\caption{Diagrama de bode de ecuación (\ref{ec:CFE_segundo_final}) para un integrador fraccionario con $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
+		\label{fig:V19_segundo_orden_esc}
+		\centering
+		\includegraphics[width=12cm]{V19_segundo_orden_esc.eps}
+	\end{figure}
+	
+	Para poder configurar el CAM FilterBiquad es necesario encontrar los valores correctos para los parámetros $G_{H}$, $G_{L}$, $f_{z}$, $f_{p}$, $Q_{z}$ y $Q_{p}$ dado un orden $\alpha$, y esto se logra igualando las ecuaciones \ref{ec:CAM_biquad} y \ref{ec:CFE_segundo_final} con el fin de encontrar expresiones para calcularlos.
+	
+	\begin{equation}
+		\frac{G_{H} \left(  s^{2} + \cfrac{2 \pi f_{z}}{Q_{z}} s + 4 \pi^{2} f_{z}^{2} \right)}{s^{2} + \cfrac{2 \pi f_{p}}{Q_{p}}s + 4\pi^{2} f_{p}^{2} } = \frac{D s^{2} + C k_{f}s + k_{f}^{2}}{s^{2} + C k_{f}s + Dk_{f}^{2}}
+		\label{ec:igualdad_segundo_orden}
+	\end{equation}
 		
-		\begin{equation}
-			\frac{G_{H} \left(  s^{2} + \cfrac{2 \pi f_{z}}{Q_{z}} s + 4 \pi^{2} f_{z}^{2} \right)}{s^{2} + \cfrac{2 \pi f_{p}}{Q_{p}}s + 4\pi^{2} f_{p}^{2} } = \frac{D s^{2} + C k_{f}s + k_{f}^{2}}{s^{2} + C k_{f}s + Dk_{f}^{2}}
-		\end{equation}
+	Hay que notar que debido a la estructura matemática del termino del lado derecho de la ecuación (\ref{ec:igualdad_segundo_orden}) se tiene que cumplir la siguiente ecuación de restricción:
 		
+	\begin{equation}
+		G_{H} \frac{2 \pi f_{z}}{Q_{z}} = \frac{2 \pi f_{p}}{Q_{p}} \quad \Rightarrow \quad  G_{H} \frac{f_{z}}{Q_{z}} = \frac{f_{p}}{Q_{p}}
+	\end{equation}
 		
-		Hay que notar que hay que cumplir con:
+	De la ecuación (\ref{ec:igualdad_segundo_orden}) se desprenden dos metodologías para el cálculo de los parámetros. La primera consiste en calcular todos los parámetros utilizando únicamente los valores $D$ y $C$ lo que provoca que $Q_{z} = Q_{p}$ y surjan las siguientes ecuaciones:
 		
-		\begin{equation}
-			G_{H} \frac{2 \pi f_{z}}{Q_{z}} = \frac{2 \pi f_{p}}{Q_{p}} \quad \Rightarrow \quad  G_{H} \frac{f_{z}}{Q_{z}} = \frac{f_{p}}{Q_{p}}
-		\end{equation}
+	\begin{equation}
+		G_{H} = D
+	\end{equation}
+	
+	\begin{equation}
+		f_{z} = \frac{k_{f}}{2 \pi D^{\frac{1}{2}}}
+	\end{equation}
+	
+	\begin{equation}
+		f_{p} = \frac{D^{\frac{1}{2}} k_{f}}{2 \pi}
+	\end{equation}
+	
+	\begin{equation}
+		Q_{z} = \frac{D^{\frac{1}{2}}}{C}
+	\end{equation}
+	
+	\begin{equation}
+		Q_{p} = \frac{D^{\frac{1}{2}}}{C}	
+	\end{equation}
+	
+	\begin{equation}
+		G_{L} = \frac{1}{D}
+	\end{equation}
 		
-		Ecuaciones resultantes metodología 1, todo se calcula utilizando los valores $D$ y $C$, por lo tanto $Q_{z} = Q_{p}$
+	La segunda consiste en elegir manualmente los factores de calidad $Q_{z}$ y $Q_{p}$ de modo que $\displaystyle{\gamma = \frac{Q_{z}}{Q_{p}}}$ y surjan las siguientes ecuaciones
 		
-		\begin{equation}
-			G_{H} = D
-		\end{equation}
+	\begin{equation}
+		G_{H} = D
+	\end{equation}
+	
+	\begin{equation}
+		f_{z} = \frac{C k_{f} Q_{z}}{D 2 \pi}	
+	\end{equation}
+	
+	\begin{equation}
+		f_{p} = \frac{C k_{f} Q_{p}}{ 2 \pi}	
+	\end{equation}
+	
+	\begin{equation}
+		G_{L} = \frac{\gamma^{2}}{D}
+	\end{equation}
+	
+	Hay que resaltar que la segunda metodología es una generalización de la primera, cuando $Q_{z} = Q_{p}$. Se pueden proponer distintos esquemas de diseño, por mencionar alguno, $Q_{p} = 2Q_{z}$, sin embargo los parámetros que se pueden ingresar están limitados por la relación que existen entre ellos como se verá a continuación. La ventaja de la segunda metodología es que da mayor libertad al diseñador pero complica mucho los cálculos dependiendo del esquema de diseño que se seleccione.
 		
-		\begin{equation}
-			f_{z} = \frac{k_{f}}{2 \pi D^{\frac{1}{2}}}
-		\end{equation}
-		
-		\begin{equation}
-			f_{p} = \frac{D^{\frac{1}{2}} k_{f}}{2 \pi}
-		\end{equation}
-		
-		\begin{equation}
-			Q_{z} = \frac{D^{\frac{1}{2}}}{C}
-		\end{equation}
-		
-		\begin{equation}
-			Q_{p} = \frac{D^{\frac{1}{2}}}{C}	
-		\end{equation}
-		
-		\begin{equation}
-			G_{L} = \frac{1}{D}
-		\end{equation}
-		
-		Ecuaciones resultantes metodología 2, los factores de calidad $Q_{z}$ y $Q_{p}$ se eligen arbitrariamente  
-		
-		\begin{equation}
-			G_{H} = D
-		\end{equation}
-		
-		\begin{equation}
-			f_{z} = \frac{C k_{f} Q_{z}}{D 2 \pi}	
-		\end{equation}
-		
-		\begin{equation}
-			f_{p} = \frac{C k_{f} Q_{p}}{ 2 \pi}	
-		\end{equation}
-		
-	Los limites absolutos para los valores que pueden ser ingresados para las frecuencias $f_{z}$ y $f_{p}$ son $[\frac{F_{c}}{500}, \frac{F_{c}}{10}]$. Sin embargo los límites de frecuencia también están interrelacionados con los otros valores de los parámetros, lo que puede restringir el rango a menos de sus límites absolutos. 
+	Los limites absolutos para los valores que pueden ser ingresados para las frecuencias $f_{z}$ y $f_{p}$ son $[\frac{F_{c}}{500}, \frac{F_{c}}{10}]$. Los limites absolutos para el factor de calidad $Q_{p}$ son $[0.05, 70.0]$, para $Q_{z}$ son $[0.05, 60.0]$ y para la ganancia $G_{L}$ son $[0.01\frac{V}{V}, 100\frac{V}{V}]$ y $G_{H}$ son $[0.01\frac{V}{V}, 15.9\frac{V}{V}]$.  Sin embargo los límites tanto de frecuencia, como de factor de calidad como ganancias también están interrelacionados con los otros valores de los parámetros, lo que puede restringir el rango a menos de sus límites absolutos. 
+	
+	Utilizando la primera metodología y el código del apéndice \ref{cod:C10_calculo_valores_FilterBiquad} podemos generar la Tabla \ref{tab:calculos_biquad}. Sin embargo hay que notar que no todos los valores de la tabla se pueden implementar. Consideremos el caso de $\alpha = 0.9$, $G_{L}$ debe ser igual a 109.571429 y el limite absoluto superior para esta ganancia es de 100 $\frac{V}{V}$ lo cual descarta por completo este valor. Al intentar obtener la gráfica de mérito para la aproximación de segundo orden, ver Figura \ref{fig:W4_analisis_frecuencias_biquad}, debido a que un pequeño cambio en algún parámetro modifica dramáticamente los rangos de los otros y no se conocen las ecuaciones que relacionan unos parámetros con otros esta resultó ser incorrecta, no obstante nos da una idea de la frecuencia de reloj ideal para generar la mayor cantidad de integradores fraccionarios, en este caso con una $n = 216$ obtenemos la mayor cantidad de integradores. 
+	
+	\begin{table}[!hbp]                                      
+		\centering   
+		\caption{Valores para configurar implementación de segundo orden FilterBiquad de ordenes de 0.1 a 0.95.}                            
+		\label{tab:calculos_biquad}                                        
+			\begin{tabular}{cccccc}                        
+			\hline                                              
+			$\bm{\alpha}$ & $\bm{G_{H}}\,\,$  & $\bm{G_{L}}\,\,$  & $\bm{f_{z}}\,\,$ [kHz] & $\bm{f_{p}}\,\,$ [kHz] & $\bm{Q_{z} = Q_{p}}\,\,$  \\            
+			\hline                                              
+			0.10 & 0.740260 & 1.350877 & 1.162272 & 0.860383 & 0.249058 \\   
+		                                                          
+			0.15 & 0.635996 & 1.572337 & 1.253929 & 0.797494 & 0.247870 \\   
+		                                                        
+			0.20 & 0.545455 & 1.833333 & 1.354006 & 0.738549 & 0.246183 \\   
+	                                                          
+			0.25 & 0.466667 & 2.142857 & 1.463850 & 0.683130 & 0.243975 \\   
+		                                                        
+			0.30 & 0.397993 & 2.512605 & 1.585120 & 0.630867 & 0.241214 \\   
+		                                                          
+			0.35 & 0.338061 & 2.958042 & 1.719896 & 0.581431 & 0.237858 \\   
+			                                                        
+			0.40 & 0.285714 & 3.500000 & 1.870829 & 0.534522 & 0.233854 \\   
+		                                                          
+			0.45 & 0.239972 & 4.167155 & 2.041361 & 0.489869 & 0.229132 \\   
+			                                                          
+			0.50 & 0.200000 & 5.000000 & 2.236068 & 0.447214 & 0.223607 \\   
+		                                                         
+			0.55 & 0.165085 & 6.057471 & 2.461193 & 0.406307 & 0.217164 \\   
+			                                                         
+			0.60 & 0.134615 & 7.428571 & 2.725541 & 0.366900 & 0.209657 \\   
+		                                                         
+			0.65 & 0.108062 & 9.253968 & 3.042034 & 0.328727 & 0.200889 \\   
+		                                                          
+			0.70 & 0.084967 & 11.769231 & 3.430631 & 0.291492 & 0.190591 \\  
+		                                                         
+			0.75 & 0.064935 & 15.400000 & 3.924283 & 0.254824 & 0.178377 \\  
+			                                                          
+			0.80 & 0.047619 & 21.000000 & 4.582576 & 0.218218 & 0.163663 \\  
+		                                                         
+			0.85 & 0.032717 & 30.565217 & 5.528582 & 0.180878 & 0.145489 \\  
+			                                                         
+			0.90 & 0.019964 & 50.090909 & 7.077493 & 0.141293 & 0.122026 \\  
+			                                                           
+			0.95 & 0.009126 & 109.571429 & 10.467637 & 0.095533 & 0.088709 \\
+			\hline                                              
+			\end{tabular}                                                                
+	\end{table}
+	
+	Experimentalmente se probaron diferentes valores de la Tabla \ref{tab:calculos_biquad} y se encontró que solo es posible llegar hasta integradores fraccionarios con un $\alpha$ de hasta $\alpha = 0.6$. Es posible que utilizando la segunda metodología con un esquema de diseño propuesto esto pueda mejorar pero debido a que el diseño se basa en encontrar una $n$ que obtenga la mayor cantidad de integradores y los rangos de los parámetros varían dramáticamente esto se reserva para futuros trabajos.  
+	
+	\begin{figure}[hbtp]
+		\caption{Gráfica de mérito, análisis de orden fraccionario dependiente de $n$ para implementación con CAM FilterBiquad teórica INCORRECTA.} 
+		\label{fig:W4_analisis_frecuencias_biquad}
+		\centering
+		\includegraphics[width=11cm]{W4_analisis_frecuencias_biquad.eps}
+	\end{figure}	
+	
+	En la Figura \ref{fig:W3_AD2_biquad} se muestra el diagrama de implemantación en AD2, en la Figura \ref{fig:W5_frecuencias_de_reloj} la configuración de los relojes y en la Figura \ref{fig:W6_configuracion_de_CAMS} la configuración de los CAM.
+	\begin{figure}[!ht] 
+		\caption{Implementación de integrador de orden fraccionario utilizando la aproximación de segundo orden.}
+		\label{fig:W3_AD2_biquad}
+		\centering
+		\includegraphics[width = 8.5cm]{W3_AD2_biquad}
+	\end{figure}
+	
+	\begin{figure}[!ht] 
+		\caption{Configuración de Clocks: FPAA1 con aproximación de segundo orden.}
+		\label{fig:W5_frecuencias_de_reloj}
+		\centering
+		\includegraphics[width = 12cm]{W5_frecuencias_de_reloj.eps}
+	\end{figure}
+	
+	\begin{figure}[!ht] 
+		\caption{Configuración de los CAM con aproximación de segundo orden.}
+		\label{fig:W6_configuracion_de_CAMS}
+		\centering
+		\includegraphics[width = 14cm]{W6_configuracion_de_CAMS.eps}
+	\end{figure}
+	
+	Utilizando la NI ELVIS II+ se obtuvo la respuesta en frecuencia mostrada en la Figura \ref{fig:W1_impl_seg_ord}. La respuesta obtenida coincide con el análisis teórico realizado y presenta un error muy pequeño. En la Figura \ref{fig:W2_seg_ord_teoria_exp} se muestra la comparación entre el resultado experimental y el teórico.
+	\begin{figure}[!ht] 
+		\caption{Resultados experimentales de respuesta en frecuencia con $\alpha = 0.5$.}
+		\label{fig:W1_impl_seg_ord}
+		\centering
+		\includegraphics[width = 10cm]{W1_impl_seg_ord.png}
+	\end{figure}
+	
+	\begin{figure}[!ht]
+		\caption{Diagrama de bode de comparativo, respuesta teórica contra experimental,  $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
+		\label{fig:W2_seg_ord_teoria_exp}
+		\centering
+		\includegraphics[width=12cm]{W2_seg_ord_teoria_exp.eps}
+	\end{figure}
+	
+	En secciones anteriores se analizó el error que presenta la CFE para la aproximación de segundo orden y se comprobó que utilizar una aproximación de segundo orden resulta provechoso únicamente para valores pequeños de $\alpha$ por lo que no resulta muy problemático que la configuración bicuadrática solo llegue hasta $\alpha = 0.6$. En la Tabla \ref{tab:resumen_config} se analizan los ventajas y desventajas de cada una de las configuración estudiadas anteriormente.
+	
+	\begin{table}[!ht]
+	  \centering
+	  \caption{Resumen de configuraciones para aproximación de integradores fraccionarios utilizando la CFE.}
+	  \label{tab:resumen_config}
+	  \begin{tabular}{>{\centering\arraybackslash}m{3.5cm} >{\centering\arraybackslash}m{2.5cm} >{\centering\arraybackslash}m{4cm} >{\centering\arraybackslash}m{4cm}}
+	    \hline
+	    \textbf{Configuración} & \textbf{Rango} $\bm{\alpha}$ & \textbf{Ventajas}  & \textbf{Desventajas}\\ 
+	    \hline
+	      Bilineal polo y cero
+	    &
+	     $[0.01, 0.81]$
+	    & 
+	      \begin{itemize}[leftmargin=0cm,noitemsep]
+	      \begin{scriptsize}
+			\item[] Consume pocos recursos.
+			\item[] Facilidad de implementación.
+			\item[] Proceso de diseño sencillo.
+	      \end{scriptsize}
+	      \end{itemize}
+	     & 
+	      \begin{itemize}[leftmargin=0cm,noitemsep]
+	      \begin{scriptsize}
+			\item[] Mayor error para $\alpha$ grande.
+			\item[] Menor rango.
+	      \end{scriptsize}
+	      \end{itemize}
+	    \\ %-------------------------------------------------------
+	      Bilineal LP y HP
+	    &
+	      $[0.01, 0.93]$
+	    & 
+	      \begin{itemize}[leftmargin=0cm,noitemsep]
+	      \begin{scriptsize}
+			\item[] Mayor rango.
+			\item[] Ajuste de ganancia flexible.
+			\item[] Proceso de diseño sencillo.
+	      \end{scriptsize}
+	      \end{itemize}
+	     & 
+	      \begin{itemize}[leftmargin=0cm,noitemsep]
+	      \begin{scriptsize}
+			\item[] Consume más recursos.
+			\item[] Mayor error que configuración polo y cero.
+	      \end{scriptsize}
+	      \end{itemize}
+	    \\ %-------------------------------------------------------
+	     	Bicuadrático
+	    &
+	      $[0.01, 0.6]$
+	    & 
+	      \begin{itemize}[leftmargin=0cm,noitemsep]
+	      \begin{scriptsize}
+			\item[] Menor error.
+			\item[] Oportunidad de nuevos esquemas de diseño.
+	      \end{scriptsize}
+	      \end{itemize}
+	     & 
+	      \begin{itemize}[leftmargin=0cm,noitemsep]
+	      \begin{scriptsize}
+			\item[] Proceso de diseño complejo.
+			\item[] Menor rango.
+	      \end{scriptsize}
+	      \end{itemize}
+	    \\ %-------------------------------------------------------
+	    \hline
+	  \end{tabular}
+	\end{table}
+	
+	
+	
+	 
