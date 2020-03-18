@@ -106,13 +106,13 @@
 	En la Figura \ref{fig:esquematico_fpaa} encontrada en el apéndice se puede encontrar el diagrama esquemático completo de la tarjeta QuadApex v2.0 en el que se puede analizar las todas las conexiones de los switches, sin embargo por simplicidad en la Figura \ref{fig:X1_esquematico_simple} se muestra un diagrama simplificado con los DIP switches de uso más común.
 	
 	\begin{figure}[!ht] 
-		\caption{Esquemático Simplificado de DIP Switches.}
+		\caption{Esquemático simplificado de DIP Switches.}
 		\label{fig:X1_esquematico_simple}
 		\centering
 		\includegraphics[width = 15cm]{X1_esquematico_simple.eps}
 	\end{figure}
 	
-		\subsection{Filtros Rauch y buffers de salida}
+		\subsection{Filtros Rauch y buffers de salida}\label{sec:rauch}
 	
 	La tarjeta cuenta con 2 buffers de entrada llamados filtros Rauch listos para usar, Rauch\_\#1\_I01 y Rauch\_\#2\_I01, estos son filtros multipropósito cuya su principal función es convertir una señal single-ended a una diferencial en la FPAA, internamente la FPAA trabaja únicamente con señales diferenciales y debido a esto el uso de estos filtros es imprescindibles para introducir señales externas, por ejemplo de generadores de funciones u otros circuitos. Si se usa una señal single-ended, es necesario conectar IN- a GND y conectar la señal en IN+.
 	Para activar el filtro es necesario hacerlo desde el software AD2 haciendo doble clic en la IO cell apropiada (IOCell1-4), seleccionar Input y después Amplifier (Filter), esto es debido a que el filtro funciona en combinación con un amplificador integrado en la FPAA y los componentes pasivos de montaje superficial que vienen soldados de fabrica.
@@ -505,7 +505,7 @@
 		\item En AD2 configure el CAM TransferFunction, abra las configuraciones y seleccione Lookup Table, copie y pegue el archivo Lookup\_{}Table.csv donde se encuentre el proyecto de AD2, de clic en Load y seleccione la lookup table, finalmente de clic en Apply y después en OK.
 		\item Conecte un generador de funciones con una función rampa con pendiente positiva de 3V pico a pico y una frecuencia de 100Hz a los pines IN+ y GND del filtro RAUCH\_{}\#{}1\_{}IO1, recuerde que la señal en este caso es single-ended.
 		
-		\item Presione Ctrl + W para descargar el programa a la tarjeta. Si realiza la medición de los pines Out y Gnd del buffer BUF\_{}\#{}1\_{}O3 verá lo mostrado en le figura \ref{fig:X3_AD2_lookup_osc}.
+		\item Presione Ctrl + W para descargar el programa a la tarjeta. Si realiza la medición de los pines Out y Gnd del buffer BUF\_{}\#{}1\_{}O3 verá lo mostrado en la figura \ref{fig:X3_AD2_lookup_osc}.
 	\end{enumerate}
 	
 	\begin{figure}[!ht]
@@ -531,7 +531,7 @@
 		\includegraphics[width=9cm]{X4_matlab_sim.eps}
 	\end{figure}
 
-	En la Figura \ref{fig:X4_matlab_sim} se muestra la gráfica generada por el código del apéndice \ref{cod:D1_Look_up_table}. Comparando las figuras \ref{fig:X4_matlab_sim} y \ref{fig:X3_AD2_lookup_osc} podemos observar que la señal se reconstruyó con una buena calidad no obstante entre mayor sea la frecuencia de entrada de la rampa comenzará a aparecer distorsión, a una frecuencia de 1kHz empieza a ser notorio, de mismo modo si la función que el usuario proponga tiene una frecuencia muy alta la resolución no será suficiente y en la implementación ocurrirán errores.
+	En la Figura \ref{fig:X4_matlab_sim} se muestra la gráfica generada por el código del apéndice \ref{cod:D1_Look_up_table}. Comparando las Figuras \ref{fig:X4_matlab_sim} y \ref{fig:X3_AD2_lookup_osc} podemos observar que la señal se reconstruyó con una buena calidad no obstante entre mayor sea la frecuencia de entrada de la rampa comenzará a aparecer distorsión, a una frecuencia de 1kHz empieza a ser notorio, de mismo modo si la función que el usuario proponga tiene una frecuencia muy alta la resolución no será suficiente y en la implementación ocurrirán errores.
 	
 	
 	

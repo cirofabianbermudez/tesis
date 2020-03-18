@@ -1,13 +1,16 @@
-function R = saturation_cust(k,x)
-    
+function R = saturation_cust(k,s,beta,x)
+% f(x) =        k       si x > beta
+%               sx      si -beta <= x <= beta
+%               -k      si x < -beta
+%
     [m,n] = size(x);
 
     R = zeros(m,n);
     for i = 1:m*n
-        if x(i) < -1
+        if x(i) < -beta
             R(i) = -k;
-        elseif -1 <= x(i) && x(i) <= 1  
-            R(i) = k*x(i);
+        elseif -beta <= x(i) && x(i) <= beta 
+            R(i) = s*x(i);
         else
             R(i) = k;
         end

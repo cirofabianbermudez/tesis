@@ -66,5 +66,5 @@ function R = z_state(x,y,z)
     b = 0.7;
     c = 0.7;
     d = 4;
-    R = -a*x - b*y - c*z + d*saturation_cust(1,x);
+    R = -a*x - b*y - c*z + d*saturation_cust(1,0.1,0.1,x);
 end

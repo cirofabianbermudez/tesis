@@ -1,11 +1,13 @@
 %% Lookup Table
 paso = 6/256;
 Vin = (-3:paso:3);
-w = 10;
-Vout = 2*sinc((w/pi)*Vin);
+% w = 10;
+% Vout = 2*sinc((w/pi)*Vin);
+% k,s,beta,x
+Vout = saturation_cust(1,0.7,0.1,Vin);
 data = Vout(1:end-1)';
 %% Escribir a archivo de Excel CSV
-csvwrite('Lookup_Table.csv',data);
+csvwrite('Lookup22.csv',data);
 %% Ver grafica
 plot(Vin,Vout);
 grid on;
