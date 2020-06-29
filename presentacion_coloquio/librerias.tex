@@ -1,0 +1,140 @@
+\decimalpoint
+\usepackage{xcolor}
+\usepackage{ragged2e}
+\usepackage{etoolbox}
+
+\usepackage{comment}											% Comentarios largos
+\usepackage{pdfpages}											% Incluir portada echa en Inkscape
+\usepackage{setspace}											% Interlineado
+\usepackage{makecell}											% Para tablas
+\usepackage{xcolor}												% Colores en tablas
+\usepackage{colortbl}
+\usepackage{array}												% Necesario para algunas tablas
+\usepackage[inline]{enumitem}									% Personalizar itemize
+\usepackage{multicol}											% Item 2 columns											% Necesario para algunas tablas
+\usepackage{subcaption}											% Subfiguras
+%-------------------------------------------------------------------------------
+%                            Comandos matematicos                              %
+%-------------------------------------------------------------------------------
+\usepackage{steinmetz}											% Para representar fasores
+\usepackage{bm}													% Bold math  \bm command
+\newcommand{\binomb}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}}
+
+
+\apptocmd{\frame}{}{\justifying}{} % Allow optional arguments after frame.
+
+\setbeamertemplate{footline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.5ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}Ciro Fabián Bermúdez Márquez
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.5ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}Benemérita Universidad Autónoma de Puebla
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.5ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}Facultad de Ciencias de la Electrónica\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+
+%\usefonttheme{serif}
+\usefonttheme[onlymath]{serif}
+
+
+
+\setbeamertemplate{caption}[numbered]
+\theoremstyle{definition}
+	\newtheorem{defn}{Definición}
+	\newtheorem{exmp}{Ejemplo}
+	\newtheorem{law}{Ley}
+	
+	
+%-------------------------------------------------------------------------------
+%                            Libreria de codigos                               %
+%-------------------------------------------------------------------------------
+% Paquetes necesarios
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Tipos de letra personalizadas
+\def\lstbasicfont{\fontfamily{pcr}\selectfont\scriptsize}
+\def\vhdlbasicfont{\fontfamily{cmtt}\selectfont\scriptsize}
+
+% Colores personalizados
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codeorange}{RGB}{254, 100, 35}
+
+% Deficion de lenguajes perzonalizados
+
+% Definicion de lenguaje MATLAB
+\lstdefinelanguage{matlabfloz}{%
+  alsoletter={...},%
+  morekeywords={%                             % keywords
+		break,case,catch,classdef,continue,else,
+		elseif,end,for,function,global,if,
+		otherwise,parfor,persistent,
+		return,spmd,switch,try,while,...},        % Use the matlab "iskeyword" command to get those
+  comment=[l]\%,                              % comments
+  morecomment=[l]...,                         % comments
+  morecomment=[s]{\%\{}{\%\}},                % block comments
+  morestring=[m]'                             % strings 
+}[keywords,comments,strings]%
+
+% Estilos MATLAB
+\lstdefinestyle{MATLAB}{
+	frame=single,
+	rulecolor=\color{black},
+	framexleftmargin=4mm,
+	xleftmargin=2mm,
+	language=matlabfloz,
+  commentstyle=\color{codegreen},
+  keywordstyle=\color{blue}, %magenta
+  numberstyle=\tiny\color{black},
+  stringstyle=\color{codepurple},
+  basicstyle=\lstbasicfont\tiny,
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2    
+}
+
+% Estilos MATLAB en codigo
+\lstdefinestyle{MATLAB_preview}{
+%	frame=single,
+%	rulecolor=\color{black},
+%	framexleftmargin=4mm,
+%	xleftmargin=2mm,
+	language=matlabfloz,
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue}, %magenta
+%    numberstyle=\tiny\color{black},
+    stringstyle=\color{codepurple},
+    basicstyle=\lstbasicfont\small,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+%    numbers=left,                    
+%    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2    
+}
+
+\renewcommand{\lstlistingname}{Código}% Listing -> Algorithm
+\renewcommand{\lstlistlistingname}{Lista de códigos}% 
