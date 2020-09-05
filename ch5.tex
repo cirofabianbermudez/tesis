@@ -1,11 +1,17 @@
 \chapter{Conclusiones}
 	
-	En este trabajo de tesis se analizaron tres topologías para diseñar integradores de orden fraccionario. La primera consistió en utilizar un filtro bilineal el cual al ser configurado en su forma polo y cero permitió implementar integradores con ordenes dentro del rango $[0.1, 0.81]$, ordenes superiores  no fueron posibles de implementar debido a las restricciones que presenta el hardware en cuanto a la frecuencia de reloj.
+	En este trabajo de tesis se analizaron tres topologías para diseñar integradores de orden fraccionario utilizando la expansión de fracciones continuas y tarjeta QuadApex v2.0. La primera consistió en utilizar un filtro bilineal el cual al ser configurado en su forma polo y cero permitió implementar integradores con ordenes dentro del rango $[0.1, 0.81]$, ordenes superiores no son posibles de implementar debido a las restricciones que presenta el hardware en cuanto a la frecuencia de reloj. La segunda consistió en combinar dos filtros, un pasabajas y un pasaaltas en una configuración de suma, esta topología permitió llegar a rangos de $[0.01, 0.93]$, con la desventaja de presentar ligeramente mayor error en la implementación con respecto a la topologia de filtro bilineal. Esta topologia es la más versátil debido a que el rango es mayor y su metodología de diseño es sencilla. La topología bicuadrática presenta  menor error, sin embargo el rango de ordenes es muy pequeño bajo el esquema propuesto de factor de calidad dependiente, de $[0.01, 0.6]$, esto lo hace poco útil para la mayoría de aplicaciones, no obstante es una topología que aun puede estudiarse y desarrollar a futuro diversos esquemas que pueden mejorar su rendimiento.
 	
-	La segunda consistió en combinar dos filtros, un pasabajas y un pasaaltas en una configuración de suma, esta topología permitió llegar a rangos de $[0.01, 0.93]$, no obstante presentando un poco más de error en la implementación con respecto al polo y cero. Esta topología es la más versátil debido a que el rango es mayor y su metodología de diseño es sencilla.
+	Hacer implementaciones utilizando un mayor número de convergentes en la expansión de fracciones continuas no tiene sentido, esto debido a que la mejora no es significativa y cuando se habla de una en FPAA el manejo de recursos es fundamental y no se puede dar el lujo de desperdiciarlos. Del capítulo dos vale resaltar que se descubrió que \textbf{el porcentaje de error es mayor cuánto más pequeño sea $\alpha$}.
 	
-	La topología bicuadrática aunque teniendo menor error, su rango es muy pequeño bajo el esquema propuesto, de $[0.01, 0.6]$, esto lo hace poco útil en la mayoría de aplicaciones. Sin embargo es una topología que aun puede estudiarse y desarrollar diversos esquemas que pueden mejorar su rendimiento.
+	La implementación del oscilador caótico fue compleja en el sentido de tener que adaptarse a las condiciones del hardware, lo que puede funcionar a nivel simulación no siempre funciona a nivel experimental y esto es aun más cierto teniendo en cuenta que los integradores de orden fraccionario que se utilizaron son aproximados. Aún teniendo en cuenta lo anterior es simplemente increíble ver en funcionamiento este tipo de sistemas y el esfuerzo se ve recomenzado al ver en carne propia estos fenómenos.
 	
-	Topologías de orden superior no son recomendables debido a que la mejora de poseen no es sustancial y seria un desperdicio de recursos.
+	De este trabajo se rescata que puede ser utilizado como literatura para el aprendizaje de las FPAA, el uso correcto del dispositivo NI ELVIS II para la generación experimental de diagramas de Bode y metodologías de diseño para integradores de orden fraccionario.
 	
-	Finalmente la implementación del oscilador caótico resultó exitosa y se comprobó que es posible utilizar hardware analógico embebido para implementar sistemas de orden fraccionario además de generar reglas de diseño para futuros trabajos.
+	Para trabajos futuros se puede considerar utilizar las metodologías presentadas aquí para:
+	
+	\begin{enumerate}
+		\item Explorar la topoligía de segundo orden y probar esquemas de diseño que mejoren su rendimiento.
+		\item Diseñar sistemas de control de orden fraccionario e implementarlos utilizando la FPAA. 
+		\item Implementar osciladores caóticos de orden fraccionario para su utilización en aplicaciones.
+	\end{enumerate}	 

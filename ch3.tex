@@ -13,7 +13,7 @@
 
 	No conecte la placa QuadApex v2.0 a la PC vía cable USB,  ni tampoco inicie AD2 ahora, el driver debe instalarse primero. Se asume que AD2 ya ha sido instalado y registrado en la computadora, de lo contrario entrar al link que aparece a continuación.
 
-	Para instalar AD2 basta con acceder al siguiente link y seguir los pasos que muestra la pagina:
+	Para instalar AD2 es necesario acceder al siguiente link y seguir los pasos que muestra la pagina:
 
 	\begin{center}
 		\url{https://www.anadigm.com/sup_downloadcenter.asp?tab=ad2}
@@ -114,10 +114,10 @@
 	
 		\subsection{Filtros Rauch y buffers de salida}\label{sec:rauch}
 	
-	La tarjeta cuenta con 2 buffers de entrada llamados filtros Rauch listos para usar, Rauch\_\#1\_I01 y Rauch\_\#2\_I01, estos son filtros multipropósito cuya su principal función es convertir una señal single-ended a una diferencial en la FPAA, internamente la FPAA trabaja únicamente con señales diferenciales y debido a esto el uso de estos filtros es imprescindibles para introducir señales externas, por ejemplo de generadores de funciones u otros circuitos. Si se usa una señal single-ended, es necesario conectar IN- a GND y conectar la señal en IN+.
+	La tarjeta cuenta con 2 buffers de entrada llamados filtros Rauch listos para usar, Rauch\_\#1\_I01 y Rauch\_\#2\_I01, estos son filtros multipropósito cuya su principal función es convertir una señal single-ended a una diferencial en la FPAA, internamente la FPAA trabaja únicamente con señales diferenciales y debido a esto el uso de estos filtros es imprescindibles para introducir señales externas, como señales de generadores de funciones u otros circuitos. Si se usa una señal single-ended, es necesario conectar IN- a GND y conectar la señal en IN+.
 	Para activar el filtro es necesario hacerlo desde el software AD2 haciendo doble clic en la IO cell apropiada (IOCell1-4), seleccionar Input y después Amplifier (Filter), esto es debido a que el filtro funciona en combinación con un amplificador integrado en la FPAA y los componentes pasivos de montaje superficial que vienen soldados de fabrica.
 	
-	Rauch\_\#1\_I01 está conectado a I/O1 de la FPAA \#1 y esta configurado con una frecuencia de corte muy alta ($F_{o} = 490$ kHz), una $Q = 0.707$ y ganancia unitaria. Los componentes pasivos que tiene son: $R_{1} = R_{2} = 22$k$\Omega$, $R_{3} = 10$k$\Omega$, $C_{1} = 22$pF y $C_{2} = 10$pF.  Rauch\_\#2\_I01 está conectado a I/O1 de la FPAA \#2 y esta configurado con una ganancia unitaria, una $Q = 0.707$ y una frecuencia de corte de poco más de 20 kHz, que es típica de una aplicación de audio. Los componentes pasivos respectivos son: $R_{1} = R_{2} = 470$k$\Omega$, $R_{3} = 220$k$\Omega$, $C_{1} = 22$pF y $C_{2} = 10$pF. Si se requiere una frecuencia de corte inferior o mayor, es muy fácil modificar este filtro sin quitar los componentes de montaje superficial debajo, simplemente agregando capacitores y resistencias TH. En la Figura \ref{fig:filtro_rauch} se muestra la representación esquemática del filtro Rauch y como se ve en AD2.
+	Rauch\_\#1\_I01 está conectado a I/O1 de la FPAA \#1 y esta configurado con una frecuencia de corte muy alta ($F_{o} = 490$ kHz), una $Q = 0.707$ y ganancia unitaria. Los componentes pasivos que tiene son: $R_{1} = R_{2} = 22$k$\Omega$, $R_{3} = 10$k$\Omega$, $C_{1} = 22$pF y $C_{2} = 10$pF.  Rauch\_\#2\_I01 está conectado a I/O1 de la FPAA \#2 y esta configurado con una ganancia unitaria, una $Q = 0.707$ y una frecuencia de corte de poco más de 20 kHz, que es típica de una aplicación de audio. Los componentes pasivos respectivos son: $R_{1} = R_{2} = 470$k$\Omega$, $R_{3} = 220$k$\Omega$, $C_{1} = 22$pF y $C_{2} = 10$pF. Si se requiere una frecuencia de corte inferior o mayor, es muy fácil modificar este filtro sin quitar los componentes de montaje superficial debajo, simplemente agregando capacitores y resistencias TH. En la Figura \ref{fig:filtro_rauch} se muestra la representación esquemática del filtro Rauch y su representación en AD2.
 	
 	\begin{figure}[!ht]
 	\centering   
@@ -167,7 +167,7 @@
 	\begin{equation}
 		C_{2} = \frac{1}{4 \pi G F_{o} Q R_{1}}
 	\end{equation}
-	consideremos el siguiente ejemplo representativo. Construya un filtro Rauch con las siguientes características: ganancia de 1.5, una frecuencia de corte $F_{o} = 20$ kHz y $Q = 0.707$. Utilizando las ecuaciones anteriores y proponiendo $R_{1} = 10$k$\Omega$ obtenemos:
+	consideremos el siguiente ejemplo representativo. Construir un filtro Rauch con las siguientes características: ganancia de 1.5, una frecuencia de corte $F_{o} = 20$ kHz y $Q = 0.707$. Utilizando las ecuaciones anteriores y proponiendo $R_{1} = 10$k$\Omega$ obtenemos:
 	
 	\vspace{-1cm}
 	\begin{align*}
@@ -203,7 +203,7 @@
 
 	\section{AnadigmDesigner2}
 	
-	AD2 es un software creado por la empresa Anadigm el cual permite construir fácilmente circuitos analógicos complejos seleccionado, colocando y cableando juntos subcircuitos de bloques de construcción  denominados CAM (Configurable Analog Modules), estos aportan flexibilidad y sencillez en el proceso diseño debido a que son bloques que hacen desde funciones sencillas como inversores o comparadores hasta diseños completos como filtros y multiplicadores. Los CAM pueden interconectarse fácilmente unos con otros y únicamente necesitan pequeñas configuraciones para su correcto funcionamiento. Los circuitos analógicos que se construyen pueden ser descargados a la FPAA y esta funcionará como el circuito construido. Los resultados del diseño analógico pueden ser visto de inmediato utilizando un generador de funciones y un osciloscopio (hardware-in-the-loop). Los CAM más utilizados son los mostrados en la Tabla \ref{tab:CAMs_AD2}. En secciones posteriores se abordará con más detalle como configurarlos y cuales son las ecuaciones necesarias para calcular los parámetros de cada uno.  
+	AD2 es un software creado por la empresa Anadigm el cual permite construir fácilmente circuitos analógicos complejos seleccionado, colocando y cableando juntos subcircuitos de bloques de construcción  denominados CAM (Configurable Analog Modules), estos aportan flexibilidad y sencillez en el proceso diseño debido a que son bloques que desempeñan desde funciones sencillas como inversores o comparadores hasta diseños completos como filtros y multiplicadores. Los CAM pueden interconectarse fácilmente unos con otros y únicamente necesitan pequeñas configuraciones para su correcto funcionamiento. Los circuitos analógicos que se construyen pueden ser descargados a la FPAA y esta funcionará como el circuito construido. Los resultados del diseño analógico pueden ser visto de inmediato utilizando un generador de funciones y un osciloscopio (hardware-in-the-loop). Los CAM más utilizados son los mostrados en la Tabla \ref{tab:CAMs_AD2}. En secciones posteriores se abordará con más detalle como configurarlos y cuales son las ecuaciones necesarias para calcular los parámetros de cada uno.  
 	
 	\begin{table}[!ht]
 	  \centering
@@ -343,7 +343,7 @@
 	
 		\subsection{Comunicación con AD2}\label{sec:comunicacion_con_AD2}
 
-	Para este punto la tarjeta ya puede ser programada lo que en este caso significa configurar los FPAA. Esto puede realizarse desde una PC o una laptop usando un cable estándar USB tipo A-B. La tarjeta usa una emulación de comunicación serial de tal manera que desde la computadora la tarjeta aparecerá como un puerto COM.
+	En este punto la tarjeta ya puede ser programada lo que en este caso significa configurar los FPAA. Esto puede realizarse desde una PC o una laptop usando un cable estándar USB tipo A-B. La tarjeta usa una emulación de comunicación serial de tal manera que desde la computadora la tarjeta aparecerá como un puerto COM.
 
 	Para programar la tarjeta el primer paso consiste en asegurarse de seleccionar la tarjeta adecuada y comprobar que esta funcione correctamente, para esto, conecte el cable USB entre la placa y la computadora y encienda la tarjeta. Abra AD2 y haga clic en \textbf{Settings/Preferences}, en la pestaña \textbf{Chip} seleccione \textbf{AN231E04}, después diríjase a la pestaña \textbf{Port}. En el menú desplegable \textbf{Select Port} debe estar el puerto COM correspondiente a la tarjeta Anadigm. Este es en realidad un puerto COM virtual debido a que la tarjeta tiene un \textbf{USB/UART bridge} llamado CP2102 el cual emula un puerto serial. 
 
@@ -358,7 +358,7 @@
 	
 	La Figura \ref{fig:G1_AD2_board_info} muestra la información que despliega AD2 acerca de la tarjeta donde todas las 4 FPAA están configuradas en cadena. Si menos FPAA están configuradas entonces la información de la placa mostrará cuantas FPAA están disponibles.
 
-	Ahora debería ser posible descargar un circuito desde AD2. Para hacer esto simplemente es necesario dar clic sobre el icono de descarga (a la izquierda del signo de interrogación amarillo, debajo de Dynamic Config). Como alternativa presionar Ctrl + W. Un LED amarillo comenzará a parpadear y un sonido de campanilla se escuchará mientras cada FPAA es configurada, finamente un LED verde se encenderá indicando que todas las FPAA han sido configuradas correctamente. Un LED rojo indicará que la configuración falló. Es importante que el número de FPPA en AD2 coincida con el número de FPAA habilitadas en la placa. Por ejemplo, si la tarjeta fue configurada con una cadena de 3 FPAA, entonces estará esperando 3 configuraciones de FPAA para ser descargadas desde AD2 de lo contrario podrían ocurrir errores.
+	Ahora debería ser posible descargar un circuito desde AD2. Para hacer esto simplemente es necesario dar clic sobre el icono de descarga (a la izquierda del signo de interrogación amarillo, debajo de Dynamic Config). Como alternativa presionar Ctrl + W. Un LED amarillo comenzará a parpadear y un sonido de campanilla se escuchará mientras cada FPAA es configurada, finamente un LED verde se encenderá indicando que todas las FPAA han sido configuradas correctamente. Un LED rojo indicará que la configuración falló. Es importante que el número de FPPA en AD2 coincida con el número de FPAA habilitadas en la placa. Como ejemplo, si la tarjeta fue configurada con una cadena de 3 FPAA, entonces estará esperando 3 configuraciones de FPAA para ser descargadas desde AD2 de lo contrario podrían ocurrir errores.
 	
 		\subsection{Equivalencia de conexiones en tarjeta y en software}
 		
@@ -390,7 +390,7 @@
 			\end{tabular}                                                             
 	\end{table}
 	
-	Al activar los DIP switches también es necesario especificar en AD2 estas conexiones, en la Figura \ref{fig:X6_conexiones_AD2} se muestran las conexiones necesarias de los 8 DIP switches que interconectan las 4 FPAA, estos son S2, S3, S4, S5, S6, y S7.
+	Al activar los DIP switches también es necesario especificar en AD2 estas conexiones, en la Figura \ref{fig:X6_conexiones_AD2} se muestran las conexiones necesarias de los 6 DIP switches que interconectan las 4 FPAA, estos son S2, S3, S4, S5, S6, y S7.
 	
 	
 	\begin{figure}[!h]
@@ -428,7 +428,7 @@
 			\end{tabular}                                                             
 	\end{table}
 	
-	En Tabla \ref{tab:DIP_switches_code} se muestra una generalización para hacer estas conexiones, como ejemplo consideremos $n = 1$, entonces si se quiere conectar la salida 4 del FPPA1 a la entrada 1 del FPAA2 cierre los 2 switches superiores del DIP switch S2.
+	En Tabla \ref{tab:DIP_switches_code} se muestra una generalización para hacer estas conexiones, como ejemplo consideremos $n = 1$, es decir conexión entre la FPAA1 y FPAA2, si se quiere conectar la salida 4 (O4P y O4N) del FPPA1 a la entrada 1 (I1P y I1N) del FPAA2 cierre los 2 switches superiores del DIP switch S2.
 		\subsection{Configuración de relojes}
 	
 	Las configuraciones de los CAMs dependen de las frecuencias de reloj que se seleccionen para cada FPAA. Cada FPAA tiene dos fuentes de frecuencias de reloj de sistema \textbf{Sys1} y \textbf{Sys2}, y seis frecuencias de reloj de chip, desde \textbf{Clock 0} hasta \textbf{Clock 5} que son subdivisiones de cualquiera de las fuentes de reloj sistema. Seleccionar y configurar correctamente los relojes es importante ya que el rango de operación de los CAMs depende de esto.  En la Figura \ref{fig:G3_Frecuencias_AD2} se muestra la ventana de configuración de frecuencias de reloj.
@@ -440,7 +440,7 @@
 		\includegraphics[width = 9cm]{G3_Frecuencias_AD2.png}
 	\end{figure}
 
-	La tarjeta tiene una fuente de frecuencia de reloj principal llamada \textbf{ACLK} o $f_{c}$ cuya frecuencia es igual a $16$ MHz y a pesar de que es posible modificarla se recomienda no hacerlo. Sys1 y Sys2 dependen de esta frecuencia y pueden ser modificadas utilizando las siguientes ecuaciones:
+	La tarjeta tiene una fuente de frecuencia de reloj principal llamada \textbf{ACLK} o $f_{c}$ cuya frecuencia es igual a $16$ MHz y a pesar de que es posible modificarla se recomienda no hacerlo a menos de ser estrictamente necesario, a frecuencias menores los CAMs presentan problemas de funcionamiento. Sys1 y Sys2 dependen de esta frecuencia y pueden ser modificadas utilizando las siguientes ecuaciones:
 
 	\begin{equation}
 		\mathrm{Sys1} = \frac{f_{c}}{m} \qquad \mathrm{Sys2} = \frac{f_{c}}{m}
@@ -456,7 +456,7 @@
 
 	\section{Lookup Table}
 	
-	En ocasiones deseamos poder utilizar funciones poco tradiciones en nuestros diseños analógicos, una función tangente o una función saturación por mencionar algunas. Para lograr esto utilizamos lo que se conocen como \textbf{Lookup Tables}.
+	En ocasiones es necesario utilizar funciones poco tradiciones en los diseños analógicos, una función tangente o una función saturación por mencionar algunas. Para lograr esto se utiliza lo que se conocen como \textbf{Lookup Tables}.
 		
 		Una Lookup Table es una tabla de $2^{n}$ elementos donde $n$ es el número de bits (en el caso de la QuadApex v2.0 $n = 8$), en la cual a cada rango de voltaje se le asigna un voltaje de salida. Otra manera de entender a las Lookup Tables es como una función definida de la siguiente manera:
 	
@@ -469,7 +469,7 @@
 		\begin{equation}
 			R = \frac{V_{\textrm{max}}}{2^{n} }
 		\end{equation}
-	donde $V_{\textrm{max}}$ es la diferencia de potencial que puede tomar la entrada, en la QuadApex v2.0 $V_{\textrm{max}} = 6$V debido sus voltajes de trabajo entonces:
+	donde $V_{\textrm{max}}$ es la diferencia de potencial que puede tomar la entrada, en la QuadApex v2.0 $V_{\textrm{max}} = 6$V debido sus voltajes de trabajo, por lo tanto:
 	
 	\begin{equation}
 		R = \frac{6\textrm{V}}{2^{8}} = 0.0234 \approx 23 \textrm{mV}
@@ -531,7 +531,7 @@
 		\includegraphics[width=9cm]{X4_matlab_sim.eps}
 	\end{figure}
 
-	En la Figura \ref{fig:X4_matlab_sim} se muestra la gráfica generada por el código del apéndice \ref{cod:D1_Look_up_table}. Comparando las Figuras \ref{fig:X4_matlab_sim} y \ref{fig:X3_AD2_lookup_osc} podemos observar que la señal se reconstruyó con una buena calidad no obstante entre mayor sea la frecuencia de entrada de la rampa comenzará a aparecer distorsión, a una frecuencia de 1kHz empieza a ser notorio, de mismo modo si la función que el usuario proponga tiene una frecuencia muy alta la resolución no será suficiente y en la implementación ocurrirán errores.
+	En la Figura \ref{fig:X4_matlab_sim} se muestra la gráfica generada por el código del apéndice \ref{cod:D1_Look_up_table}. Comparando las Figuras \ref{fig:X4_matlab_sim} y \ref{fig:X3_AD2_lookup_osc} podemos observar que la señal se reconstruyó con una buena calidad no obstante entre mayor sea la frecuencia de entrada de la rampa comenzará a aparecer distorsión, a una frecuencia de 1kHz empieza a ser notorio, de mismo modo si la función que el usuario ingresa tiene una frecuencia muy alta la resolución no será suficiente y en la implementación ocurrirán errores.
 	
 	
 	
@@ -558,7 +558,7 @@
 		\item Realizar las conexiones que se muestran en la Figura \ref{fig:T15_ELVIS_3} las cuales consisten en conectar un cable USB entre la computadora y el NI ELVIS, conectar la fuente de alimentación al NI ELVIS y al toma corriente.
 		\item Activar el switch de alimentación principal, ver Figura \ref{fig:T13_ELVIS}, los leds indicadores ACTIVE y READY se iluminarán, esperar hasta que quede solo encendido el segundo. Automáticamente se abrirá el programa NI ELVISmx Intrument Laucher.
 		\item Activar el switch de alimentación de la placa de prototipado, ver Figura \ref{fig:T13_ELVIS}, el led indicador POWER se iluminará.
-		\item En la ventana NI ELVISmx Intrument Laucher dar clic en la opción Resources y después en Measurement and Automation Explorer, de desplegará una nueva ventana, en ella dar clic en la siguiente ruta My System/Devices and Interfaces/NI ELVIS II+``Dev1''. Dar clic en Reset y en Self-Test para comprobar la comunicación y después dar clic en Self-Calibrate. Una vez terminada la calibración no es necesario mantener la ventana de la calibración abierta.
+		\item En la ventana NI ELVISmx Intrument Laucher dar clic en la opción Resources y después en Measurement and Automation Explorer, se desplegará una nueva ventana, en ella dar clic en la siguiente ruta My System/Devices and Interfaces/NI ELVIS II+``Dev1''. Dar clic en Reset y en Self-Test para comprobar la comunicación y después dar clic en Self-Calibrate. Una vez terminada la calibración no es necesario mantener la ventana de la calibración abierta.
 	\end{enumerate}		
 	
 	
@@ -601,13 +601,13 @@
 	
 		\subsection{Diagramas de Bode}\label{sec:diagrama_de_bode}
 		
-	El diagrama de Bode que se obtiene del NI ELVIS II+ se hace por medio de un barrido en frecuencia real. El dispositivo genera una señal estímulo senoidal de 1V de amplitud desde una frecuencia inicial hasta una frecuencia final con un paso definido por el usuario, esta señal se introduce a la entrada de circuito a analizar y utilizando dos puntas de osciloscopio se mide tanto el estímulo como la respuesta del circuito a este. 
+	El diagrama de Bode que se obtiene del NI ELVIS II+ se hace por medio de un barrido en frecuencia real. El dispositivo genera una señal estímulo senoidal con una amplitud que puede ser seleccionada por el usuario desde una frecuencia inicial hasta una frecuencia final con un paso definido, esta señal se introduce a la entrada de circuito a analizar y utilizando dos puntas de osciloscopio se mide tanto el estímulo como la respuesta del circuito a este. 
 	
 	Para poder realizar un diagramas de Bode utilizando el NI ELVIS II+ es necesario seguir la siguiente metodología:
 		
 		\begin{enumerate}
 			\item Realizar la calibración descrita en la sección anterior.
-			\item Construir el circuito a analizar en la placa de prototipado de la NI ELVIS II+ y alimentarlo con las fuentes de alimentación incluidas en el dispositivo, ver Figura \ref{fig:T14_ELVIS_2_B}, en caso de tratarse de un circuito externo compartir tierras con el dispositivo. 
+			\item Construir el circuito a analizar en la placa de prototipado de la NI ELVIS II+ y alimentarlo con las fuentes de alimentación incluidas en el dispositivo, ver Figura \ref{fig:T14_ELVIS_2_B}, en caso de tratarse de un circuito externo compartir tierra con el dispositivo. 
 			\item Conectar la señal FGEN ubicada en la placa de prototipado a la entrada del circuito a analizar y conectar la referencia del circuito a GROUND, ver Figura \ref{fig:T14_ELVIS_2_B}.
 			\item Conectar una punta de osciloscopio al conector BNC SCOPE CH 0, este será el canal del estimulo y debe conectarse a la entrada del circuito y a GROUND, ver Figuras \ref{fig:T14_ELVIS_2_A} y \ref{fig:T14_ELVIS_2_B}.
 			\item Conectar una punta de osciloscopio al conector BNC SCOPE CH 1, este será el canal de la respuesta y debe conectarse a la salida del circuito y a GROUND, ver Figuras \ref{fig:T14_ELVIS_2_A} y \ref{fig:T14_ELVIS_2_B}.
@@ -692,7 +692,7 @@
 	\begin{center}
 		\url{http://www.ti.com/lit/zip/sloj069}
 	\end{center}
-	un código en spice se muestra en el apéndice \ref{cod:LTspice_simulacion} el cual realiza un barrido en frecuencia desde 1 kHz hasta 10 MHz con una resolución de 1000 puntos por década. Una vez realizada la simulación se exportan los resultados de magnitud y fase en archivo de texto para su manipulación en Matlab.
+	un código en Spice se muestra en el apéndice \ref{cod:LTspice_simulacion} el cual realiza un barrido en frecuencia desde 1 kHz hasta 10 MHz con una resolución de 1000 puntos por década. Una vez realizada la simulación se exportan los resultados de magnitud y fase en archivo de texto para su posterior manipulación en MATLAB.
 	
 	Utilizando la metodología descrita en la sección anterior considerando las siguientes configuraciones:
 	\begin{multicols}{2}
@@ -711,7 +711,7 @@
 	\noindent
 	se obtiene el diagrama de Bode experimental del circuito pasabajas activo como se muestra en la Figura \ref{fig:V9_elvis_pasabajas}. Al igual que con la simulación se exportan los resultados en un archivo de texto.
 	
-	Finalmente en el apéndice \ref{cod:diagramas_bode_comparativos} se muestra un código para cargar los datos tanto de la simulación como experimentales y compararlos con la respuesta ideal. El código genera la gráfica de la Figura \ref{fig:V10_bodes_comparativos}. 
+	Finalmente en el apéndice \ref{cod:diagramas_bode_comparativos} se muestra un código para cargar los datos tanto de la simulación como experimentales para su comparación con la respuesta ideal. El código genera la gráfica de la Figura \ref{fig:V10_bodes_comparativos}. 
 	
 	\begin{figure}[h!]
 		\caption{Diagrama de Bode experimental utilizando el NI ELVIS II+.}
@@ -744,7 +744,7 @@
 	\end{equation}
 	y donde $G_{L}$ es la ganancia en DC, $G_{H}$ es la ganancia de alta frecuencia, $f_{p}$ es la frecuencia del polo y $f_{z}$ es la frecuencia del cero. Si se utiliza un CAM de ganancia inversora (\textbf{GainInv}) se puede prescindir del signo negativo de la ecuación (\ref{ec:CAM_bilineal}).
 	
-	La función de transferencia de la aproximación con la CFE de primer orden, como se mencionó anteriormente es la siguiente:
+	La función de transferencia de la aproximación con la CFE de primer orden, como se mencionó anteriormente es:
 	\begin{equation}
 		\genfrac{}{}{0pt}{0}{}{_{(c_{2})}} \frac{1}{s^{\alpha}} \approx \frac{(1 - \alpha)s + (1 + \alpha) }{(1 + \alpha)s + (1 - \alpha)} 
 		\label{ec:cfe_primer_orden}
@@ -761,15 +761,15 @@
 	no obstante el ancho de bando de la ecuación (\ref{ec:cfe_primer_orden_simp}) es de $10^{-1}$ rad/s hasta $10^{1}$ rad/s, ver Figura \ref{fig:F10_bode_escalamiento}, lo cual es un rango de frecuencias muy bajo y presenta dificultades en su implementación. Por  esta razón se opta por aplicar un escalamiento en frecuencia a la ecuación (\ref{ec:cfe_primer_orden_simp}) utilizando los siguiente pasos: 
 	
 	\begin{enumerate}
-		\item Cambiamos la variable compleja por $p$ la cual representa la frecuencia actual:
+		\item Se cambia la variable compleja por $p$ la cual representa la frecuencia actual:
 			\begin{equation}
 				N(p) =  \frac{A p + 1}{p + A}
 			\end{equation}
-		\item Utilizamos la sustitución $p = \cfrac{s}{k_{f}}$:
+		\item Se utiliza la sustitución $p = \cfrac{s}{k_{f}}$:
 			\begin{equation}
 				N(s) =  \frac{A s k_{f}^{-1} + 1}{s k_{f}^{-1} + A}
 			\end{equation}
-		\item Reescribimos de una manera más conveniente:
+		\item Se reescribe de una manera más conveniente:
 			\begin{equation}
 				\genfrac{}{}{0pt}{0}{}{_{(c_{2})}} \frac{1}{s^{\alpha}} \approx \frac{A s + k_{f}}{s + A k_{f}}
 				\label{ec:cfe_primer_orden_simp_esc}
@@ -779,13 +779,13 @@
 	El factor de escalamiento $k_{f}$ se puede elegir a conveniencia dependiendo del ancho de banda necesario, no obstante la frecuencia de entrada de la mayoría de los CAM esta limitada aproximadamente a valores menores de 2 MHz, esto debido a que el tipo de procesamiento de señal del CAM se basa en arquitecturas de datos muestreados. Por esta razón se opta por un escalamiento con un factor $k_{f} = 2\pi 1000$. En la Figura \ref{fig:F12_bode_1er_orden_escalado} se muestra el resultado de aplicar el escalamiento. El nuevo ancho de banda abarca desde $100$ Hz hasta $10$ kHz el cual se encuentra dentro del rango de operación de los CAMs.
 	
 	\begin{figure}[hbtp]
-		\caption{Diagrama de bode de ecuación (\ref{ec:cfe_primer_orden_simp_esc}) para un integrador fraccionario con $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
+		\caption{Diagrama de Bode de ecuación (\ref{ec:cfe_primer_orden_simp_esc}) para un integrador fraccionario con $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
 		\label{fig:F12_bode_1er_orden_escalado}
 		\centering
 		\includegraphics[width=12cm]{F12_bode_1er_orden_escalado.eps}
 	\end{figure}
 	
-	 Para poder configurar el CAM FilterBilinear es necesario encontrar los valores correctos para los parámetros $G_{H}$, $G_{L}$, $f_{z}$ y $f_{p}$ dado un orden $\alpha$, y esto se logra igualando las ecuaciones (\ref{ec:cfe_primer_orden_simp_esc}) y (\ref{ec:CAM_bilineal}) con el fin de encontrar expresiones para calcularlos.
+	 Para poder configurar el CAM FilterBilinear es necesario encontrar los valores correctos para los parámetros $G_{H}$, $G_{L}$, $f_{z}$ y $f_{p}$ dado un orden $\alpha$, esto se logra igualando las ecuaciones (\ref{ec:cfe_primer_orden_simp_esc}) y (\ref{ec:CAM_bilineal}).
 	 
 	 \begin{equation}
 	 \frac{G_{H}(s + 2 \pi f_{z})}{s + 2 \pi f_{p}} = \frac{As + k_{f}}{s + A k_{f}}
@@ -899,7 +899,7 @@
 
 	Para demostrar que no todos los valores de la Tabla \ref{tab:calculos_bilineal} pueden ser implementados debido al rango de frecuencias absolutas mostradas en la Tabla \ref{tab:frecuencias_absolutas} consideremos el siguientes ejemplo:
 
-	Imaginemos que queremos implemetar un integrador de orden fraccionario con la aproximación de primer orden, un $\alpha = 0.9$ y escalado en frecuencia para que su ancho de banda se encuentre entre $100$ Hz y $10$ kHz. Dados los requerimientos anteriores $k_{f} = 2 \pi 1000$ y utilizando la Tabla \ref{tab:calculos_bilineal} sabemos que $f_{p} = 0.052632$, $f_{z} = 19.0$, $G_{L} = 19.0$ y $G_{H} = 0.052632$. Como se mencionó anteriormente la fuente de frecuencia de reloj principal $f_{c} = 16$ MHz no debe modificarse y de mismo modo se recomienda que Sys1 y Sys2 tampoco se modifiquen dramáticamente, es decir $m = 1$. Se opta por utilizar el Clock 0 para configurar el CAM FilterBilinear y que este dependa de Sys1 $=16$ MHz. Para que los datos que se ingresen en la ventana de configuración del CAM sean validos estos deben encontrase dentro del rango de frecuencias absolutas de la Tabla \ref{tab:frecuencias_absolutas}, por lo tanto se tiene que elegir un $n$ adecuado de tal manera que $F_{c}$ = Clock 0 = $\frac{\mathrm{Sys1}}{n}$ cumpla con los limites absolutos de frecuencia, en otras palabras que los parámetros $f_{z}$ y $f_{p}$ se encuentren dentro del rango $[\frac{F_{c}}{1000}, \frac{F_{c}}{10}]$. El rango de frecuencias en el que nos tenemos que encontrar para poder implemetentar el integrador es $[f_{p},f_{z}] = [0.052632, 19.0]$, no obstante el proceso de encontrar $n$ es muy laborioso debido a que podría haber más de un valor que haga posible que se encuentren dentro del rango, de mismo modo podría ocurrir el caso contrario y ninguna $n$ cumplir. Por esta razón en el apéndice \ref{cod:A12_grafica_analisis_de_frecuencias_FilterBilinear} se muestra un código para resolver este problema, este genera una gráfica, ver Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear}, la cual muestra la relación entre $n$ y el orden $\alpha$, en otras palabra hasta que orden fraccionario podemos implementar dependiendo del valor de $n$.
+	Imagine que queremos implemetar un integrador de orden fraccionario con la aproximación de primer orden, un $\alpha = 0.9$ y escalado en frecuencia para que su ancho de banda se encuentre entre $100$ Hz y $10$ kHz. Dados los requerimientos anteriores $k_{f} = 2 \pi 1000$ y utilizando la Tabla \ref{tab:calculos_bilineal} sabemos que $f_{p} = 0.052632$, $f_{z} = 19.0$, $G_{L} = 19.0$ y $G_{H} = 0.052632$. Como se mencionó anteriormente la fuente de frecuencia de reloj principal $f_{c} = 16$ MHz no debe modificarse y de mismo modo se recomienda que Sys1 y Sys2 tampoco se modifiquen dramáticamente, es decir $m = 1$. Se opta por utilizar el Clock 0 para configurar el CAM FilterBilinear y que este dependa de Sys1 $=16$ MHz. Para que los datos que se ingresen en la ventana de configuración del CAM sean validos estos deben encontrase dentro del rango de frecuencias absolutas de la Tabla \ref{tab:frecuencias_absolutas}, por lo tanto se tiene que elegir un $n$ adecuado de tal manera que $F_{c}$ = Clock 0 = $\frac{\mathrm{Sys1}}{n}$ cumpla con los limites absolutos de frecuencia, en otras palabras que los parámetros $f_{z}$ y $f_{p}$ se encuentren dentro del rango $[\frac{F_{c}}{1000}, \frac{F_{c}}{10}]$. El rango de frecuencias en el que se tiene que encontrar para poder implemetentar el integrador es $[f_{p},f_{z}] = [0.052632, 19.0]$, no obstante el proceso de encontrar $n$ es muy laborioso debido a que podría haber más de un valor que haga posible que se encuentren dentro del rango, de mismo modo podría ocurrir el caso contrario y ninguna $n$ cumplir. Por esta razón en el apéndice \ref{cod:A12_grafica_analisis_de_frecuencias_FilterBilinear} se muestra un código para resolver este problema, este genera una gráfica, ver Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear}, la cual muestra la relación entre $n$ y el orden $\alpha$, dicho de otra manera, hasta que orden fraccionario podemos implementar dependiendo del valor de $n$.
 
 	\begin{figure}[hbtp]
 		\caption{Gráfica de mérito, análisis de orden fraccionario dependiente de $n$ para implementación con CAM FilterBilinear.} 
@@ -908,7 +908,7 @@
 		\includegraphics[width=13cm]{T11_Analisis_de_frecuencias_FilterBilinear.eps}
 	\end{figure}
 
-	Analizando la Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear} podemos notar que $n = 160$ es el valor con el cual podemos implementar la mayor cantidad de integradores fraccionarios. Haciendo los cálculos Clock 0 = $\frac{16 \mathrm{MHz}}{160} = 100 \mathrm{kHz}$. No obstante únicamente podemos implementar integradores fracciones de orden $\alpha$ dentro del rango $[0.01, 0.81]$. Es importante resaltar que la gráfica de mérito de la Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear} puede cambiar de forma si $k_{f}$ o Sys1 se modifican. Lo anterior es de gran importancia debido a que para diferentes aplicaciones el factor de escalamiento $k_{f}$ puede cambiar y será necesario generar una nueva gráfica de mérito. De mismo modo se puede modificar Sys1 para que la gráfica de mérito se ajuste a las necesidades del diseñador. Utilizando el programa del apéndice \ref{cod:A12_grafica_analisis_de_frecuencias_FilterBilinear} esto no presenta mayor complicación. En la Figura \ref{fig:G4_AD2_BilinearFilter_implementation} se muestra el diagrama de implementación en AnadigmDesigner2, en la Figura \ref{fig:V11_configuracion_relojes} se muestra la configuración de los relojes de la FPAA1 y en la Figura \ref{fig:V12_configuracion_cams} la configuración de los CAM.
+	De analizar la Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear} se puede notar que $n = 160$ es el valor con el cual se puede implementar la mayor cantidad de integradores fraccionarios. Haciendo los cálculos Clock 0 = $\frac{16 \mathrm{MHz}}{160} = 100 \mathrm{kHz}$. No obstante únicamente se pueden implementar integradores fracciones de orden $\alpha$ dentro del rango $[0.01, 0.81]$. Es importante resaltar que la gráfica de mérito de la Figura \ref{fig:T11_Analisis_de_frecuencias_FilterBilinear} puede cambiar de forma si $k_{f}$ o Sys1 se modifican. Lo anterior es de gran importancia debido a que para diferentes aplicaciones el factor de escalamiento $k_{f}$ puede cambiar y será necesario generar una nueva gráfica de mérito. De mismo modo se puede modificar Sys1 para que la gráfica de mérito se ajuste a las necesidades del diseñador. Utilizando el programa del apéndice \ref{cod:A12_grafica_analisis_de_frecuencias_FilterBilinear} esto no presenta mayor complicación. En la Figura \ref{fig:G4_AD2_BilinearFilter_implementation} se muestra el diagrama de implementación en AnadigmDesigner2, en la Figura \ref{fig:V11_configuracion_relojes} se muestra la configuración de los relojes de la FPAA1 y en la Figura \ref{fig:V12_configuracion_cams} la configuración de los CAM.
 
 	\begin{figure}[!ht] 
 		\caption{Implementación de integrador de orden fraccionario utilizando la aproximación de primer orden.}
@@ -958,7 +958,7 @@
 	\end{figure}
 	
 	\begin{figure}[!ht]
-		\caption{Medición experimental de análisis transitorio.} 
+		\caption{Medición experimental de análisis transitorio con error de saturación.} 
 		\label{fig:V15_transitorio_real}
 		\centering
 		\includegraphics[width=10cm]{V15_transitorio_real.png}
@@ -1053,7 +1053,7 @@
 			\end{tabular}                                                                
 	\end{table} 
 
-	De manera similar a la aproximación con un solo filtro bilineal no todas los valores de la Tabla \ref{tab:calculos_bilineal_suma} pueden ser implementados y es necesario realizar un análisis de los parámetros $G_{1}$, $G_{2}$ y $f_{0}$ con respecto a $n$. Debido a que las ganancias $G_{1}$ y $G_{2}$ pueden ser obtenidas con relativa libertad debido a que el CAM de suma permite añadir otro nivel de ganancia, el problema principal radica en que $f_{0}$ se encuentre dentro de los limites absolutos de frecuencia. Utilizando el programa del apéndice \ref{cod:B12_grafica_analisis_de_frecuencias_suma_filtros} se puede obtener la gráfica de mérito de la Figura \ref{fig:T12_Analisis_de_frecuencias_suma_de_filtros}. Utilizando esta configuración podemos llegar a implementar un integrador fraccionario con un $\alpha$ de hasta $\alpha = 0.93$. Analizando la gráfica de mérito $n = 442$ es el valor ideal, esto debido a que entre mas grande sea $n$ la frecuencia disminuye y esto podría empobrecer el rendimiento. De mismo modo no hay que perder de vista que de ser necesario los parámetros $k_{f}$ y Sys1 pueden modificarse para generar una nueva gráfica de mérito que se ajuste a las necesidades del diseñador. En la Figura  \ref{fig:V16_AD2_imple_suma_filtros} se muestra el diagrama de implementación en AD2, en la Figura \ref{fig:V17_configuracion_relojes} la configuración de los relojes de la FPAA1 y en la Figura \ref{fig:V17_configuracion_relojes} la configuración de los CAM.
+	De manera similar a la aproximación con un solo filtro bilineal no todas los valores de la Tabla \ref{tab:calculos_bilineal_suma} pueden ser implementados y es necesario realizar un análisis de los parámetros $G_{1}$, $G_{2}$ y $f_{0}$ con respecto a $n$. Debido a que las ganancias $G_{1}$ y $G_{2}$ pueden ser obtenidas con relativa libertad debido a que el CAM de suma permite añadir otro nivel de ganancia, el problema principal radica en que $f_{0}$ se encuentre dentro de los limites absolutos de frecuencia. Utilizando el programa del apéndice \ref{cod:B12_grafica_analisis_de_frecuencias_suma_filtros} se puede obtener la gráfica de mérito de la Figura \ref{fig:T12_Analisis_de_frecuencias_suma_de_filtros}. Utilizando esta configuración podemos llegar a implementar un integrador fraccionario con un $\alpha$ de hasta $\alpha = 0.93$. Del análisis de la gráfica de mérito se desprende que $n = 442$ es el valor ideal, esto debido a que entre más grande sea $n$ la frecuencia disminuye y esto podría empobrecer el rendimiento. De mismo modo no hay que perder de vista que de ser necesario los parámetros $k_{f}$ y Sys1 pueden modificarse para generar una nueva gráfica de mérito que se ajuste a las necesidades del diseñador. En la Figura  \ref{fig:V16_AD2_imple_suma_filtros} se muestra el diagrama de implementación en AD2, en la Figura \ref{fig:V17_configuracion_relojes} la configuración de los relojes de la FPAA1 y en la Figura \ref{fig:V17_configuracion_relojes} la configuración de los CAM.
 	
 	\begin{figure}[hbtp]
 		\caption{Gráfica de mérito, análisis de orden fraccionario dependiente de $n$ para implementación con suma de filtros.} 
@@ -1085,9 +1085,9 @@
 	
 	Los resultados experimentales de respuesta en frecuencia obtenidos con el NI ELVIS II+ se muestran en la Figura \ref{fig:M2_05} y en la Figura \ref{fig:V15_bodes_comparativos_suma} se muestra la comparación entre la respuesta teórica y la experimental.
 	
-	La ventaja de utilizar la configuración de suma de dos filtros radica en que aumenta el orden del integrador fraccionario que se puede implementar. Utilizando la configuración polo y cero podemos implementar hasta un $\alpha = 0.81$  mientras que con la suma de dos filtros podemos llegar hasta $\alpha = 0.93$. No obstante analizando las Figuras \ref{fig:V15_bodes_comparativos_suma} y \ref{fig:V13_comparacion_exp} la configuración de suma de filtros presenta ligeramente mayor error que la configuración polo y cero. 
+	La ventaja de utilizar la configuración de suma de dos filtros radica en que aumenta el orden del integrador fraccionario que se puede implementar. Utilizando la configuración polo y cero podemos implementar hasta un $\alpha = 0.81$  mientras que con la suma de dos filtros podemos llegar hasta $\alpha = 0.93$. No obstante un análisis de las Figuras \ref{fig:V15_bodes_comparativos_suma} y \ref{fig:V13_comparacion_exp} muestra que la configuración de suma de filtros presenta ligeramente mayor error que la configuración polo y cero. 
 	
-	En resumen la configuración de suma filtros requiere mayor cantidad de recursos pero permite implementar un mayor rango de integradores fraccionarios con la desventaja que presenta ligeramente mayor error que la configuración polo y cero. Con la información anterior el diseñador ahora es capaz de elegir entre las dos configuraciones dependiendo de sus necesidades y requerimientos. La tarjeta QuadApex v2.0 como se menciono anteriormente cuenta con 4 FPAAs y administrar los recursos de estas es de vital importancia en el proceso de diseño.
+	En resumen la configuración de suma filtros requiere mayor cantidad de recursos pero permite implementar un mayor rango de integradores fraccionarios con la desventaja que presenta ligeramente mayor error que la configuración polo y cero. Con la información anterior el diseñador ahora es capaz de elegir entre las dos configuraciones dependiendo de sus necesidades y requerimientos. La tarjeta QuadApex v2.0 como se mencionó anteriormente cuenta con 4 FPAAs y administrar los recursos de estas es de vital importancia en el proceso de diseño.
 	
 	\begin{figure}[!ht] 
 		\caption{Resultados experimentales de respuesta en frecuencia con $\alpha = 0.5$ configuración de dos filtros y punto suma.}
@@ -1097,7 +1097,7 @@
 	\end{figure}	
 	
 	\begin{figure}[!ht]
-		\caption{Diagrama de bode de comparativo, respuesta teórica contra experimental configuración de dos filtros y punto suma,  $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
+		\caption{Diagrama de Bode de comparativo, respuesta teórica contra experimental configuración de dos filtros y punto suma,  $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
 		\label{fig:V15_bodes_comparativos_suma}
 		\centering
 		\includegraphics[width=12cm]{V15_bodes_comparativos_suma.eps}
@@ -1107,7 +1107,7 @@
 	
 		\subsection{Filtro bicuadrático configuración polo cero}
 	
-	Para realizar la implementación física de la aproximación de segundo orden se utilizó el CAM \textbf{FilterBiquad} en su modo \textbf{Polo and Zero}, esto debido a su semejanza con la función de transferencia de la aproximación de la CFE de segundo orden. La función de transferencia del CAM en este modo es la siguiente:
+	Para realizar la implementación física de la aproximación de segundo orden se utiliza el CAM \textbf{FilterBiquad} en su modo \textbf{Polo and Zero}, esto debido a su semejanza con la función de transferencia de la aproximación de la CFE de segundo orden. La función de transferencia del CAM en este modo es la siguiente:
 	\begin{equation}
 		\frac{V_{\mathrm{out}} (s)}{V_{\mathrm{in}}(s)} = - \frac{G_{H} \left(  s^{2} + \cfrac{2 \pi f_{z}}{Q_{z}} s + 4 \pi^{2} f_{z}^{2} \right)}{s^{2} + \cfrac{2 \pi f_{p}}{Q_{p}}s + 4\pi^{2} f_{p}^{2} }
 		\label{ec:CAM_biquad}
@@ -1119,13 +1119,13 @@
 	\end{equation}
 	y donde $G_{L}$ es la ganancia en DC, $G_{H}$ es la ganancia de alta frecuencia, $f_{p}$ es la frecuencia del polo, $f_{z}$ es la frecuencia del cero, $Q_{p}$ es el factor de calidad del polo y $Q_{z}$ es el factor de calidad del cero. Para cancelar el signo negativo de la ecuación (\ref{ec:CAM_biquad}) se utiliza un CAM con ganancia unitaria inversora (\textbf{GainInv}).
 	
-	La función de transferencia de la aproximación de la CFE de segundo orden, como se mencionó en la sección \ref{sec:CFE} es la siguiente:
+	La función de transferencia de la aproximación de la CFE de segundo orden, como se mencionó en la sección \ref{sec:CFE} es:
 	
 	\begin{equation}
 		\genfrac{}{}{0pt}{0}{}{_{(c_{4})}} \frac{1}{s^{\alpha}} \approx \frac{(\alpha^{2} - 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} + 3\alpha + 2) }{(\alpha^{2} + 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} - 3\alpha + 2)}
 		\label{ec:CFE_segundo_orden}
 	\end{equation}
-	si consideramos las siguientes sustituciones:
+	si se consideran las siguientes sustituciones:
 	\begin{equation}
 		D = \frac{\alpha^{2} - 3 \alpha + 2}{\alpha^{2} + 3\alpha + 2}
 	\end{equation}
@@ -1133,7 +1133,7 @@
 	\begin{equation}
 		C = \frac{8 - 2 \alpha^{2}}{\alpha^{2} +  3 \alpha + 2}
 	\end{equation}
-	podemos reescribir la ecuación (\ref{ec:CFE_segundo_orden}) de la siguiente manera:
+	se puede reescribir la ecuación (\ref{ec:CFE_segundo_orden}) de la siguiente manera:
 	\begin{equation}
 		\genfrac{}{}{0pt}{0}{}{_{(c_{4})}} \frac{1}{s^{\alpha}} \approx  \frac{D s^{2} + Cs + 1}{s^{2} + Cs + D}
 		\label{ec:CFE_segundo_orden_2}
@@ -1146,13 +1146,13 @@
 			N(p) = \frac{D p^{2} + Cp + 1}{p^{2} + Cp + D}
 		\end{equation}
 		
-		\item Utilizamos sustitución $p = \frac{s}{k_{f}}$:
+		\item Utilizar sustitución $p = \frac{s}{k_{f}}$:
 		
 		\begin{equation}
 			N(s) = \frac{D (sk_{f}^{-1})^{2} + Csk_{f}^{-1} + 1}{(sk_{f}^{-1})^{2} + Csk_{f}^{-1} + D}
 		\end{equation}
 		
-		\item Reescribimos de una manera más conveniente:
+		\item Reescribir de una manera más conveniente:
 		\begin{equation}
 			N(s) = \frac{D s^{2} + C k_{f}s + k_{f}^{2}}{s^{2} + C k_{f}s + Dk_{f}^{2}}
 			\label{ec:CFE_segundo_final}
@@ -1161,7 +1161,7 @@
 	Si seleccionamos un factor de escalamiento $k_{f} = 2 \pi 1000$ se obtiene la respuesta en frecuencia mostraba en la Figura \ref{fig:V19_segundo_orden_esc}. El ancho de banda de la función escalada abarca desde 100 Hz hasta 10 kHz, dos décadas exactas.
 	
 	\begin{figure}[hbtp]
-		\caption{Diagrama de bode de ecuación (\ref{ec:CFE_segundo_final}) para un integrador fraccionario con $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
+		\caption{Diagrama de Bode de ecuación (\ref{ec:CFE_segundo_final}) para un integrador fraccionario con $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
 		\label{fig:V19_segundo_orden_esc}
 		\centering
 		\includegraphics[width=12cm]{V19_segundo_orden_esc.eps}
@@ -1226,7 +1226,7 @@
 	
 	Hay que resaltar que la segunda metodología es una generalización de la primera, cuando $Q_{z} = Q_{p}$. Se pueden proponer distintos esquemas de diseño, por mencionar alguno, $Q_{p} = 2Q_{z}$, sin embargo los parámetros que se pueden ingresar están limitados por la relación que existen entre ellos como se verá a continuación. La ventaja de la segunda metodología es que da mayor libertad al diseñador pero complica mucho los cálculos dependiendo del esquema de diseño que se seleccione.
 		
-	Los limites absolutos para los valores que pueden ser ingresados para las frecuencias $f_{z}$ y $f_{p}$ son $[\frac{F_{c}}{500}, \frac{F_{c}}{10}]$. Los limites absolutos para el factor de calidad $Q_{p}$ son $[0.05, 70.0]$, para $Q_{z}$ son $[0.05, 60.0]$ y para la ganancia $G_{L}$ son $[0.01\frac{V}{V}, 100\frac{V}{V}]$ y $G_{H}$ son $[0.01\frac{V}{V}, 15.9\frac{V}{V}]$.  Sin embargo los límites tanto de frecuencia, como de factor de calidad como ganancias también están interrelacionados con los otros valores de los parámetros, lo que puede restringir el rango a menos de sus límites absolutos. 
+	Los límites absolutos para los valores que pueden ser ingresados para las frecuencias $f_{z}$ y $f_{p}$ son $[\frac{F_{c}}{500}, \frac{F_{c}}{10}]$. Los límites absolutos para el factor de calidad $Q_{p}$ son $[0.05, 70.0]$, para $Q_{z}$ son $[0.05, 60.0]$ y para la ganancia $G_{L}$ son $[0.01\frac{V}{V}, 100\frac{V}{V}]$ y $G_{H}$ son $[0.01\frac{V}{V}, 15.9\frac{V}{V}]$.  Sin embargo los límites tanto de frecuencia, como de factor de calidad como ganancias también están interrelacionados con los otros valores de los parámetros, lo que puede restringir el rango a menos de sus límites absolutos. 
 	
 	Utilizando la primera metodología y el código del apéndice \ref{cod:C10_calculo_valores_FilterBiquad} podemos generar la Tabla \ref{tab:calculos_biquad}. Sin embargo hay que notar que no todos los valores de la tabla se pueden implementar. Consideremos el caso de $\alpha = 0.9$, $G_{L}$ debe ser igual a 109.571429 y el limite absoluto superior para esta ganancia es de 100 $\frac{V}{V}$ lo cual descarta por completo este valor. Al intentar obtener la gráfica de mérito para la aproximación de segundo orden, ver Figura \ref{fig:W4_analisis_frecuencias_biquad}, debido a que un pequeño cambio en algún parámetro modifica dramáticamente los rangos de los otros y no se conocen las ecuaciones que relacionan unos parámetros con otros esta resultó ser incorrecta, no obstante nos da una idea de la frecuencia de reloj ideal para generar la mayor cantidad de integradores fraccionarios, en este caso con una $n = 216$ obtenemos la mayor cantidad de integradores. 
 	
@@ -1317,7 +1317,7 @@
 	\end{figure}
 	
 	\begin{figure}[!ht]
-		\caption{Diagrama de bode de comparativo, respuesta teórica contra experimental,  $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
+		\caption{Diagrama de Bode de comparativo, respuesta teórica contra experimental,  $k_{f} = 2\pi 1000$ y  $\alpha = 0.5$.} 
 		\label{fig:W2_seg_ord_teoria_exp}
 		\centering
 		\includegraphics[width=12cm]{W2_seg_ord_teoria_exp.eps}

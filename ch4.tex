@@ -12,7 +12,7 @@
 		\end{array}
 		\label{ec:oscilador_SNLF}
 	\end{equation}
-	donde  $a, b, c$ y $h$ son coeficientes reales positivas positivos propuestos, con valores en el intervalo $[0, 1]$. $f(x)$ es una función lineal a trozos conocida como deestabilizadora o función saturada
+	donde  $a, b, c$ y $h$ son coeficientes reales positivas positivos propuestos, con valores en el intervalo $[0, 1]$. $f(x)$ es una función lineal a trozos conocida como desestabilizadora o función saturada
 	 
 	 El sistema presenta un comportamiento dinámico no lineal gracias a la función saturada desestabilizante $f(x)$. El propósito de dicha función es retroalimentar al sistema y mantenerlo oscilando sin necesidad de una variable de entrada extra en el sistema. Además, esta función desestabilizante es la causante del comportamiento caótico del sistema. La SNLF puede ser descrita mediante una función PWL (PieceWise Linear) cuya forma dependerá del número de enrollamientos requeridos en el sistema caótico.
 		
@@ -28,7 +28,7 @@
 		\right.
 		\label{ec:saturacion}
 	\end{equation}
-	donde el parámetro k representa la saturación del sistema, $\beta$ es el punto de quiebre en la función y $s$ es la pendiente entre tramos, en el apéndice \ref{cod:saturation_cust} se muestra una función de MATLAB que realiza esta función. 
+	donde el parámetro $k$ representa la saturación del sistema, $\beta$ es el punto de quiebre en la función y $s$ es la pendiente entre tramos, en el apéndice \ref{cod:saturation_cust} se muestra una función de MATLAB que realiza esta función. 
 	
 	Estas funciones pueden generar $n$ cantidad de enrollamientos con la adecuada descripción matemática, en la Figura \ref{fig:Z1_saturacion} se muestra la representación gráfica de la función saturación. 
 	
@@ -62,7 +62,7 @@
 	
 	\section{Implementación en FPAA}
 	
-	La implementación del oscilador caótico (SNLF) con integradores de orden fraccionario requirió de los 4 FPAA (es necesario colocar los jumpers J8, J9, J10 y ACT1,2,3,4) con los que cuenta la tarjeta. Se optimizó de manera que utilizara la menor cantidad de conexiones externas y se distribuyeron los CAM de modo que fuera sencillo modificar los integradores fraccionarios entre sus distintas aproximaciones o dicho de manera más precisa, entre  sus distintas topologías. 
+	La implementación del oscilador caótico (SNLF) con integradores de orden fraccionario requiere de los 4 FPAA (es necesario colocar los jumpers J8, J9, J10 y ACT1,2,3,4) con los que cuenta la tarjeta. Se optimizó de manera que utilizara la menor cantidad de conexiones externas y se distribuyeron los CAM de modo que fuera sencillo modificar los integradores fraccionarios entre sus distintas aproximaciones o dicho de manera más precisa, entre  sus distintas topologías. 
 	
 	Para poder realizar las mediciones físicas es necesario utilizar los filtros Rauch que se mencionaron en la sección \ref{sec:rauch} (activar los DIP switches S13 y S12), esto debido a la necesidad de convertir la señal diferencial con que trabaja la FPAA por una single-ended. De mismo modo para interconectar las FPAA es necesario realizar las conexiones físicas sobre la tarjeta, esto se logra activando diversos DIP switches según convenga, en la Tabla \ref{tab:resumen_de_imp} se resumen las conexiones físicas que se tienen que realizar sobre la tarjeta. 
 	
@@ -75,7 +75,7 @@
 			Switch & Jumper & Cables externos\\            
 			\hline       
 			{\color{magenta} S$3$ $\quad2\downarrow$}& J8 & FPAA1 O3 $\rightarrow$ FPAA3 I5\\  
-			{\color{magenta} S$5$ $\quad2\downarrow$}& J9& FPAA1 I5 $\rightarrow$ FPAA3 O5\\
+			{\color{magenta} S$5$ $\quad2\downarrow$}& J9& FPAA1 I5 $\rightarrow$ FPAA4 O5\\
 			{\color{red} S$4$ $\quad2\uparrow$}&J10&\\ 
 			{\color{red} S$6$ $\quad2\uparrow$}&ACT1 &\\
 			{\color{blue} S$7$ $\quad2\uparrow$}& ACT2 &\\ 
