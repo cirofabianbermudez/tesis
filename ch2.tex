@@ -1,6 +1,6 @@
 \chapter{Fundamentos teóricos}		
 
-	Cuando se comienza el estudio de cálculo de orden entero es necesario familiarizarse con la notación de los operadores matemáticos de la derivada y la integral, con el cálculo fraccionario ocurre lo mismo. La notación más utilizada para el cálculo de orden entero es la dada por Leibniz en (1686), donde el operador diferencial de n-ésimo orden esta definido como: $\frac{d^{n}}{dt^{n}}$, $D_{t}^{n}$ o simplemente $D^{n}$ con $n \in \mathbb{N}$. Utilizando el mismo razonamiento, puede definirse su operador inverso (anti-derivada) de manera que el operador inverso de la derivada de n-ésimo orden está dado por: $_{a}D^{-n}_{t}$, donde $n \in \mathbb{N}$ y $a \in \mathbb{R}$ representa el límite inferior del dominio de la región donde se aplica dicho operador.
+	Cuando se comienza el estudio de cálculo de orden entero es necesario familiarizarse con la notación de los operadores matemáticos de la derivada y la integral, con el cálculo fraccionario ocurre lo mismo. La notación más utilizada para el cálculo de orden entero es la dada por Leibniz en (1686), donde el operador diferencial de $n$-ésimo orden esta definido como: $\frac{d^{n}}{dt^{n}}$, $D_{t}^{n}$ o simplemente $D^{n}$ con $n \in \mathbb{N}$. Utilizando el mismo razonamiento, puede definirse su operador inverso (anti-derivada) de manera que el operador inverso de la derivada de n-ésimo orden está dado por: $_{a}D^{-n}_{t}$, donde $n \in \mathbb{N}$ y $a \in \mathbb{R}$ representa el límite inferior del dominio de la región donde se aplica dicho operador.
 			
 	Para generalizar el operador diferencial e integral para orden fraccionario se considera que este puede definirse para parámetros de orden real o incluso complejo. Esto implica que los operadores pueden definirse respectivamente como: $D^{\alpha}$ y $_{a}D^{\alpha}_{t}$ con $ \alpha \in \mathbb{R}$. 
 		
@@ -52,7 +52,7 @@
 	Utilizando la ecuación (\ref{ec:derivada_frac_GL}) se puede definir un operador de tipo integral para la función $f$  sobre el dominio temporal $(a,t)$ considerando $n = \frac{t-a}{h}$ donde $a \in \mathbb{R}$ como:
 			
 	\begin{equation}
-		_{a}D_{f}^{\alpha} = \lim_{h \to 0 } \frac{1}{h^{\alpha}} \sum_{j = 0}^{\left[ \frac{t-a}{h}  \right]} (-1)^{j} \binom{n}{j} f(t - jh)
+		_{a}D_{f}^{-\alpha} = \lim_{h \to 0 } \frac{1}{h^{\alpha}} \sum_{j = 0}^{\left[ \frac{t-a}{h}  \right]} (-1)^{j} \binom{n}{j} f(t - jh)
 	\end{equation}
 
 		\subsection{Método numérico para la definición de GL}
@@ -62,7 +62,7 @@
 	\begin{equation}
 		_{\left( \frac{L_{m}}{h} \right)} D^{\alpha}_{t_{k}} f(t) \approx \frac{1}{h^{\alpha}} \sum_{j=0}^{k}(-1)^{j}  \binom{\alpha}{j} f(t_{k-j})
 	\end{equation}
-	donde $L_{m}$ es el tamaño de memoria (memory length), $t_{k} = kh$, $h$ es el paso de tiempo del cálculo y $(-1)^{j}\binom{\alpha}{j}$ son coeficientes binomiales $C_{j}^{(\alpha)}$ $(j=0,1,\ldots)$. Para su calculo utilizamos la siguiente expresión:
+	donde $L_{m}$ es el tamaño de memoria (memory length), $t_{k} = kh$, $h$ es el paso de tiempo del cálculo y $(-1)^{j}\binom{\alpha}{j}$ son coeficientes binomiales $C_{j}^{(\alpha)}$ $(j=0,1,\ldots)$. Para su cálculo utilizamos la siguiente expresión:
 		
 	\begin{equation}
 		C_{0}^{(\alpha)} = 1, \qquad  C_{j}^{(\alpha)} = \left( 1 - \frac{1 + \alpha}{j} \right) C_{j-1}^{(\alpha)}
@@ -80,7 +80,7 @@
 		\label{ec:GL_numerico}
 	\end{equation}
 
-	Para el término de la memoria expresada por la sumatoria, el principio de memoria corta puede utilizarse. Para esto el indice superior de la sumatoria en la ecuación (\ref{ec:GL_numerico}) se cambiará por $\nu$ con las siguientes consideraciones: se utiliza $\nu = k$ para $k < \left( \frac{L_{m}}{h} \right)$ y $\nu = \left( \frac{L_{m}}{h} \right)$ para $k \geq (\frac{L_{m}}{h})$. Sin el principio de memoria corta se utiliza $\nu = k$ para toda $k$. 
+	Para el término de la memoria expresada por la sumatoria, el principio de memoria corta puede utilizarse. Para esto el índice superior de la sumatoria en la ecuación (\ref{ec:GL_numerico}) se cambiará por $\nu$ con las siguientes consideraciones: se utiliza $\nu = k$ para $k < \left( \frac{L_{m}}{h} \right)$ y $\nu = \left( \frac{L_{m}}{h} \right)$ para $k \geq (\frac{L_{m}}{h})$. Sin el principio de memoria corta se utiliza $\nu = k$ para toda $k$. 
 	
 	\section{Definición de Riemann-Liouville}
 	
@@ -216,7 +216,7 @@
 	\begin{equation}
 		\genfrac{}{}{0pt}{0}{}{_{(c_{4})}} \frac{1}{s^{\alpha}} \approx \frac{(\alpha^{2} - 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} + 3\alpha + 2) }{(\alpha^{2} + 3\alpha + 2) s^{2} + (8 - 2 \alpha^{2})s + (\alpha^{2} - 3\alpha + 2)}
 	\end{equation}
-	la ventaja de utilizar la aproximación de CFE consiste en que convertimos el problema de orden fraccionario a uno de orden entero de manera sistemática. Tomemos como ejemplo un integrador de orden fraccionario con $\alpha = 0.5$, sus aproximaciones son las mostradas en la Tabla \ref{tab:aprox_cfe_alpha_0.5} y sus correspondientes diagramas de Dode se muestran en la Figura \ref{fig:F1_bode_integrador_alpha05}.
+	la ventaja de utilizar la aproximación de CFE consiste en que convertimos el problema de orden fraccionario a uno de orden entero de manera sistemática. Tomemos como ejemplo un integrador de orden fraccionario con $\alpha = 0.5$, sus aproximaciones son las mostradas en la Tabla \ref{tab:aprox_cfe_alpha_0.5} y sus correspondientes diagramas de Bode se muestran en la Figura \ref{fig:F1_bode_integrador_alpha05}.
 
 
 	\begin{table}[!hbp]
@@ -246,7 +246,7 @@
 	Analizando la Figura \ref{fig:F1_bode_integrador_alpha05} se puede resaltar que en general la aproximación aumenta su ancho de banda conforme el orden de la función de transferencia aumenta y que de mismo modo el error con respecto al integrador ideal disminuye, lo cual era de esperarse, el ancho de banda útil es de $10^{-1}$ rad/s hasta $10^{1}$ rad/s, es decir aproximadamente dos décadas, no obstante un análisis más profundo es necesario para notar otras peculiaridades que ocurren en este tipo de aproximaciones.
 	
 	\begin{figure}[hbtp]
-		\caption{Diagramas de Bode comparativos de integrador fraccionario $\alpha = 0.5$, funciones de transferencia de primer hasta quito orden.} 
+		\caption{Diagramas de Bode comparativos de integrador fraccionario $\alpha = 0.5$, funciones de transferencia de primero hasta quinto orden.} 
 		\label{fig:F1_bode_integrador_alpha05}
 		\centering
 		\includegraphics[width=12cm]{F1_bode_integrador_alpha05.eps}
@@ -342,7 +342,7 @@
 		\end{tabular}                                                             
 	\end{table}
 
-	A simple vista se podría creer que el error máximo aumenta conforme aumenta $\alpha$, no obstante esto es falso debido a que no se esta teniendo en cuenta la escala de la gráfica y por lo tanto las Tablas \ref{tab:max_error_mag} y \ref{tab:max_error_fase} únicamente nos dan información del total de error y no del porcentaje. Para tomar en cuenta la escala es necesario normalizar el error y calcular el valor absoluto de este. Las gráficas de la respuesta de magnitud y fase normalizadas se pueden encontrar en las Figuras \ref{fig:analisis_mag_norm} y \ref{fig:analisis_fase_norm}, y las gráficas de los errores normalizados en las Figuras \ref{fig:analisis_error_mag_norm} y \ref{fig:analisis_error_fase_norm}.
+	A simple vista se podría creer que el error máximo aumenta conforme aumenta $\alpha$, no obstante esto es falso debido a que no se está teniendo en cuenta la escala de la gráfica y por lo tanto las Tablas \ref{tab:max_error_mag} y \ref{tab:max_error_fase} únicamente nos dan información del total de error y no del porcentaje. Para tomar en cuenta la escala es necesario normalizar el error y calcular el valor absoluto de este. Las gráficas de la respuesta de magnitud y fase normalizadas se pueden encontrar en las Figuras \ref{fig:analisis_mag_norm} y \ref{fig:analisis_fase_norm}, y las gráficas de los errores normalizados en las Figuras \ref{fig:analisis_error_mag_norm} y \ref{fig:analisis_error_fase_norm}.
 	
 	En las Tablas \ref{tab:max_error_mag_norm} y \ref{tab:max_error_fase_norm} se muestran los porcentajes del máximo error absoluto normalizados para la magnitud y la fase. Un análisis de estas tablas arroja conclusión que en efecto, \textbf{el porcentaje de error es mayor cuanto más pequeño sea $\bm{\alpha}$}, esto es de gran interés para poder generar reglas de diseño en la implementación de circuitos integradores fraccionarios.
 

@@ -2,7 +2,7 @@
 
 	\section{¿Qué es una FPAA?}
 	Una FPAA  por sus siglas en inglés (Field Programmable Analog Arrays) es un dispositivo analógico equivalente a las FPGA (Field Programmable Garte Arrays). A diferencia de las FPGA que contienen una gran cantidad de módulos y conexiones que permiten configuraciones arbitrarias de lógica combinacional y secuencial, los FPAA generalmente contienen una pequeña cantidad de CABs (Configurable Analog Blocks). Los FPAA dirigidos al diseño analógico estándar generalmente presentan un CAB que contiene un amplificador operacional, un arreglo de capacitores programables, y ya sea un arreglo de resistencias programables para circuitos en tiempo continuo o switches configurables para circuitos de capacitores conmutados.
-	Se trabajó con la tarjeta Anadigm QuadApex Develovment Boarsd v2.0 de la empresa Anadigm, la cual contiene 4 FPAAs AN231E04 que pueden conectarse en cadena y es programada mediante el software AnadigmDesigner2 (AD2). El diagrama esquemático de la tarjeta se puede ver en la Figura \ref{fig:esquematico_fpaa} del apéndice.
+	Se trabajó con la tarjeta Anadigm QuadApex Develovment Board v2.0 de la empresa Anadigm, la cual contiene 4 FPAAs AN231E04 que pueden conectarse en cadena y es programada mediante el software AnadigmDesigner2 (AD2). El diagrama esquemático de la tarjeta se puede ver en la Figura \ref{fig:esquematico_fpaa} del apéndice.
 	
 	\section{Características de la tarjeta y requerimientos}
 	
@@ -57,7 +57,7 @@
 			\hline
 			J7		& Este jumper controla la generación de un suministro negativo (-3.3V) para las etapas del buffer de salida en la placa. El puente a la derecha desactiva el suministro negativo (lo ata al suelo). El puente a la izquierda permite el suministro.	& Jumper a la izquierda	&	Alimentación negativa habilitada\\
 			\hline
-			J8,9,10	& Estos jumpers en combinacion con ACT1, ACT2, ACT3, ACT4 controlan la cadena de FPAAs.	& Todos los jumpers especificados deben estar conectados	& Todas las FPAA en cadena	\\
+			J8,9,10	& Estos jumpers en combinación con ACT1, ACT2, ACT3, ACT4 controlan la cadena de FPAAs.	& Todos los jumpers especificados deben estar conectados	& Todas las FPAA en cadena	\\
 			\hline
 			J11		& Estos jumpers conectan el transceptor USB a la interfaz UART del microcontrolador PIC32. Si no se requiere control USB, estos 4 puentes se pueden quitar.	& Todos los jumpers conectados	& USB habilitado 	\\		
 			\hline
@@ -179,7 +179,7 @@
 	La tarjeta también cuenta con 2 buffers de salida listos para usar, Buf\_\#1\_O3 y Buf\_\#2\_O3, cuyo principal propósito es convertir la salida diferencial de la FPAA a una single-end. 
 	Buf\_\#1\_O3 está conectado a O3 de la FPAA \#1 y está configurado con una frecuencia de corte muy alta ($F_{o} = 480$ kHz) y una ganancia unitaria. Los componentes pasivos que tiene son: $R_{1} = R_{2} = 33$k$\Omega$, $C_{1} = 10$pF. Buf\_\#2\_O3 está conectado a O3 de FPAA \#2 y esta configurado con una ganancia unitaria y una frecuencia de corte de poco más de 20 kHz, que es típica de una aplicación de audio. Los componentes pasivos que tiene son: $R_{1} = R_{2} = 470$k$\Omega$, $C_{1} = 15$pF. Si se requiere una frecuencia de corte inferior o mayor, es muy fácil modificar este filtro sin quitar los componentes de montaje superficial debajo, simplemente agregando capacitores y resistencias TH. En la Figura \ref{fig:V7_buffer_esq} se muestra el diagrama esquemático del buffer de salida.
 	\begin{figure}[!hbp] 
-		\caption{Esquemático buffer de salida.}
+		\caption{Esquemático del buffer de salida.}
 		\label{fig:V7_buffer_esq}
 		\centering
 		\includegraphics[width = 9cm]{V7_buffer_esq.eps}
@@ -583,7 +583,7 @@
 	\begin{figure}[!ht]
 		\begin{minipage}[c]{0.65\textwidth}
 			\begin{center}
-				\caption{Puestos y switches de NI ELVIS II+.}
+				\caption{Puertos y switches de NI ELVIS II+.}
 				\label{fig:T13_ELVIS}
 				\includegraphics[width = 10cm]{T13_ELVIS.eps}
 			\end{center}
