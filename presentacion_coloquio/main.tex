@@ -431,7 +431,7 @@
 			\begin{enumerate}
 				\item Field Programmable Analog Arrays.
 				\item Es un dispositivo analógico equivalente a las FPGA.
-				\item QuadApex Develovment Boarsd v2.0
+				\item QuadApex Develovment Board v2.0
 				\item CAM (Configurable Analog Module)
 				\item AnadigmDesigner2
 			\end{enumerate}
@@ -745,7 +745,7 @@
 			\begin{tiny}
 			\begin{table}[!hbp]                                      
 		\centering   
-		\caption{Valores para configurar implementación suma de pasabajas y paaltas de ordenes de 0.1 a 0.95.}                            
+		\caption{Valores para configurar implementación suma de pasabajas y pasaltas de ordenes de 0.1 a 0.95.}                            
 		\label{tab:calculos_bilineal_suma}                                        
 			\begin{tabular}{cccc}                        
 			\hline                                              
@@ -1145,25 +1145,12 @@
 %%----------------------------------------------------------------------------------
 	\begin{frame}
 		\frametitle{Oscilador caótico}
-		\begin{block}{ }
-		\begin{table}[!ht]                                      
-		\centering   
-		\caption{Conexiones de DIP switches, jumpers y cables externos.}                            
-		\label{tab:resumen_de_imp}                                       
-			\begin{tabular}{c c c}                        
-			\hline                                              
-			Switch & Jumper & Cables externos\\            
-			\hline       
-			{\color{magenta} S$3$ $\quad2\downarrow$}& J8 & FPAA1 O3 $\rightarrow$ FPAA3 I5\\  
-			{\color{magenta} S$5$ $\quad2\downarrow$}& J9& FPAA1 I5 $\rightarrow$ FPAA3 O5\\
-			{\color{red} S$4$ $\quad2\uparrow$}&J10&\\ 
-			{\color{red} S$6$ $\quad2\uparrow$}&ACT1 &\\
-			{\color{blue} S$7$ $\quad2\uparrow$}& ACT2 &\\ 
-			S12& ACT3 &\\ 
-			S13& ACT4 &\\ 
-			\hline                                 
-			\end{tabular}                                                             
-	\end{table}	
+		\begin{block}{Implementación de oscilador caótico}
+		\begin{itemize}
+			\item Utilizando filtro bilineal polo y cero.
+			\item $\alpha = 0.8$.
+			\item Dos enrollamientos.
+		\end{itemize}
 		\end{block}
 	\end{frame}	
 %%----------------------------------------------------------------------------------
@@ -1182,6 +1169,8 @@
 	\begin{frame}
 		\frametitle{Oscilador caótico}
 		\begin{figure}[!ht]
+				
+		\textbf{Topología de filtro bilineal}
 	\caption{Vistas de plano fase del comportamiento del oscilador caótico con $\alpha = 0.8$ y dos enrollamientos.}
 	\label{fig:fase_imp_osc}
 	  \begin{subfigure}[b]{0.3\textwidth}
@@ -1208,29 +1197,51 @@
 	\begin{frame}
 		\frametitle{Oscilador caótico}
 		\begin{figure}[!ht]
+		\textbf{Topología de filtro bilineal}
 	\caption{Respuesta en el dominio temporal de oscilador caótico con $\alpha = 0.8$ y dos enrollamientos.}
 	\label{fig:temporal_imp}
 	  \begin{subfigure}[b]{0.3\textwidth}
 	    \includegraphics[trim={6cm 2cm 9cm 2cm},clip,width=\textwidth]{../imagenes/Y3_X_vs_Y_signal.png}
-	    \caption{$x$ vs $y$}
+	    \caption{$x$,$y$ respecto al tiempo.}
 	    \label{fig:Y3_X_vs_Y_signal}
 	  \end{subfigure}
 	  \hfill
 	  \begin{subfigure}[b]{0.3\textwidth}
 	    \includegraphics[trim={6cm 2cm 9cm 2cm},clip,width=\textwidth]{../imagenes/Y5_X_vs_Z_signal.png}
-	    \caption{$x$ vs $z$}
+	    \caption{$x$,$z$ respecto al tiempo.}
 	    \label{fig:Y5_X_vs_Z_signal}
 	  \end{subfigure}
 	  \hfill
 	  \begin{subfigure}[b]{0.3\textwidth}
 	    \includegraphics[trim={6cm 2cm 9cm 2cm},clip,width=\textwidth]{../imagenes/Y7_Y_vs_Z_signal.png}
-	    \caption{$y$ vs $z$}
+	    \caption{$y$,$z$ respecto al tiempo.}
 	    \label{fig:Y7_Y_vs_Z_signal}
 	  \end{subfigure}
 	\end{figure}	
 	\end{frame}
 %%----------------------------------------------------------------------------------
 %%----------------------------------------------------------------------------------
+	
+	
+	
+	
+		\begin{frame}
+		\frametitle{Oscilador caótico}
+		\begin{block}{Implementación de oscilador caótico}
+		\begin{itemize}
+			\item Utilizando filtro bilineal en suma de filtros pasabajas y pasaaltas.
+			\item $\alpha = 0.8$.
+			\item Dos enrollamientos.
+		\end{itemize}
+		\end{block}
+	\end{frame}	
+	
+	
+	
+	
+	
+	
+	
 	\begin{frame}
 		\frametitle{Oscilador caótico}
 		\begin{figure}[!ht]
@@ -1242,9 +1253,14 @@
 	\end{frame}		
 %%----------------------------------------------------------------------------------
 %%----------------------------------------------------------------------------------
+	
+	
+	
+	
 	\begin{frame}
 		\frametitle{Oscilador caótico}
 		\begin{figure}[!ht]
+		\textbf{Topología de suma de filtros}
 	\caption{Vistas de plano fase del comportamiento del oscilador caótico con $\alpha = 0.8$ y dos enrollamientos.}
 	\label{fig:fase_imp_osc}
 	  \begin{subfigure}[b]{0.3\textwidth}
@@ -1271,23 +1287,24 @@
 	\begin{frame}
 		\frametitle{Oscilador caótico}
 		\begin{figure}[!ht]
+		\textbf{Topología de suma de filtros}
 	\caption{Respuesta en el dominio temporal de oscilador caótico con $\alpha = 0.8$ y dos enrollamientos.}
 	\label{fig:temporal_imp}
 	  \begin{subfigure}[b]{0.3\textwidth}
 	    \includegraphics[trim={6cm 2cm 9cm 2cm},clip,width=\textwidth]{../imagenes/Y3p_X_vs_Y_signal.png}
-	    \caption{$x$ vs $y$}
+	    \caption{$x$,$y$ respecto al tiempo.}
 	    \label{fig:Y3p_X_vs_Y_signal}
 	  \end{subfigure}
 	  \hfill
 	  \begin{subfigure}[b]{0.3\textwidth}
 	    \includegraphics[trim={6cm 2cm 9cm 2cm},clip,width=\textwidth]{../imagenes/Y5p_X_vs_Z_signal.png}
-	    \caption{$x$ vs $z$}
+	    \caption{$x$,$z$ respecto al tiempo.}
 	    \label{fig:Y5p_X_vs_Z_signal}
 	  \end{subfigure}
 	  \hfill
 	  \begin{subfigure}[b]{0.3\textwidth}
 	    \includegraphics[trim={6cm 2cm 9cm 2cm},clip,width=\textwidth]{../imagenes/Y7p_Y_vs_Z_signal.png}
-	    \caption{$y$ vs $z$}
+	    \caption{$y$,$z$ respecto al tiempo.}
 	    \label{fig:Y7p_Y_vs_Z_signal}
 	  \end{subfigure}
 	\end{figure}	
@@ -1299,11 +1316,24 @@
 		\frametitle{Conclusión}
 		\begin{block}{Conclusiones}
 			\begin{itemize}
-				\item 3 topologías
-				\item Rangos [0.01, 0.93]
-				\item Metodologías de diseño
-				\item Programas en MATLAB.
-				\item Aplicaciones futuras
+				\item 3 topologías de diseño para la síntesis de integradores fraccionarios.
+					\begin{itemize}
+						\item Primer orden con filtro bilineal pasabajas:
+						\item Primer orden con suma de filtros bilineales, pasabajas y pasaaltas.
+						\item Segundo orden con filtro bicuadrático
+					\end{itemize}
+				\item Integradores de orden fraccionario con rangos de [0.01, 0.93].
+				
+				\item Creación de metodologías de diseño en hardware y software:
+				\begin{itemize}
+					\item Conexiones y configuraciones del FPAA detalladas y simplificadas.
+					\item Programas en MATLAB para generar tablas de diseño y gráficas de mérito.
+				\end{itemize}
+				\item Aplicaciones futuras:
+					\begin{itemize}
+						\item Controladores de orden fraccionario.
+						\item Sistemas de encriptación.
+					\end{itemize}
 			\end{itemize}
 		\end{block}
 	\end{frame}	
@@ -1372,6 +1402,33 @@
 %			\caption{Atractor de oscilador caótico de Chen de orden fraccionario.}
 		\end{figure}
 	\end{frame}
+
+%%----------------------------------------------------------------------------------
+%%----------------------------------------------------------------------------------
+	\begin{frame}
+		\frametitle{Oscilador caótico}
+		\begin{block}{ }
+		\begin{table}[!ht]                                      
+		\centering   
+		\caption{Conexiones de DIP switches, jumpers y cables externos.}                            
+		\label{tab:resumen_de_imp}                                       
+			\begin{tabular}{c c c}                        
+			\hline                                              
+			Switch & Jumper & Cables externos\\            
+			\hline       
+			{\color{magenta} S$3$ $\quad2\downarrow$}& J8 & FPAA1 O3 $\rightarrow$ FPAA3 I5\\  
+			{\color{magenta} S$5$ $\quad2\downarrow$}& J9& FPAA1 I5 $\rightarrow$ FPAA3 O5\\
+			{\color{red} S$4$ $\quad2\uparrow$}&J10&\\ 
+			{\color{red} S$6$ $\quad2\uparrow$}&ACT1 &\\
+			{\color{blue} S$7$ $\quad2\uparrow$}& ACT2 &\\ 
+			S12& ACT3 &\\ 
+			S13& ACT4 &\\ 
+			\hline                                 
+			\end{tabular}                                                             
+	\end{table}	
+		\end{block}
+	\end{frame}	
+
 
 
 \end{document}
